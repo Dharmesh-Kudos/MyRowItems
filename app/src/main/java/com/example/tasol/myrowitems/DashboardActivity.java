@@ -1,7 +1,7 @@
 package com.example.tasol.myrowitems;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,14 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DashboardActivity extends AppCompatActivity {
 
 
     RecyclerView rvCatDetail;
-    private LinearLayoutManager linearLayoutManager;
-    private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     Toolbar toolbar;
     int[] IMAGESRRAY = {R.drawable.mobile3, R.drawable.mobile2, R.drawable.mobile, R.drawable.mobile1,R.drawable.mobile3, R.drawable.mobile2, R.drawable.mobile, R.drawable.mobile1};
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,11 @@ public class DashboardActivity extends AppCompatActivity {
             ViewHolder holder = (ViewHolder) viewHolder;
 
             holder.imageCat.setImageResource(IMAGESRRAY[position]);
+            if (position % 2 == 0) {
+                holder.imgProfilePicture.setImageResource(R.drawable.boy);
+            } else {
+                holder.imgProfilePicture.setImageResource(R.drawable.girl);
+            }
 
 
         }
@@ -71,11 +78,12 @@ public class DashboardActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
+            CircleImageView imgProfilePicture;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
-
+                imgProfilePicture = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
             }
         }

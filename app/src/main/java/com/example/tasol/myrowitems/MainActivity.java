@@ -3,6 +3,7 @@ package com.example.tasol.myrowitems;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -28,6 +29,9 @@ import android.widget.TextView;
 
 import com.ToxicBakery.viewpager.transforms.TabletTransformer;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -45,6 +49,8 @@ public class MainActivity extends AppCompatActivity
     private GridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private int NUM_PAGES = 4;
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,29 +97,30 @@ public class MainActivity extends AppCompatActivity
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
-        //ghumao();
+        ghumao();
     }
 
-//    private void ghumao() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                i++;
-//                if(i<4){
-//                    viewPager.setCurrentItem(i);
-//                    ghumao();
-//                }else{
-//                    i--;
-//                    viewPager.setCurrentItem(i);
-//                    if(i>1){
-//                        ghumao();
-//                    }
-//                }
-//
-//
-//            }
-//        }, 4000);
-//    }
+    private void ghumao() {
+        final Handler handler = new Handler();
+
+        final Runnable update = new Runnable() {
+            public void run() {
+                if (currentPage == NUM_PAGES) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+            }
+        };
+
+
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 100, 3000);
+    }
 
     @Override
     public void onBackPressed() {
