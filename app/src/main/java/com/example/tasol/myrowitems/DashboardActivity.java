@@ -1,6 +1,9 @@
 package com.example.tasol.myrowitems;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +61,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-            ViewHolder holder = (ViewHolder) viewHolder;
+            final ViewHolder holder = (ViewHolder) viewHolder;
 
             holder.imageCat.setImageResource(IMAGESRRAY[position]);
             if (position % 2 == 0) {
@@ -66,6 +69,18 @@ public class DashboardActivity extends AppCompatActivity {
             } else {
                 holder.imgProfilePicture.setImageResource(R.drawable.girl);
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DashboardActivity.this, RentItItemDetailActivity.class);
+                    intent.putExtra("POS", position);
+                    Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, "profile");
+                    Pair<View, String> p2 = Pair.create((View) holder.imageCat, "back");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(DashboardActivity.this, p1, p2);
+                    startActivity(intent, options.toBundle());
+                }
+            });
 
 
         }

@@ -11,10 +11,12 @@
 
         <ImageView
             android:id="@+id/imageCat"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/mobile" />
+            android:src="@drawable/mobile"
+            android:transitionName="back" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,9 +27,9 @@
 
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -71,12 +73,14 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfilePicture"
             android:layout_width="80dp"
+
             android:layout_height="80dp"
             android:layout_gravity="center|right"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop"
             android:src="@drawable/demopic"
+            android:transitionName="profile"
             app:border_color="@color/white"
             app:border_width="1dp" />
 
