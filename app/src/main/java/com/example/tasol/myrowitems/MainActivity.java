@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
+import com.ToxicBakery.viewpager.transforms.TabletTransformer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
     int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     String[] NAMESOFCATS = {"Books", "Cars", "Cycles", "Decorations", "Electronics", "Fashion", "Furniture", "Mobiles", "Real Estate", "Sports", "Toys", "Bikes"};
+    int i = 0;
     private GridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -86,12 +87,33 @@ public class MainActivity extends AppCompatActivity
         mCustomPagerAdapter = new CustomPagerAdapter(this);
 
         viewPager.setAdapter(mCustomPagerAdapter);
-        viewPager.setPageTransformer(true, new DefaultTransformer());
+        viewPager.setPageTransformer(true, new TabletTransformer());
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
-
+        //ghumao();
     }
+
+//    private void ghumao() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                i++;
+//                if(i<4){
+//                    viewPager.setCurrentItem(i);
+//                    ghumao();
+//                }else{
+//                    i--;
+//                    viewPager.setCurrentItem(i);
+//                    if(i>1){
+//                        ghumao();
+//                    }
+//                }
+//
+//
+//            }
+//        }, 4000);
+//    }
 
     @Override
     public void onBackPressed() {
