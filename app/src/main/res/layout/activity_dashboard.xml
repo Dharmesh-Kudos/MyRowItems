@@ -55,16 +55,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="?attr/actionBarSize"-->
-                <!--android:background="@color/colorGreen"-->
-                <!--android:gravity="center"-->
-                <!--android:padding="10dp"-->
-                <!--app:layout_collapseMode="pin"-->
-                <!--android:text="Categories"-->
-                <!--android:textSize="20dp"-->
-                <!--android:textColor="@color/white" />-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/black" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvCategories"

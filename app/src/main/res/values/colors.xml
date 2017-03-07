@@ -8,4 +8,5 @@
     <color name="colorGreen">#009688</color>
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+    <color name="itemSelection">#40000000</color>
 </resources>

@@ -5,30 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ToxicBakery.viewpager.transforms.AccordionTransformer;
 import com.ToxicBakery.viewpager.transforms.DefaultTransformer;
-import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,18 +34,16 @@ public class MainActivity extends AppCompatActivity
 
     RecyclerView imageRv;
     RecyclerView rvCategories;
-    private GridLayoutManager gridLayoutManager;
-    private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
-
-    private LinearLayoutManager linearLayoutManager;
     // private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     ViewPager viewPager;
     CustomPagerAdapter mCustomPagerAdapter;
     CollapsingToolbarLayout collapsingToolbarLayout;
-
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
     int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     String[] NAMESOFCATS = {"Books", "Cars", "Cycles", "Decorations", "Electronics", "Fashion", "Furniture", "Mobiles", "Real Estate", "Sports", "Toys", "Bikes"};
+    private GridLayoutManager gridLayoutManager;
+    private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,44 +89,8 @@ public class MainActivity extends AppCompatActivity
         viewPager.setPageTransformer(true, new DefaultTransformer());
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
-    }
+        rvCategories.setNestedScrollingEnabled(false);
 
-    class CustomPagerAdapter extends PagerAdapter {
-
-        Context mContext;
-        LayoutInflater mLayoutInflater;
-
-        public CustomPagerAdapter(Context context) {
-            mContext = context;
-            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return IMAGESRRAY.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == ((LinearLayout) object);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View itemView = mLayoutInflater.inflate(R.layout.rentit_mobile_row_item_two, container, false);
-
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-            imageView.setImageResource(IMAGESRRAY[position]);
-
-            container.addView(itemView);
-
-            return itemView;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((LinearLayout) object);
-        }
     }
 
     @Override
@@ -188,6 +148,44 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class CustomPagerAdapter extends PagerAdapter {
+
+        Context mContext;
+        LayoutInflater mLayoutInflater;
+
+        public CustomPagerAdapter(Context context) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return IMAGESRRAY.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((LinearLayout) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.rentit_mobile_row_item_two, container, false);
+
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView.setImageResource(IMAGESRRAY[position]);
+
+            container.addView(itemView);
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((LinearLayout) object);
+        }
     }
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
