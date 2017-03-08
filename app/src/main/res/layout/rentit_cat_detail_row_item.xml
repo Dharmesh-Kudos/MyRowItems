@@ -27,15 +27,17 @@
 
 
             <LinearLayout
+                android:id="@+id/dataLayout"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:gravity="center"
+                android:gravity="left"
                 android:orientation="vertical"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:transitionName="data">
 
                 <TextView
                     android:id="@+id/textView1"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="5dp"
@@ -43,29 +45,33 @@
                     android:textColor="@color/white"
                     android:textSize="15dp"
                     android:textStyle="bold"
+                    android:transitionName="tv1"
                     android:typeface="sans" />
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="5dp"
                     android:text="Rs.899/Month"
                     android:textColor="@color/white"
                     android:textSize="15dp"
+                    android:transitionName="tv2"
                     android:typeface="sans" />
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:padding="5dp"
                     android:text="By Dharmesh Basapati"
                     android:textColor="@color/white"
                     android:textSize="15dp"
-                    android:typeface="sans" />
+                    android:transitionName="tv3"
+                    android:typeface="sans"
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

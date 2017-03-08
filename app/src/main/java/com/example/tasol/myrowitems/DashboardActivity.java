@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -74,11 +76,20 @@ public class DashboardActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardActivity.this, RentItItemDetailActivity.class);
                     intent.putExtra("POS", position);
-                    Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, "profile");
-                    Pair<View, String> p2 = Pair.create((View) holder.imageCat, "back");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(DashboardActivity.this, p1, p2);
-                    startActivity(intent, options.toBundle());
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, holder.imgProfilePicture.getTransitionName());
+                        Pair<View, String> p2 = Pair.create((View) holder.imageCat, holder.imageCat.getTransitionName());
+                        Pair<View, String> p3 = Pair.create((View) holder.dataLayout, holder.dataLayout.getTransitionName());
+                        Pair<View, String> p4 = Pair.create((View) holder.tv1, holder.tv1.getTransitionName());
+                        Pair<View, String> p5 = Pair.create((View) holder.tv2, holder.tv2.getTransitionName());
+//                        Pair<View, String> p6 = Pair.create((View) holder.tv3,holder.tv3.getTransitionName());
+                        ActivityOptionsCompat options = ActivityOptionsCompat.
+                                makeSceneTransitionAnimation(DashboardActivity.this, p1, p2, p3, p4, p5);
+                        startActivity(intent, options.toBundle());
+                    } else {
+                        startActivity(intent);
+                    }
+
                 }
             });
 
@@ -94,10 +105,15 @@ public class DashboardActivity extends AppCompatActivity {
 
             public ImageView imageCat;
             CircleImageView imgProfilePicture;
-
+            LinearLayout dataLayout;
+            TextView tv1, tv2, tv3;
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                tv1 = (TextView) itemView.findViewById(R.id.textView1);
+                tv2 = (TextView) itemView.findViewById(R.id.textView2);
+                tv3 = (TextView) itemView.findViewById(R.id.textView3);
+                dataLayout = (LinearLayout) itemView.findViewById(R.id.dataLayout);
                 imgProfilePicture = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
             }
