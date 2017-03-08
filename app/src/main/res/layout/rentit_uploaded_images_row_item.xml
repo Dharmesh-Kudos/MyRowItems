@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="@drawable/ripple_selector"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="3dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
@@ -24,7 +24,7 @@
             android:id="@+id/ivClose"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#55000000"
+            android:background="#44000000"
             android:gravity="center"
             android:text="x"
             android:textColor="@color/white"

@@ -51,7 +51,7 @@ public class PostAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_ad);
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
-        gridLayoutManager = new GridLayoutManager(this, 4);
+        gridLayoutManager = new GridLayoutManager(this, 3);
         rvImages.setLayoutManager(gridLayoutManager);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         btnUpload.setOnClickListener(new View.OnClickListener() {
