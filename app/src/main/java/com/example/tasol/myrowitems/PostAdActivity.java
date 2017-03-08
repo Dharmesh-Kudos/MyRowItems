@@ -15,14 +15,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +38,10 @@ import java.util.List;
 
 public class PostAdActivity extends AppCompatActivity {
 
+    LinearLayout greyLayout;
     RecyclerView rvImages;
     GridLayoutManager gridLayoutManager;
-    Button btnUpload;
+    FloatingActionButton btnUpload;
     RecyclerViewUploadedImagesGridAdapter recyclerViewUploadedImagesGridAdapter;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
     private int SELECT_PICTURE = 1;
@@ -50,10 +52,12 @@ public class PostAdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_ad);
+        greyLayout = (LinearLayout) findViewById(R.id.greyLayout);
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
         gridLayoutManager = new GridLayoutManager(this, 3);
         rvImages.setLayoutManager(gridLayoutManager);
-        btnUpload = (Button) findViewById(R.id.btnUpload);
+        btnUpload = (FloatingActionButton) findViewById(R.id.btnUpload);
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +67,7 @@ public class PostAdActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void OpenImageChooser() {
@@ -126,7 +131,11 @@ public class PostAdActivity extends AppCompatActivity {
                     selectedPhotos.add(selectedImagePath);
                 }
 
+                if (selectedPhotos.size() == 6) {
+                    btnUpload.setEnabled(false);
+                }
                 invalidateOptionsMenu();
+                greyLayout.setVisibility(View.VISIBLE);
                 recyclerViewUploadedImagesGridAdapter = new RecyclerViewUploadedImagesGridAdapter();
                 rvImages.setAdapter(recyclerViewUploadedImagesGridAdapter);
 
@@ -369,6 +378,10 @@ public class PostAdActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     selectedPhotos.remove(position);
                     notifyDataSetChanged();
+                    if (selectedPhotos.size() == 0) {
+                        greyLayout.setVisibility(View.GONE);
+                        btnUpload.setEnabled(true);
+                    }
                 }
             });
 

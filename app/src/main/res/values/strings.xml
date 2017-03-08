@@ -5,4 +5,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string-array name="categories">
+
+        <item>Mobiles</item>
+        <item>Electronics</item>
+        <item>Furnitures</item>
+        <item>Fashion</item>
+        <item>Cameras</item>
+    </string-array>
 </resources>
