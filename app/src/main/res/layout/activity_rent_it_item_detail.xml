@@ -31,13 +31,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageCat"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/mobile"
-                android:transitionName="back" />
+                android:layout_height="200dp">
+
+                <ImageView
+                    android:id="@+id/imageCat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/mobile2"
+                    android:transitionName="back" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvOtherImages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:background="#99FFFFFF" />
+
+            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/relateID"
@@ -49,49 +64,110 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="200dp"
-                    android:background="#99009688"
+                    android:background="@color/colorGreen"
                     android:gravity="right"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    android:transitionName="data">
+                    android:padding="3dp">
 
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="5dp"
-                        android:text="Moto G4 Plus"
-                        android:textColor="@color/white"
-                        android:textSize="25dp"
-                        android:textStyle="bold"
-                        android:transitionName="tv1"
-                        android:typeface="sans" />
+                        android:background="@color/lightGrey"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="5dp"
-                        android:text="Rs.899/Month"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:transitionName="tv2"
-                        android:typeface="sans" />
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:shadowColor="@color/grey"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:text="Dharmesh Basapati"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:typeface="sans" />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="5dp"
-                        android:text="By Dharmesh Basapati"
-                        android:textColor="@color/white"
-                        android:textSize="20dp"
-                        android:transitionName="tv3"
-                        android:typeface="sans"
-                        android:visibility="gone" />
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:shadowColor="@color/grey"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:text="Moto G4 Plus"
+                            android:textColor="@color/white"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:typeface="sans" />
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:shadowColor="@color/grey"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:text="Rs.899/Month"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:typeface="sans" />
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:shadowColor="@color/grey"
+                            android:shadowDx="3"
+                            android:shadowDy="3"
+                            android:text="In Good Condition"
+                            android:textColor="@color/white"
+                            android:textSize="15dp"
+                            android:typeface="sans" />
+
+                    </LinearLayout>
+
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="3dp"-->
+                    <!--android:background="@color/lightGrey"-->
+                    <!--android:gravity="left"-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:padding="5dp">-->
+
+
+                    <!--<TextView-->
+                    <!--android:id="@+id/textView5"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="right"-->
+                    <!--android:padding="5dp"-->
+                    <!--android:shadowColor="@color/grey"-->
+                    <!--android:shadowDx="3"-->
+                    <!--android:shadowDy="3"-->
+                    <!--android:text="More Uploaded Photos"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="15dp"-->
+                    <!--android:typeface="sans" />-->
+
+                    <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/rvOtherImages"-->
+                    <!--android:scrollbars="horizontal"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"/>-->
+
+                    <!--</LinearLayout>-->
+
                 </LinearLayout>
 
 
@@ -105,10 +181,11 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="162dp"
+                    android:elevation="4dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/demopic"
                     android:transitionName="profile"
-                    app:border_color="@color/white"
+                    app:border_color="@android:color/transparent"
                     app:border_width="1dp" />
             </RelativeLayout>
 

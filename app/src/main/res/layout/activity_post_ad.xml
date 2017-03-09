@@ -150,17 +150,19 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:gravity="center|left"
+                                android:gravity="center|left|top"
                                 android:padding="5dp"
                                 android:text="Ad Desc*"
                                 android:textSize="15dp" />
 
                             <EditText
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
+                                android:layout_height="100dp"
                                 android:layout_weight="1"
                                 android:background="@color/white"
-                                android:padding="15dp"
+                                android:gravity="center|top"
+                                android:hint="Write few lines about your product"
+                                android:padding="10dp"
                                 android:textColor="@color/grey" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>

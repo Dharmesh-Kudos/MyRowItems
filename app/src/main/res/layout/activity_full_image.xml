@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="com.example.tasol.myrowitems.FullImageActivity">
+
+    <com.example.tasol.myrowitems.TouchImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnClose"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|center"
+        android:backgroundTint="@color/black"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+</FrameLayout>
