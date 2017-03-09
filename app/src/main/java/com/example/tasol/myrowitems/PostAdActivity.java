@@ -38,6 +38,7 @@ import java.util.List;
 
 public class PostAdActivity extends AppCompatActivity {
 
+    ImageView closeIV;
     LinearLayout greyLayout;
     RecyclerView rvImages;
     GridLayoutManager gridLayoutManager;
@@ -52,12 +53,20 @@ public class PostAdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_ad);
+        closeIV = (ImageView) findViewById(R.id.closeIV);
         greyLayout = (LinearLayout) findViewById(R.id.greyLayout);
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
         gridLayoutManager = new GridLayoutManager(this, 3);
         rvImages.setLayoutManager(gridLayoutManager);
         btnUpload = (FloatingActionButton) findViewById(R.id.btnUpload);
 
+
+        closeIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supportFinishAfterTransition();
+            }
+        });
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -378,7 +387,9 @@ public class PostAdActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     selectedPhotos.remove(position);
                     notifyDataSetChanged();
-                    if (selectedPhotos.size() == 0) {
+                    if (selectedPhotos.size() >= 1 && selectedPhotos.size() <= 6) {
+                        btnUpload.setEnabled(true);
+                    } else if (selectedPhotos.size() == 0) {
                         greyLayout.setVisibility(View.GONE);
                         btnUpload.setEnabled(true);
                     }
