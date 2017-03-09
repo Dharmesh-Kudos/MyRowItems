@@ -22,328 +22,440 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize">
 
-                <ImageView
-                    android:id="@+id/imageCat"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/mobile2"
-                    android:transitionName="back" />
+                    android:layout_height="match_parent">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvOtherImages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="10dp"
-                    android:background="#99FFFFFF" />
-
-            </FrameLayout>
-
-            <RelativeLayout
-                android:id="@+id/relateID"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/linearID"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="200dp"
-                    android:background="@color/colorGreen"
-                    android:gravity="right"
-                    android:orientation="vertical"
-                    android:padding="3dp">
-
-                    <TextView
-                        android:id="@+id/textView3"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:padding="5dp"
-                        android:shadowColor="@color/grey"
-                        android:shadowDx="3"
-                        android:shadowDy="3"
-                        android:text="Uploaded by Dharmesh Basapati"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:typeface="sans" />
+                        android:layout_height="200dp">
 
-                    <android.support.v7.widget.CardView
+                        <ImageView
+                            android:id="@+id/imageCat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/mobile2"
+                            android:transitionName="back" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvOtherImages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="10dp"
+                            android:background="#99FFFFFF" />
+
+                    </FrameLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/relateID"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:elevation="5dp"
-                        app:cardCornerRadius="5dp">
+                        android:layout_height="match_parent">
 
                         <LinearLayout
+                            android:id="@+id/linearID"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="5dp">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="200dp"
+                            android:background="#424242"
+                            android:gravity="right"
+                            android:orientation="vertical"
+                            android:padding="3dp">
 
                             <TextView
-                                android:id="@+id/textView1"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/textView3"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
+                                android:gravity="right"
                                 android:padding="5dp"
                                 android:shadowColor="@color/grey"
                                 android:shadowDx="3"
                                 android:shadowDy="3"
-                                android:text="Moto G4 Plus"
-                                android:textColor="@color/grey"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
+                                android:text="Uploaded by Dharmesh Basapati"
+                                android:textColor="@color/white"
+                                android:textSize="15dp"
                                 android:typeface="sans" />
 
-                            <LinearLayout
-                                android:layout_width="0dp"
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center|right"
-                                android:orientation="vertical">
+                                android:layout_marginTop="20dp"
+                                android:elevation="2dp">
 
-
-                                <TextView
-                                    android:id="@+id/textView2"
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="Rs.899/Month"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
+                                    android:gravity="center"
+                                    android:padding="5dp">
 
-                                <TextView
-                                    android:id="@+id/textView4"
-                                    android:layout_width="wrap_content"
+                                    <TextView
+                                        android:id="@+id/textView1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:shadowColor="@color/grey"
+                                        android:shadowDx="3"
+                                        android:shadowDy="3"
+                                        android:text="Moto G4 Plus"
+                                        android:textColor="@color/grey"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:typeface="sans" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|right"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:id="@+id/textView2"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Rs.899/Month"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                        <TextView
+                                            android:id="@+id/textView4"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="In Good Condition"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:elevation="2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="In Good Condition"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
+                                    android:gravity="center"
+                                    android:padding="5dp">
 
-                            </LinearLayout>
+                                    <TextView
+                                        android:id="@+id/textView11"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:shadowColor="@color/grey"
+                                        android:shadowDx="3"
+                                        android:shadowDy="3"
+                                        android:text="Specs"
+                                        android:textColor="@color/grey"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:typeface="sans" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|right"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:id="@+id/textView22"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="4 GB of RAM"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                        <TextView
+                                            android:id="@+id/textView44"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="32/64 GB of Storage"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:elevation="2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/textView15"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:shadowColor="@color/grey"
+                                        android:shadowDx="3"
+                                        android:shadowDy="3"
+                                        android:text="Interested in this Ad?"
+                                        android:textColor="@color/grey"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:typeface="sans" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|right"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:id="@+id/textView25"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Contact the Seller!"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                        <TextView
+                                            android:id="@+id/textView45"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="+91 96014 82687"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:elevation="2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/textView15"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:shadowColor="@color/grey"
+                                        android:shadowDx="3"
+                                        android:shadowDy="3"
+                                        android:text="Interested in this Ad?"
+                                        android:textColor="@color/grey"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:typeface="sans" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|right"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:id="@+id/textView25"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Contact the Seller!"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                        <TextView
+                                            android:id="@+id/textView45"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="+91 96014 82687"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:elevation="2dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:padding="5dp">
+
+                                    <TextView
+                                        android:id="@+id/textView15"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:shadowColor="@color/grey"
+                                        android:shadowDx="3"
+                                        android:shadowDy="3"
+                                        android:text="Interested in this Ad?"
+                                        android:textColor="@color/grey"
+                                        android:textSize="20dp"
+                                        android:textStyle="bold"
+                                        android:typeface="sans" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|right"
+                                        android:orientation="vertical">
+
+
+                                        <TextView
+                                            android:id="@+id/textView25"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Contact the Seller!"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                        <TextView
+                                            android:id="@+id/textView45"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:padding="5dp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="+91 96014 82687"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </android.support.v7.widget.CardView>
+                            <!--</LinearLayout>-->
+                            <!--</android.support.v4.widget.NestedScrollView>-->
+
                         </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:elevation="5dp"
-                        app:cardCornerRadius="5dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:id="@+id/textView11"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="5dp"
-                                android:shadowColor="@color/grey"
-                                android:shadowDx="3"
-                                android:shadowDy="3"
-                                android:text="Specs"
-                                android:textColor="@color/grey"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
-                                android:typeface="sans" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center|right"
-                                android:orientation="vertical">
 
 
-                                <TextView
-                                    android:id="@+id/textView22"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="4 GB of RAM"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgProfilePicture"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="22dp"
+                            android:layout_marginStart="22dp"
+                            android:layout_marginTop="162dp"
+                            android:elevation="4dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/demopic"
+                            android:transitionName="profile"
+                            app:border_color="@android:color/white"
+                            app:border_width="1dp" />
+                    </RelativeLayout>
 
-                                <TextView
-                                    android:id="@+id/textView44"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="32/64 GB of Storage"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:elevation="5dp"
-                        app:cardCornerRadius="5dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="5dp">
-
-                            <TextView
-                                android:id="@+id/textView15"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:padding="5dp"
-                                android:shadowColor="@color/grey"
-                                android:shadowDx="3"
-                                android:shadowDy="3"
-                                android:text="Interested in this Ad?"
-                                android:textColor="@color/grey"
-                                android:textSize="20dp"
-                                android:textStyle="bold"
-                                android:typeface="sans" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center|right"
-                                android:orientation="vertical">
+                </FrameLayout>
 
 
-                                <TextView
-                                    android:id="@+id/textView25"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="Contact the Seller!"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
+            </LinearLayout>
 
-                                <TextView
-                                    android:id="@+id/textView45"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="right"
-                                    android:padding="5dp"
-                                    android:shadowColor="@color/grey"
-                                    android:shadowDx="3"
-                                    android:shadowDy="3"
-                                    android:text="+91 96014 82687"
-                                    android:textColor="@color/grey"
-                                    android:textSize="15dp"
-                                    android:typeface="sans" />
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="3dp"-->
-                    <!--android:background="@color/lightGrey"-->
-                    <!--android:gravity="left"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:padding="5dp">-->
-
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/textView5"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="right"-->
-                    <!--android:padding="5dp"-->
-                    <!--android:shadowColor="@color/grey"-->
-                    <!--android:shadowDx="3"-->
-                    <!--android:shadowDy="3"-->
-                    <!--android:text="More Uploaded Photos"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:textSize="15dp"-->
-                    <!--android:typeface="sans" />-->
-
-                    <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/rvOtherImages"-->
-                    <!--android:scrollbars="horizontal"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"/>-->
-
-                    <!--</LinearLayout>-->
-
-                </LinearLayout>
-
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imgProfilePicture"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="162dp"
-                    android:elevation="4dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/demopic"
-                    android:transitionName="profile"
-                    app:border_color="@android:color/transparent"
-                    app:border_width="1dp" />
-            </RelativeLayout>
-
-        </FrameLayout>
-
-
-    </LinearLayout>
-
-
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

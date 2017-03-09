@@ -82,7 +82,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/demopic"
             android:transitionName="profile"
-            app:border_color="@android:color/transparent"
+            app:border_color="@android:color/white"
             app:border_width="1dp" />
 
 

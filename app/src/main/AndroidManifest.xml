@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -24,7 +24,8 @@
         <activity android:name=".DashboardActivity" />
         <activity android:name=".RentItItemDetailActivity" />
         <activity android:name=".PostAdActivity" />
-        <activity android:name=".FullImageActivity"></activity>
+        <activity android:name=".FullImageActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

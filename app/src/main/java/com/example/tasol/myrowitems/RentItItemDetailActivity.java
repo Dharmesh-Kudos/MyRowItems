@@ -2,6 +2,8 @@ package com.example.tasol.myrowitems;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,7 +64,16 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         imageCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS));
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Pair<View, String> p1 = Pair.create((View) imageCat, imageCat.getTransitionName());
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(RentItItemDetailActivity.this, p1);
+                    startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS), options.toBundle());
+                } else {
+                    startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS));
+                }
+
+
             }
         });
 
@@ -77,7 +88,6 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         // Start animation
         rvOtherImages.startAnimation(slide_down);
     }
-
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        android:transitionName="back" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnClose"
