@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -23,8 +25,8 @@ public class RentItItemDetailActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
+    Animation slide_down, slide_up;
     private int POS = 0;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 supportFinishAfterTransition();
+
             }
         });
         rvOtherImages = (RecyclerView) findViewById(R.id.rvOtherImages);
@@ -46,6 +49,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         imgProfilePicture = (CircleImageView) findViewById(R.id.imgProfilePicture);
         imageCat = (ImageView) findViewById(R.id.imageCat);
         int i = getIntent().getIntExtra("POS", 0);
+        POS = i;
         imageCat.setImageResource(IMAGESRRAY[i]);
         if (i % 2 == 0) {
             imgProfilePicture.setImageResource(R.drawable.boy);
@@ -61,7 +65,19 @@ public class RentItItemDetailActivity extends AppCompatActivity {
                 startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS));
             }
         });
+
+
+        //Load animation
+        slide_down = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.slide_down);
+
+//        slide_up = AnimationUtils.loadAnimation(getApplicationContext(),
+//                R.anim.slide_up);
+
+        // Start animation
+        rvOtherImages.startAnimation(slide_down);
     }
+
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
