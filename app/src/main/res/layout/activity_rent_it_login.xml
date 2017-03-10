@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGreen"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.tasol.myrowitems.RentItLoginActivity">
+
+    <EditText
+        android:id="@+id/edtUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/black"
+        android:hint="Enter Username"
+        android:padding="20dp"
+        android:textColor="@color/colorYellow"
+        android:textColorHint="@color/colorYellow" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/black"
+        android:hint="Enter Password"
+        android:padding="20dp"
+        android:textColor="@color/colorYellow"
+        android:textColorHint="@color/colorYellow" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorYellow"
+        android:padding="20dp"
+        android:text="SUBMIT"
+        android:textColor="@color/black" />
+
+</LinearLayout>

@@ -72,16 +72,17 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:backgroundTint="@color/colorGreen"
-        android:padding="10dp"
-        android:src="@drawable/ic_menu_send"
-        android:tint="@color/white"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="@color/colorGreen"
+        app:fabSize="normal"
         app:layout_anchor="@id/rvCategories"
         app:layout_anchorGravity="bottom|right|end" />
+
 
 </android.support.design.widget.CoordinatorLayout>
 

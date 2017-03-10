@@ -5,13 +5,15 @@
     android:layout_height="wrap_content"
     android:foreground="@drawable/ripple_selector"
     app:cardCornerRadius="3dp"
+    app:cardElevation="3dp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
 
     <FrameLayout
         android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_height="100dp"
+        android:background="@drawable/cat_white_border">
 
         <ImageView
             android:id="@+id/ivImages"

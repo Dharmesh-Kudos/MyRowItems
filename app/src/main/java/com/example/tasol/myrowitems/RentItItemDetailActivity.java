@@ -54,9 +54,9 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         POS = i;
         imageCat.setImageResource(IMAGESRRAY[i]);
         if (i % 2 == 0) {
-            imgProfilePicture.setImageResource(R.drawable.boy);
+            imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
         } else {
-            imgProfilePicture.setImageResource(R.drawable.girl);
+            imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
         }
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvOtherImages.setAdapter(recyclerViewCategoryGridAdapter);
@@ -66,8 +66,9 @@ public class RentItItemDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     Pair<View, String> p1 = Pair.create((View) imageCat, imageCat.getTransitionName());
+                    Pair<View, String> p2 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(RentItItemDetailActivity.this, p1);
+                            makeSceneTransitionAnimation(RentItItemDetailActivity.this, p1, p2);
                     startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS), options.toBundle());
                 } else {
                     startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS));
@@ -87,6 +88,12 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 
         // Start animation
         rvOtherImages.startAnimation(slide_down);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
     }
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

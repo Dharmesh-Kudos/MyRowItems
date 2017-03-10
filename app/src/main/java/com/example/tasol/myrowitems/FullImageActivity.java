@@ -19,6 +19,12 @@ public class FullImageActivity extends AppCompatActivity {
         imageView = (TouchImageView) findViewById(R.id.imgProduct);
         btnClose = (FloatingActionButton) findViewById(R.id.btnClose);
         imageView.setImageResource(IMAGESRRAY[getIntent().getIntExtra("POS", 0)]);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supportFinishAfterTransition();
+            }
+        });
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -29,7 +29,7 @@
                     android:id="@+id/closeIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                    android:src="@drawable/ic_window_close_white_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -188,10 +188,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center|right"
                             android:layout_margin="10dp"
-                            android:src="@android:drawable/ic_input_add"
+                            android:src="@drawable/ic_add_white_24dp"
                             android:text="Upload Pics"
-                            android:tint="@color/colorAccent"
-                            app:backgroundTint="@color/colorGreen" />
+                            android:tint="@color/white"
+                            app:backgroundTint="@color/colorGreen"
+                            app:fabSize="mini" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -319,9 +320,16 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="bottom"
-            android:background="@color/colorGreen"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/post_ad_circular"
+            android:elevation="5dp"
             android:text="POST AD"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="20dp" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

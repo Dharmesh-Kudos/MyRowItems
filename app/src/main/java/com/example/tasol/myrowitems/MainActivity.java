@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this,DashboardActivity.class).putExtra("TITLE",NAMESOFCATS[position]));
+                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("TITLE", NAMESOFCATS[position]));
                 }
             });
 
