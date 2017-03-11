@@ -77,9 +77,9 @@ public class SmartWebManager implements Constants {
                         final HashMap<REQUEST_METHOD_PARAMS, Object> requestParamsForSession = new HashMap<>();
                         requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT));
                         requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                        requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_AUTOLOGIN);
+                        //requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_AUTOLOGIN);
                         requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                        requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, SmartUtils.getLoginParams());
+                        //requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, SmartUtils.getLoginParams());
                         requestParamsForSession.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
                             @Override

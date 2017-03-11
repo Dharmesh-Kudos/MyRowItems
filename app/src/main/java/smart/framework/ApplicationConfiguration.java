@@ -71,7 +71,7 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 //        return "http://192.168.5.138/wewe/index.php?option=com_ijoomeradv&lang=en";// Local for Virtue Mart Vendor
 //        return "http://192.168.5.144/wewe/index.php?option=com_ijoomeradv&lang=en";
 //        return "https://matiz.websitewelcome.com/~tasolglo/dev/wewe/index.php?option=com_ijoomeradv";//For Mattis
-        return "http://istage.website/wewe/index.php?option=com_ijoomeradv";//For ISTAGE
+        return "http://kudosinc.16mb.com/myrentit_app.php";//For ISTAGE
 
         //return "http://dev.tasolglobal.com/wewe/index.php?option=com_ijoomeradv&lang=en";
     }
