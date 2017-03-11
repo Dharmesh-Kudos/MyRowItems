@@ -24,6 +24,10 @@ import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
 import smart.weservice.SmartWebManager;
 
+import static smart.framework.Constants.SP_ISLOGOUT;
+import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
+import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
+import static smart.framework.Constants.SP_USERNAME;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
@@ -142,7 +146,22 @@ public class RentItLoginActivity extends AppCompatActivity implements View.OnCli
                     Log.d("RESULT = ", String.valueOf(response));
                     progressDialog.dismiss();
                     if (responseCode == 200) {
+                        try {
 
+                            //this will store logged user information
+                            try {
+                                JSONObject userData = response.getJSONObject("userData");
+                                Log.d("userData = ", userData.toString());
+                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, edtUsername.getText().toString().trim());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         startActivity(new Intent(RentItLoginActivity.this, MainActivity.class));
                     } else if (responseCode == 204) {
                         Toast.makeText(RentItLoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
@@ -154,7 +173,7 @@ public class RentItLoginActivity extends AppCompatActivity implements View.OnCli
 //
 //                        //this will store logged user information
 //                        try {
-//                            JSONObject userData = response.getJSONObject("userData");
+//                            JSONObject userData = response.getJSONObject("userDaa");
 //                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
 //                        } catch (Exception e) {
 //                            e.printStackTrace();

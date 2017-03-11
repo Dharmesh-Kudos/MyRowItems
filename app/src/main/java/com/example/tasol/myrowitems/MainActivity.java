@@ -31,6 +31,11 @@ import com.ToxicBakery.viewpager.transforms.TabletTransformer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import smart.framework.SmartApplication;
+
+import static smart.framework.Constants.SP_ISLOGOUT;
+import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -173,7 +178,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
+            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
 
+            Intent loginIntent = new Intent(MainActivity.this, RentItLoginActivity.class);
+            startActivity(loginIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
