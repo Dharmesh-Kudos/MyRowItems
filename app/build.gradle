@@ -53,6 +53,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.3'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     testCompile 'junit:junit:4.12'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
