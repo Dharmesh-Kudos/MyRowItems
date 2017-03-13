@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="@drawable/ripple_selector"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="@dimen/_5sdp"
     app:cardPreventCornerOverlap="false"
     app:cardUseCompatPadding="true">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/_150sdp"
         android:background="@color/white">
 
         <ImageView
@@ -18,24 +18,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/cat_cars" />
+            android:src="@drawable/cat_electronic" />
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/cat_row_sheet_gradient" />-->
 
         <TextView
             android:id="@+id/txtCatName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/cat_row_sheet_gradient"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorAccent"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:shadowColor="@color/black"
-            android:shadowDx="3"
-            android:shadowDy="3"
-            android:shadowRadius="3"
+            android:padding="@dimen/_10sdp"
             android:text="Cars"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold" />
 
     </FrameLayout>
 </android.support.v7.widget.CardView>

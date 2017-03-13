@@ -26,8 +26,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ToxicBakery.viewpager.transforms.TabletTransformer;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,8 +42,7 @@ import static smart.framework.Constants.SP_ISLOGOUT;
 import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     RecyclerView imageRv;
     RecyclerView rvCategories;
@@ -50,6 +54,8 @@ public class MainActivity extends AppCompatActivity
     int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     String[] NAMESOFCATS = {"Books", "Cars", "Cycles", "Decorations", "Electronics", "Fashion", "Furniture", "Mobiles", "Real Estate", "Sports", "Toys", "Bikes"};
     int i = 0;
+    int pos = 0;
+    private SliderLayout mDemoSlider;
     private GridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -64,11 +70,47 @@ public class MainActivity extends AppCompatActivity
 //            Window w = getWindow(); // in Activity's onCreate() for instance
 //            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 //        }
-        collapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         gridLayoutManager = new GridLayoutManager(this, 2);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("Moto G4 Plus", R.drawable.mobile);
+        file_maps.put("Moto White S3", R.drawable.mobile1);
+        file_maps.put("Google Pixel XL", R.drawable.mobile2);
+        file_maps.put("Black Moto", R.drawable.mobile3);
+        file_maps.put("Cars", R.drawable.cat_cars);
+        file_maps.put("Electronics", R.drawable.cat_electronic);
+        file_maps.put("Fashion", R.drawable.cat_fashion);
+        file_maps.put("Furnitures", R.drawable.cat_furniture);
+
+        for (String name : file_maps.keySet()) {
+
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                    .setOnSliderClickListener(MainActivity.this);
+
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", name);
+            textSliderView.getBundle().putString("pos", String.valueOf(pos++));
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(3000);
+        mDemoSlider.addOnPageChangeListener(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,20 +133,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
-        viewPager = (ViewPager) findViewById(R.id.imageRV);
+        // viewPager = (ViewPager) findViewById(R.id.imageRV);
 //        linearLayoutManager = new LinearLayoutManager(this);
 //        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 //        imageRv.setHasFixedSize(true);
 //        imageRv.setLayoutManager(linearLayoutManager);
 
-        mCustomPagerAdapter = new CustomPagerAdapter(this);
-
-        viewPager.setAdapter(mCustomPagerAdapter);
-        viewPager.setPageTransformer(true, new TabletTransformer());
+//        mCustomPagerAdapter = new CustomPagerAdapter(this);
+//
+//        viewPager.setAdapter(mCustomPagerAdapter);
+//        viewPager.setPageTransformer(true, new TabletTransformer());
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
-        ghumao();
+//        ghumao();
     }
 
     private void ghumao() {
@@ -188,6 +230,36 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onStop() {
+        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
+        //mDemoSlider.stopAutoCycle();
+        super.onStop();
+    }
+
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        startActivity(new Intent(MainActivity.this, FullImageActivity.class).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
+//        Log.d("HELO = ",slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"));
+//        Toast.makeText(this,slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     class CustomPagerAdapter extends PagerAdapter {
