@@ -24,25 +24,24 @@
             android:layout_height="80dp"
             android:elevation="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/demopic"
+            android:src="@drawable/indo_profile_avatar"
             app:border_color="#00000000"
             app:border_width="1dp" />
 
         <TextView
+            android:id="@+id/txtUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:shadowDx="3"
             android:shadowDy="3"
-            android:text="Dharmesh Basapati"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:shadowDx="3"
-            android:shadowDy="3"
-            android:text="sksunny93@gmail.com" />
+            android:shadowDy="3" />
     </LinearLayout>
 </LinearLayout>

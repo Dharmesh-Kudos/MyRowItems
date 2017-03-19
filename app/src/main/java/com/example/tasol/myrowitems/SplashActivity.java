@@ -3,6 +3,7 @@ package com.example.tasol.myrowitems;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,26 +34,24 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        if (SmartUtils.getLoginParams() != null
-                && !TextUtils.isEmpty(SmartUtils.getLoginParams().toString())) {
-            if (!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(SP_ISLOGOUT, true)) {
-                authentication();
-            } else {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                finish();
-            }
-        } else {
-            startActivity(new Intent(SplashActivity.this, RentItLoginActivity.class));
-            finish();
-        }
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(SplashActivity.this, RentItLoginActivity.class));
-//                finish();
-//            }
-//        }, 3000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (SmartUtils.getLoginParams() != null
+                        && !TextUtils.isEmpty(SmartUtils.getLoginParams().toString())) {
+                    if (!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(SP_ISLOGOUT, true)) {
+                        authentication();
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
+                    }
+                } else {
+                    startActivity(new Intent(SplashActivity.this, RentItLoginActivity.class));
+                    finish();
+                }
+            }
+        }, 2000);
     }
 
     private void authentication() {
@@ -73,8 +72,8 @@ public class SplashActivity extends AppCompatActivity {
                     loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                             .getString(SP_LOGIN_REQ_OBJECT, ""));
                     JSONObject userData = loginParams.getJSONObject("taskData");
-                    taskData.put("user_name", userData.get("user_name"));
-                    taskData.put("user_age", userData.get("user_age"));
+                    taskData.put("email", userData.get("email"));
+                    taskData.put("password", userData.get("password"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -92,9 +91,9 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
                 Log.d("RESULT = ", String.valueOf(response));
-                if (responseCode == 200) {
-                    try {
+                try {
 
+                    if (responseCode == 200) {
                         //this will store logged user information
                         try {
                             JSONObject userData = response.getJSONObject("userData");
@@ -105,14 +104,15 @@ public class SplashActivity extends AppCompatActivity {
                         }
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    } else if (responseCode == 204) {
+                        Toast.makeText(SplashActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SplashActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                     }
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                } else if (responseCode == 204) {
-                    Toast.makeText(SplashActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SplashActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 //                if (responseCode == 200) {
 //                    try {

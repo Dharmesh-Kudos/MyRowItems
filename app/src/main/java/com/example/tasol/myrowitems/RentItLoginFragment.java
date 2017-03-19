@@ -38,7 +38,7 @@ public class RentItLoginFragment extends Fragment {
 
 
     Button button;
-    EditText edtUsername, edtPassword;
+    EditText edtEmail, edtPassword;
     private ProgressDialog progressDialog;
 
 
@@ -50,7 +50,7 @@ public class RentItLoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_it_login, container, false);
-        edtUsername = (EditText) v.findViewById(R.id.edtUsername);
+        edtEmail = (EditText) v.findViewById(R.id.edtEmail);
         edtPassword = (EditText) v.findViewById(R.id.edtPassword);
         button = (Button) v.findViewById(R.id.btnLogin);
         button.setOnClickListener(new View.OnClickListener() {
@@ -78,8 +78,8 @@ public class RentItLoginFragment extends Fragment {
                     JSONObject taskData = new JSONObject();
                     try {
 
-                        taskData.put("user_name", edtUsername.getText().toString().trim());
-                        taskData.put("user_age", edtPassword.getText().toString().trim());
+                        taskData.put("email", edtEmail.getText().toString().trim());
+                        taskData.put("password", edtPassword.getText().toString().trim());
 
                     } catch (Throwable e) {
                     }
@@ -94,28 +94,31 @@ public class RentItLoginFragment extends Fragment {
                     public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
                         Log.d("RESULT = ", String.valueOf(response));
                         progressDialog.dismiss();
-                        if (responseCode == 200) {
-                            try {
+                        JSONObject userData = null;
+                        try {
+
+                            if (responseCode == 200) {
 
                                 //this will store logged user information
                                 try {
-                                    JSONObject userData = response.getJSONObject("userData");
+                                    userData = response.getJSONObject("userData");
                                     Log.d("userData = ", userData.toString());
                                     SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
-                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, edtUsername.getText().toString().trim());
+                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, userData.getString("name"));
                                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+
+                                startActivity(new Intent(getActivity(), MainActivity.class));
+                            } else if (responseCode == 204) {
+                                Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                             }
-                            startActivity(new Intent(getActivity(), MainActivity.class));
-                        } else if (responseCode == 204) {
-                            Toast.makeText(getActivity(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
 //                if (responseCode == 200) {
 //                    try {
