@@ -58,4 +58,5 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    compile 'com.github.clans:fab:1.6.2'
 }
