@@ -57,8 +57,10 @@ public class MainActivity extends AppCompatActivity
     CustomPagerAdapter mCustomPagerAdapter;
     CollapsingToolbarLayout collapsingToolbarLayout;
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
-    int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
-    String[] NAMESOFCATS = {"Books", "Cars", "Cycles", "Decorations", "Electronics", "Fashion", "Furniture", "Mobiles", "Real Estate", "Sports", "Toys", "Bikes"};
+
+    int[] IMAGESOFCATS = {R.drawable.cat_mobile, R.drawable.cat_electronic, R.drawable.cat_cars, R.drawable.cats_bikes, R.drawable.cat_cycle, R.drawable.cat_furniture, R.drawable.cat_books, R.drawable.cat_fashion, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cat_real, R.drawable.cat_decor};
+    String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Cycles", "Furniture", "Books", "Fashion", "Sports", "Toys", "Real Estate", "Decoration"};
+
     int i = 0;
     int pos = 0;
     TextView txtUsername, txtEmail;
@@ -364,7 +366,8 @@ public class MainActivity extends AppCompatActivity
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("TITLE", NAMESOFCATS[position]));
+                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", position + 1));
+//                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("TITLE", NAMESOFCATS[position]));
                 }
             });
 
