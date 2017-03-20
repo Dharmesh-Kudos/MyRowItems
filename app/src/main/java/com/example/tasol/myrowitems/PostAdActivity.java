@@ -93,6 +93,7 @@ public class PostAdActivity extends AppCompatActivity {
         btnPostAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("HELLO", "1");
                 progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
 
                 progressDialog.setContentView(R.layout.progress_dialog);
