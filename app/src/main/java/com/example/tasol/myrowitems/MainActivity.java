@@ -17,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -39,6 +41,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import smart.framework.SmartApplication;
 
 import static smart.framework.Constants.SP_ISLOGOUT;
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity
     int i = 0;
     int pos = 0;
     TextView txtUsername, txtEmail;
+    AQuery aQuery;
+    CircleImageView imgProPic;
+    TextView txtUserName, txtUserAge;
+    NavigationView navigationView;
     private SliderLayout mDemoSlider;
     private GridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
@@ -72,10 +79,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        aQuery = new AQuery(MainActivity.this);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            Window w = getWindow(); // in Activity's onCreate() for instance
 //            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 //        }
+
+
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         gridLayoutManager = new GridLayoutManager(this, 2);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
@@ -91,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         file_maps.put("Electronics", R.drawable.cat_electronic);
         file_maps.put("Fashion", R.drawable.cat_fashion);
         file_maps.put("Furnitures", R.drawable.cat_furniture);
+
 
         for (String name : file_maps.keySet()) {
 
@@ -149,7 +160,6 @@ public class MainActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         navigationView.setNavigationItemSelectedListener(this);
         //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
         // viewPager = (ViewPager) findViewById(R.id.imageRV);
@@ -166,6 +176,16 @@ public class MainActivity extends AppCompatActivity
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
 //        ghumao();
+        try {
+            JSONObject userData = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(SP_LOGGED_IN_USER_DATA, ""));
+            Log.d("HERE = ", userData.toString());
+            aQuery.id(imgProPic).image(userData.get("user_pic").toString(), true, true, getWindowManager().getDefaultDisplay().getWidth(), 0);
+            txtUserName.setText(userData.get("user_name").toString());
+            txtUserAge.setText(userData.get("user_age").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void ghumao() {

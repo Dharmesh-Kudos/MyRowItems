@@ -34,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -114,35 +113,6 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                if (responseCode == 200) {
-//                    try {
-//
-//                        //this will store logged user information
-//                        try {
-//                            JSONObject userData = response.getJSONObject("userDaa");
-//                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, edtUsername.getText().toString().trim());
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } else {
-//                    Log.v("@@@WWE", "response " + response);
-//                    String message = "";
-//                    try {
-//                        message = response.getString("message");
-//                    } catch (JSONException je) {
-//                        je.printStackTrace();
-//                    }
-//
-//                    SmartUtils.hideProgressDialog();
-//                    SmartUtils.showSnackBar(RentItLoginActivity.this, message, Snackbar.LENGTH_LONG);
-//                }
             }
 
             @Override

@@ -1,13 +1,17 @@
 package com.example.tasol.myrowitems;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -19,13 +23,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,10 +44,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import smart.framework.Constants;
+import smart.framework.SmartApplication;
+import smart.framework.SmartUtils;
+import smart.weservice.SmartWebManager;
+
+import static smart.framework.Constants.TASK;
+import static smart.framework.Constants.TASKDATA;
 
 public class PostAdActivity extends AppCompatActivity {
 
+    Button btnPostAd;
     ImageView closeIV;
     LinearLayout greyLayout;
     RecyclerView rvImages;
@@ -48,11 +68,13 @@ public class PostAdActivity extends AppCompatActivity {
     private int SELECT_PICTURE = 1;
     private String imgPath;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_ad);
+        btnPostAd = (Button) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         greyLayout = (LinearLayout) findViewById(R.id.greyLayout);
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
@@ -67,6 +89,68 @@ public class PostAdActivity extends AppCompatActivity {
                 supportFinishAfterTransition();
             }
         });
+
+        btnPostAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
+
+                progressDialog.setContentView(R.layout.progress_dialog);
+                progressDialog.setCancelable(false);
+                progressDialog.setCanceledOnTouchOutside(false);
+                ((ProgressBar) progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                progressDialog.show();
+
+
+                HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+                final JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(TASK, "imgtest");
+                    JSONObject taskData = new JSONObject();
+//                    try {
+//
+//                        taskData.put("user_image", selectedPhotos.get(0));
+//
+//                    } catch (Throwable e) {
+//                    }
+                    jsonObject.put(TASKDATA, taskData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+                    @Override
+                    public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                        progressDialog.dismiss();
+                        if (responseCode == 200) {
+                            try {
+                                Log.d("RESULT = ", String.valueOf(response));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(new Intent(PostAdActivity.this, MainActivity.class));
+                        } else {
+                            Toast.makeText(PostAdActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onResponseError() {
+
+                        SmartUtils.hideProgressDialog();
+                    }
+                });
+                SmartWebManager.getInstance(PostAdActivity.this).addToRequestQueueMultipart(requestParams, selectedPhotos.get(0), null, true);
+            }
+        });
+
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

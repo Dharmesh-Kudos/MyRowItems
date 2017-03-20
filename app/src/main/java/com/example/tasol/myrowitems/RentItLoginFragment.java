@@ -56,7 +56,8 @@ public class RentItLoginFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // ((RentItLoginActivity) getActivity()).selectFragment(1);
+//                startActivity(new Intent(getActivity(), MainActivity.class));
+//                 ((RentItLoginActivity) getActivity()).selectFragment(1);
                 progressDialog = ProgressDialog.show(getActivity(), "Rent It", "Authenticating...");
 
                 progressDialog.setContentView(R.layout.progress_dialog);
@@ -82,6 +83,7 @@ public class RentItLoginFragment extends Fragment {
                         taskData.put("password", edtPassword.getText().toString().trim());
 
                     } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                     jsonObject.put(TASKDATA, taskData);
                 } catch (JSONException e) {
@@ -96,8 +98,8 @@ public class RentItLoginFragment extends Fragment {
                         progressDialog.dismiss();
                         JSONObject userData = null;
                         try {
-
                             if (responseCode == 200) {
+
 
                                 //this will store logged user information
                                 try {
@@ -120,35 +122,6 @@ public class RentItLoginFragment extends Fragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-//                if (responseCode == 200) {
-//                    try {
-//
-//                        //this will store logged user information
-//                        try {
-//                            JSONObject userData = response.getJSONObject("userDaa");
-//                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, edtUsername.getText().toString().trim());
-//                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } else {
-//                    Log.v("@@@WWE", "response " + response);
-//                    String message = "";
-//                    try {
-//                        message = response.getString("message");
-//                    } catch (JSONException je) {
-//                        je.printStackTrace();
-//                    }
-//
-//                    SmartUtils.hideProgressDialog();
-//                    SmartUtils.showSnackBar(RentItLoginActivity.this, message, Snackbar.LENGTH_LONG);
-//                }
                     }
 
                     @Override

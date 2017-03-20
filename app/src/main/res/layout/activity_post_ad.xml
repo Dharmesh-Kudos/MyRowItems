@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/transparent"
     tools:context="com.example.tasol.myrowitems.PostAdActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -52,7 +52,7 @@
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="?attr/actionBarSize">
 
             <LinearLayout
@@ -318,18 +318,19 @@
         </android.support.v4.widget.NestedScrollView>
 
         <Button
+            android:id="@+id/btnPostAd"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="5dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginEnd="@dimen/_60sdp"
+            android:layout_marginLeft="@dimen/_60sdp"
+            android:layout_marginRight="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_60sdp"
             android:background="@drawable/post_ad_circular"
             android:elevation="5dp"
             android:text="POST AD"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textSize="@dimen/_15sdp" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
