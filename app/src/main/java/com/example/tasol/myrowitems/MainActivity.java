@@ -32,6 +32,9 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +42,7 @@ import java.util.TimerTask;
 import smart.framework.SmartApplication;
 
 import static smart.framework.Constants.SP_ISLOGOUT;
+import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
 
 public class MainActivity extends AppCompatActivity
@@ -55,12 +59,14 @@ public class MainActivity extends AppCompatActivity
     String[] NAMESOFCATS = {"Books", "Cars", "Cycles", "Decorations", "Electronics", "Fashion", "Furniture", "Mobiles", "Real Estate", "Sports", "Toys", "Bikes"};
     int i = 0;
     int pos = 0;
+    TextView txtUsername, txtEmail;
     private SliderLayout mDemoSlider;
     private GridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int NUM_PAGES = 4;
     private int currentPage = 0;
+    private JSONObject loginParams = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +137,19 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View v = navigationView.getHeaderView(0);
+        txtUsername = (TextView) v.findViewById(R.id.txtUsername);
+        txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+        try {
+            loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                    .getString(SP_LOGGED_IN_USER_DATA, ""));
+
+            txtUsername.setText(loginParams.getString("name"));
+            txtEmail.setText(loginParams.getString("email"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         navigationView.setNavigationItemSelectedListener(this);
         //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
         // viewPager = (ViewPager) findViewById(R.id.imageRV);
