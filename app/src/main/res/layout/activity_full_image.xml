@@ -22,7 +22,6 @@
         android:layout_gravity="bottom|center"
         android:src="@drawable/ic_window_close_white_24dp"
         android:tint="@color/black"
-        android:transitionName="profile"
         app:backgroundTint="@color/colorAccent"
         app:borderWidth="2dp"
         app:elevation="5dp"

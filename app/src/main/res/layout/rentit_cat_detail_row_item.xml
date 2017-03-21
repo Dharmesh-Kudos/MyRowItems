@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="@dimen/_200sdp"
     app:cardUseCompatPadding="true">
 
     <FrameLayout
@@ -29,7 +29,7 @@
             <LinearLayout
                 android:id="@+id/dataLayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_height="@dimen/_90sdp"
                 android:gravity="left"
                 android:orientation="vertical"
                 android:padding="5dp">
@@ -42,7 +42,7 @@
                     android:padding="5dp"
                     android:text="Moto G4 Plus"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_12sdp"
                     android:textStyle="bold"
                     android:typeface="sans" />
 
@@ -54,7 +54,7 @@
                     android:padding="5dp"
                     android:text="Rs.899/Month"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp"
+                    android:textSize="@dimen/_12sdp"
                     android:typeface="sans" />
 
                 <LinearLayout
@@ -70,7 +70,7 @@
                         android:padding="5dp"
                         android:text="By Dharmesh Basapati"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_15sdp"
+                        android:textSize="@dimen/_12sdp"
                         android:typeface="sans" />
 
                     <ImageView
@@ -86,11 +86,11 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfilePicture"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:layout_gravity="center|right"
             android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:elevation="@dimen/_4sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/demopic"

@@ -1,5 +1,7 @@
 package com.example.tasol.myrowitems;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Build;
@@ -44,6 +46,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
     int[] IMAGESRRAY = {R.drawable.cat_fashion, R.drawable.cat_electronic, R.drawable.mobile1, R.drawable.cat_furniture, R.drawable.cat_cars, R.drawable.mobile3, R.drawable.mobile, R.drawable.mobile2};
     AQuery aQuery;
     int IN_POS;
+    TextView txtNotYet;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();
@@ -54,6 +57,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rentit_cat_detail);
         // setupWindowAnimations();
+        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
         smartCaching = new SmartCaching(RentItCatDetailActivity.this);
         aQuery = new AQuery(RentItCatDetailActivity.this);
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
@@ -107,6 +111,8 @@ public class RentItCatDetailActivity extends AppCompatActivity {
 
                 try {
                     if (responseCode == 200) {
+                        txtNotYet.setVisibility(View.GONE);
+                        rvCatDetail.setVisibility(View.VISIBLE);
                         Log.d("RESULT = ", String.valueOf(response));
                         categoryData = smartCaching.parseResponse(response.getJSONArray("categoryProdData"), "CategoryProds", null).get("CategoryProds");
                         if (categoryData != null && categoryData.size() > 0) {
@@ -114,7 +120,9 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                             rvCatDetail.setAdapter(recyclerViewImagesAdapter);
                         }
                     } else if (responseCode == 204) {
-                        Toast.makeText(RentItCatDetailActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        txtNotYet.setVisibility(View.VISIBLE);
+                        rvCatDetail.setVisibility(View.GONE);
+                        //Toast.makeText(RentItCatDetailActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(RentItCatDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                     }
@@ -155,12 +163,12 @@ public class RentItCatDetailActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             final ViewHolder holder = (ViewHolder) viewHolder;
 
-            ContentValues row = categoryData.get(position);
+            final ContentValues row = categoryData.get(position);
 
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtPrice.setText("Rs." + row.getAsString("price") + "/" + row.getAsString("days") + "days");
             holder.txtUserid.setText(row.getAsString("user_id"));
-            aQuery.id(holder.imageCat).image(row.getAsString("photo"), true, true);
+            aQuery.id(holder.imageCat).image(row.getAsString("photo"), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
             //holder.imageCat.setImageResource(IMAGESRRAY[position]);
             if (position % 2 == 0) {
                 holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
@@ -173,6 +181,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Intent intent = new Intent(RentItCatDetailActivity.this, RentItItemDetailActivity.class);
                     intent.putExtra("POS", position);
+                    intent.putExtra("ROW", row);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, holder.imgProfilePicture.getTransitionName());
                         Pair<View, String> p2 = Pair.create((View) holder.imageCat, holder.imageCat.getTransitionName());

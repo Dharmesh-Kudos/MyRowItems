@@ -1,5 +1,6 @@
 package com.example.tasol.myrowitems;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -15,6 +16,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.androidquery.AQuery;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RentItItemDetailActivity extends AppCompatActivity {
@@ -28,14 +31,19 @@ public class RentItItemDetailActivity extends AppCompatActivity {
     int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     Animation slide_down, slide_up;
+    ContentValues ROW;
     private int POS = 0;
+    private AQuery aQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_it_item_detail);
+        aQuery = new AQuery(RentItItemDetailActivity.this);
+        ROW = getIntent().getParcelableExtra("ROW");
         toolbarData = (Toolbar) findViewById(R.id.toolbarData);
         setSupportActionBar(toolbarData);
+        getSupportActionBar().setTitle(ROW.getAsString("title"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbarData.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,30 +56,44 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         rvOtherImages.setHasFixedSize(true);
         rvOtherImages.setLayoutManager(linearLayoutManager);
+
+
         imgProfilePicture = (CircleImageView) findViewById(R.id.imgProfilePicture);
         imageCat = (ImageView) findViewById(R.id.imageCat);
+
+
         int i = getIntent().getIntExtra("POS", 0);
         POS = i;
-        imageCat.setImageResource(IMAGESRRAY[i]);
+        aQuery.id(imageCat).image(ROW.getAsString("photo"), true, true);
+
+
+        //imageCat.setImageResource(IMAGESRRAY[i]);
         if (i % 2 == 0) {
             imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
         } else {
             imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
         }
+
+
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvOtherImages.setAdapter(recyclerViewCategoryGridAdapter);
 
         imageCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(RentItItemDetailActivity.this, FullImageActivity.class);
+                intent.putExtra("POS", POS);
+                intent.putExtra("ROW", ROW);
+
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     Pair<View, String> p1 = Pair.create((View) imageCat, imageCat.getTransitionName());
-                    Pair<View, String> p2 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
+
                     ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(RentItItemDetailActivity.this, p1, p2);
-                    startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS), options.toBundle());
+                            makeSceneTransitionAnimation(RentItItemDetailActivity.this, p1);
+                    startActivity(intent, options.toBundle());
                 } else {
-                    startActivity(new Intent(RentItItemDetailActivity.this, FullImageActivity.class).putExtra("POS", POS));
+                    startActivity(intent);
                 }
 
 
