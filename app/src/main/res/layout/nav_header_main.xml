@@ -24,9 +24,9 @@
             android:layout_height="80dp"
             android:elevation="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/indo_profile_avatar"
+            android:src="@drawable/demopic"
             app:border_color="#00000000"
-            app:border_width="1dp" />
+            app:border_width="@dimen/_1sdp" />
 
         <TextView
             android:id="@+id/txtUsername"

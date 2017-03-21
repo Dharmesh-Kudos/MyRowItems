@@ -114,7 +114,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                         txtNotYet.setVisibility(View.GONE);
                         rvCatDetail.setVisibility(View.VISIBLE);
                         Log.d("RESULT = ", String.valueOf(response));
-                        categoryData = smartCaching.parseResponse(response.getJSONArray("categoryProdData"), "CategoryProds", null).get("CategoryProds");
+                        categoryData = smartCaching.parseResponse(response.getJSONArray("categoryProdData"), "CategoryProds", "userData").get("CategoryProds");
                         if (categoryData != null && categoryData.size() > 0) {
                             recyclerViewImagesAdapter = new RecyclerViewImagesAdapter();
                             rvCatDetail.setAdapter(recyclerViewImagesAdapter);
@@ -167,14 +167,29 @@ public class RentItCatDetailActivity extends AppCompatActivity {
 
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtPrice.setText("Rs." + row.getAsString("price") + "/" + row.getAsString("days") + "days");
-            holder.txtUserid.setText(row.getAsString("user_id"));
+
             aQuery.id(holder.imageCat).image(row.getAsString("photo"), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
             //holder.imageCat.setImageResource(IMAGESRRAY[position]);
-            if (position % 2 == 0) {
-                holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
-            } else {
-                holder.imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
+
+            try {
+                JSONObject userData = new JSONObject(row.getAsString("userData"));
+                holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
+                if (userData.getString("user_pic").equals("")) {
+                    holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
+                } else {
+                    aQuery.id(holder.imgProfilePicture).image(userData.getString("user_pic"), true, true);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+//            if (position % 2 == 0) {
+//                holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
+//            } else {
+//                holder.imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
+//            }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -212,13 +227,13 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             public ImageView imageCat;
             CircleImageView imgProfilePicture;
             LinearLayout dataLayout;
-            TextView txtTitle, txtPrice, txtUserid;
+            TextView txtTitle, txtPrice, txtUsername;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
                 txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUserid = (TextView) itemView.findViewById(R.id.txtUserid);
+                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
                 dataLayout = (LinearLayout) itemView.findViewById(R.id.dataLayout);
                 imgProfilePicture = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
