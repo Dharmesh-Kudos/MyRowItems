@@ -1,6 +1,8 @@
 package com.example.tasol.myrowitems;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +29,9 @@ import com.androidquery.AQuery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RentItItemDetailActivity extends AppCompatActivity {
@@ -41,8 +46,9 @@ public class RentItItemDetailActivity extends AppCompatActivity {
     RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     Animation slide_down, slide_up;
     ContentValues ROW;
-    TextView txtByUsername, txtByPhone;
+    TextView txtByUsername, txtByPhone, txtTitle, txtDesc, txtPrice, txtDeposit, txtCondition, txtTime;
     JSONObject userData = null;
+    List<String> elephantList;
     private int POS = 0;
     private AQuery aQuery;
 
@@ -63,6 +69,14 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        txtTitle = (TextView) findViewById(R.id.txtTitle);
+        txtDesc = (TextView) findViewById(R.id.txtDesc);
+        txtPrice = (TextView) findViewById(R.id.txtPrice);
+        txtDeposit = (TextView) findViewById(R.id.txtDeposit);
+        txtCondition = (TextView) findViewById(R.id.txtCondition);
+        txtTime = (TextView) findViewById(R.id.txtTime);
+
         txtByPhone = (TextView) findViewById(R.id.txtByPhone);
         txtByUsername = (TextView) findViewById(R.id.txtByUsername);
         rvOtherImages = (RecyclerView) findViewById(R.id.rvOtherImages);
@@ -77,7 +91,17 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 
         int i = getIntent().getIntExtra("POS", 0);
         POS = i;
-        aQuery.id(imageCat).image(ROW.getAsString("photo"), true, true);
+        elephantList = Arrays.asList(ROW.getAsString("photo").split(","));
+
+        if (elephantList.get(0).contains("http")) {
+            aQuery.id(imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+        } else {
+            aQuery.id(imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+        }
+
+        // aQuery.id(imageCat).image(ROW.getAsString("photo"), true, true);
+
+
         try {
             userData = new JSONObject(ROW.getAsString("userData"));
             txtByPhone.setText(userData.getString("user_phone"));
@@ -90,6 +114,14 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        txtTitle.setText(ROW.getAsString("title"));
+        txtDesc.setText(ROW.getAsString("description"));
+        txtPrice.setText("Rs. " + ROW.getAsString("price"));
+        txtDeposit.setText("Rs. " + ROW.getAsString("deposite") + "(Security Deposit)");
+        txtCondition.setText(ROW.getAsString("condition") + "in condition");
+        txtTime.setText(ROW.getAsString("time"));
+
 
         txtByPhone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,9 +153,16 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 //            imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
 //        }
 
+        if (elephantList.size() == 1) {
+            POS = 0;
+            rvOtherImages.setVisibility(View.GONE);
+        } else {
+            rvOtherImages.setVisibility(View.VISIBLE);
+            recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
+            rvOtherImages.setAdapter(recyclerViewCategoryGridAdapter);
 
-        recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
-        rvOtherImages.setAdapter(recyclerViewCategoryGridAdapter);
+        }
+
 
         imageCat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +201,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
     }
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -179,11 +218,23 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             ViewHolder holder = (ViewHolder) viewHolder;
 
-            holder.ivImages.setImageResource(IMAGESRRAY[position]);
+            if (elephantList.get(position).contains("http")) {
+                aQuery.id(holder.ivImages).image(elephantList.get(position), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+
+            } else {
+                aQuery.id(holder.ivImages).image("http://" + elephantList.get(position), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+
+            }
+            // holder.ivImages.setImageResource(IMAGESRRAY[position]);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    imageCat.setImageResource(IMAGESRRAY[position]);
+                    if (elephantList.get(position).contains("http")) {
+                        aQuery.id(imageCat).image(elephantList.get(position), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+
+                    } else {
+                        aQuery.id(imageCat).image("http://" + elephantList.get(position), true, true).progress(new ProgressDialog(RentItItemDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                    }//imageCat.setImageResource(IMAGESRRAY[position]);
                     POS = position;
                 }
             });
@@ -192,7 +243,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return IMAGESRRAY.length;
+            return elephantList.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

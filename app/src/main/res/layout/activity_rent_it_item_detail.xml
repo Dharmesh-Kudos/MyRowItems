@@ -95,13 +95,14 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
+
 
 
                                 <android.support.v7.widget.CardView
-                                    android:layout_width="0dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     app:cardElevation="1dp"
                                     app:cardPreventCornerOverlap="false"
                                     app:cardUseCompatPadding="true">
@@ -109,84 +110,16 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:gravity="center"
+                                        android:gravity="left"
                                         android:orientation="vertical"
                                         android:padding="5dp">
 
                                         <TextView
-                                            android:id="@+id/textView11"
+                                            android:id="@+id/txtTitle"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:padding="5dp"
-                                            android:shadowColor="@color/grey"
-                                            android:shadowDx="3"
-                                            android:shadowDy="3"
-                                            android:text="Specs"
-                                            android:textColor="@color/grey"
-                                            android:textSize="20dp"
-                                            android:textStyle="bold"
-                                            android:typeface="sans" />
-
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:orientation="vertical">
-
-
-                                            <TextView
-                                                android:id="@+id/textView22"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="4 GB of RAM"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                            <TextView
-                                                android:id="@+id/textView44"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="32/64 GB of Storage"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                        </LinearLayout>
-                                    </LinearLayout>
-                                </android.support.v7.widget.CardView>
-
-                                <android.support.v7.widget.CardView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:cardElevation="1dp"
-                                    app:cardPreventCornerOverlap="false"
-                                    app:cardUseCompatPadding="true">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:orientation="vertical"
-                                        android:padding="5dp">
-
-                                        <TextView
-                                            android:id="@+id/textView1"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:padding="5dp"
+                                            android:padding="@dimen/_5sdp"
                                             android:shadowColor="@color/grey"
                                             android:shadowDx="3"
                                             android:shadowDy="3"
@@ -196,124 +129,25 @@
                                             android:textStyle="bold"
                                             android:typeface="sans" />
 
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center|right"
-                                            android:orientation="vertical">
-
-
-                                            <TextView
-                                                android:id="@+id/textView2"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="Rs.899/Month"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                            <TextView
-                                                android:id="@+id/textView4"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="In Good Condition"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                        </LinearLayout>
-                                    </LinearLayout>
-                                </android.support.v7.widget.CardView>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="1dp"
-                                android:gravity="center">
-
-                                <android.support.v7.widget.CardView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:cardElevation="1dp"
-                                    app:cardPreventCornerOverlap="false"
-                                    app:cardUseCompatPadding="true">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:orientation="vertical"
-                                        android:padding="5dp">
-
                                         <TextView
-                                            android:id="@+id/textView1"
+                                            android:id="@+id/txtDesc"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:padding="5dp"
+                                            android:padding="@dimen/_5sdp"
                                             android:shadowColor="@color/grey"
                                             android:shadowDx="3"
                                             android:shadowDy="3"
-                                            android:text="Moto G4 Plus"
+                                            android:text="A Smartphone with Budget Features"
                                             android:textColor="@color/grey"
-                                            android:textSize="20dp"
-                                            android:textStyle="bold"
+                                            android:textSize="15dp"
                                             android:typeface="sans" />
 
-                                        <LinearLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center|right"
-                                            android:orientation="vertical">
-
-
-                                            <TextView
-                                                android:id="@+id/textView2"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="Rs.899/Month"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                            <TextView
-                                                android:id="@+id/textView4"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="In Good Condition"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                        </LinearLayout>
                                     </LinearLayout>
                                 </android.support.v7.widget.CardView>
-
                                 <android.support.v7.widget.CardView
-                                    android:layout_width="0dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     app:cardElevation="1dp"
                                     app:cardPreventCornerOverlap="false"
                                     app:cardUseCompatPadding="true">
@@ -321,64 +155,87 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:gravity="center"
+                                        android:gravity="left"
                                         android:orientation="vertical"
                                         android:padding="5dp">
 
                                         <TextView
-                                            android:id="@+id/textView11"
+                                            android:id="@+id/txtPrice"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:padding="5dp"
+                                            android:padding="@dimen/_5sdp"
                                             android:shadowColor="@color/grey"
                                             android:shadowDx="3"
                                             android:shadowDy="3"
-                                            android:text="Specs"
+                                            android:text="Rs. 2500"
+                                            android:textColor="@color/grey"
+                                            android:textSize="20dp"
+                                            android:textStyle="bold"
+                                            android:typeface="sans" />
+                                        <TextView
+                                            android:id="@+id/txtDeposit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:padding="@dimen/_5sdp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Rs.500(Security Deposit)"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
+
+                                    </LinearLayout>
+                                </android.support.v7.widget.CardView>
+                                <android.support.v7.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    app:cardElevation="1dp"
+                                    app:cardPreventCornerOverlap="false"
+                                    app:cardUseCompatPadding="true">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="left"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <TextView
+                                            android:id="@+id/txtCondition"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:padding="@dimen/_5sdp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="Good in Condition"
                                             android:textColor="@color/grey"
                                             android:textSize="20dp"
                                             android:textStyle="bold"
                                             android:typeface="sans" />
 
-                                        <LinearLayout
+                                        <TextView
+                                            android:id="@+id/txtTime"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:orientation="vertical">
+                                            android:padding="@dimen/_5sdp"
+                                            android:shadowColor="@color/grey"
+                                            android:shadowDx="3"
+                                            android:shadowDy="3"
+                                            android:text="A Smartphone with Budget Features"
+                                            android:textColor="@color/grey"
+                                            android:textSize="15dp"
+                                            android:typeface="sans" />
 
-
-                                            <TextView
-                                                android:id="@+id/textView22"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="4 GB of RAM"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                            <TextView
-                                                android:id="@+id/textView44"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="right"
-                                                android:padding="5dp"
-                                                android:shadowColor="@color/grey"
-                                                android:shadowDx="3"
-                                                android:shadowDy="3"
-                                                android:text="32/64 GB of Storage"
-                                                android:textColor="@color/grey"
-                                                android:textSize="15dp"
-                                                android:typeface="sans" />
-
-                                        </LinearLayout>
                                     </LinearLayout>
                                 </android.support.v7.widget.CardView>
                             </LinearLayout>
+
 
                             <android.support.v7.widget.CardView
                                 android:layout_width="match_parent"

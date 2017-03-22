@@ -27,7 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.caching.SmartCaching;
@@ -78,7 +80,6 @@ public class RentItCatDetailActivity extends AppCompatActivity {
         rvCatDetail.setLayoutManager(linearLayoutManager);
 
         getCategoryList();
-
 
     }
 
@@ -168,7 +169,14 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtPrice.setText("Rs." + row.getAsString("price") + "/" + row.getAsString("days") + "days");
 
-            aQuery.id(holder.imageCat).image(row.getAsString("photo"), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+            List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
+
+            if (elephantList.get(0).contains("http")) {
+                aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+            } else {
+                aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+            }
+
             //holder.imageCat.setImageResource(IMAGESRRAY[position]);
 
             try {

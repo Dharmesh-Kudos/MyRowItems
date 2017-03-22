@@ -60,6 +60,7 @@ import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
 import smart.weservice.SmartWebManager;
 
+import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
@@ -76,6 +77,8 @@ public class PostAdActivity extends AppCompatActivity {
     Spinner spinnerCategory, spinnerSubCategory, spinnerCondition;
     String AVAILABLE = "1";
     String TIME, CREATED_AT, UPDATED_AT;
+    String CATID, SUBCATID, CONDITION;
+    String[] arrConditions;
     ProgressBar spnProBar;
     CustomCatAdapter customCatAdapter;
     CustomSubCatAdapter customSubCatAdapter;
@@ -89,6 +92,8 @@ public class PostAdActivity extends AppCompatActivity {
     private ArrayList<ContentValues> cvCatData = new ArrayList<>();
     private ArrayList<ContentValues> cvSubCatData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
+    private JSONObject loginParams = null;
+    private String CATNAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +107,7 @@ public class PostAdActivity extends AppCompatActivity {
         edtDeposit = (EditText) findViewById(R.id.edtDeposit);
         edtDays = (EditText) findViewById(R.id.edtDays);
 
+        arrConditions = getResources().getStringArray(R.array.conditions);
 
         spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
         spinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
@@ -130,11 +136,11 @@ public class PostAdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("HELLO", "1");
-                progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
-
                 progressDialog.setContentView(R.layout.progress_dialog);
                 progressDialog.setCancelable(true);
                 progressDialog.setCanceledOnTouchOutside(true);
+                progressDialog.setTitle("Rent It");
+                progressDialog.setMessage("Posting Ad...");
                 ((ProgressBar) progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                 progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 progressDialog.show();
@@ -150,17 +156,19 @@ public class PostAdActivity extends AppCompatActivity {
                     jsonObject.put(TASK, "submitPostAd");
                     JSONObject taskData = new JSONObject();
                     try {
+                        loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                                .getString(SP_LOGGED_IN_USER_DATA, ""));
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDateandTime = sdf.format(new Date());
-                        taskData.put("user_id", "");
-                        taskData.put("cat_id", "");
-                        taskData.put("subCat_id", "");
-                        taskData.put("title", "");
-                        taskData.put("desc", "");
-                        taskData.put("price", "");
-                        taskData.put("deposit", "");
-                        taskData.put("days", "");
-                        taskData.put("condition", "");
+                        taskData.put("user_id", loginParams.getString("id"));
+                        taskData.put("cat_id", CATID);
+                        taskData.put("subCat_id", SUBCATID);
+                        taskData.put("title", edtTitle.getText().toString());
+                        taskData.put("desc", edtDesc.getText().toString());
+                        taskData.put("price", edtPrice.getText().toString());
+                        taskData.put("deposit", edtDeposit.getText().toString());
+                        taskData.put("days", edtDays.getText().toString());
+                        taskData.put("condition", CONDITION);
                         taskData.put("time", currentDateandTime);
                         taskData.put("available", "1");
                         taskData.put("created_at", currentDateandTime);
@@ -168,6 +176,7 @@ public class PostAdActivity extends AppCompatActivity {
                         taskData.put("total_image", selectedPhotos.size());
 
                     } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                     jsonObject.put(TASKDATA, taskData);
                 } catch (JSONException e) {
@@ -182,10 +191,11 @@ public class PostAdActivity extends AppCompatActivity {
                         if (responseCode == 200) {
                             try {
                                 Log.d("RESULT = ", String.valueOf(response));
+
+                                startActivity(new Intent(PostAdActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            // startActivity(new Intent(PostAdActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(PostAdActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                         }
@@ -208,7 +218,6 @@ public class PostAdActivity extends AppCompatActivity {
 
                     SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
                 }
-                //SmartWebManager.getInstance(PostAdActivity.this).addToRequestQueueMultipart(requestParams, selectedPhotos.get(0), null, true);
             }
         });
 
@@ -229,6 +238,8 @@ public class PostAdActivity extends AppCompatActivity {
                     Log.d("ITEM = ", "ZERO");
                 } else {
                     fillSubCategory(cvCatData.get(i - 1).getAsString("cat_id"));
+                    CATID = cvCatData.get(i - 1).getAsString("cat_id");
+                    CATNAME = cvCatData.get(i - 1).getAsString("cat_name");
                 }
 
             }
@@ -239,6 +250,39 @@ public class PostAdActivity extends AppCompatActivity {
             }
         });
 
+        spinnerSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    Log.d("ITEM = ", "ZERO");
+                } else {
+                    SUBCATID = cvSubCatData.get(i - 1).getAsString("subCat_id");
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    Log.d("ITEM = ", "ZERO");
+                } else {
+                    CONDITION = arrConditions[i];
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
