@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_rent_it_signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,10 +13,22 @@
         android:padding="@dimen/_10sdp">
 
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfilePicture"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:elevation="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/indo_session_avatar"
+            app:border_color="@color/colorGreen"
+            app:border_width="@dimen/_1sdp" />
+
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/backof_edt"
             android:hint="Username"
             android:padding="@dimen/_15sdp"

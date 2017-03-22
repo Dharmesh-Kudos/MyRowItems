@@ -153,7 +153,8 @@ public class MultipartRequestMedia extends JsonObjectRequest {
                 Log.v("@@@@ADATATATATA", filePaths[i]);
                 File file = new File(filePaths[i]);
                 FileBody fileBody = new FileBody(file, ContentType.create(getMimeType(file.getAbsolutePath())), file.getName());
-                builder.addPart("image[]", fileBody);
+                Log.d("FILEBODY = ", String.valueOf(fileBody));
+                builder.addPart("image" + (i + 1), fileBody);//HERE CHANGES
             }
 
             try {

@@ -58,7 +58,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/_3sdp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,106 +67,6 @@
                     android:orientation="vertical"
                     android:padding="1dp">
 
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="1dp"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|left"
-                                android:padding="5dp"
-                                android:text="Select Category*"
-                                android:textSize="15dp" />
-
-                            <Spinner
-                                android:id="@+id/spinnerCategory"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:backgroundTint="@color/grey"
-                                android:entries="@array/categories"
-                                android:padding="15dp"
-                                android:spinnerMode="dialog" />
-
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-
-                                android:gravity="center|left"
-                                android:padding="5dp"
-                                android:text="Ad Title*"
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@color/white"
-                                android:padding="15dp"
-                                android:textColor="@color/grey" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="1dp"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|left|top"
-                                android:padding="5dp"
-                                android:text="Ad Desc*"
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:layout_width="0dp"
-                                android:layout_height="100dp"
-                                android:layout_weight="1"
-                                android:background="@color/white"
-                                android:gravity="center|top"
-                                android:hint="Write few lines about your product"
-                                android:padding="10dp"
-                                android:textColor="@color/grey" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -194,126 +95,146 @@
                             app:backgroundTint="@color/colorGreen"
                             app:fabSize="mini" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/greyLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#E0E0E0"
+                        android:visibility="gone">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rvImages"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp" />
+                    </LinearLayout>
+
+
+                    <Spinner
+                        android:id="@+id/spinnerCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:padding="@dimen/_15sdp"
+                        android:spinnerMode="dialog" />
+
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <Spinner
+                            android:id="@+id/spinnerSubCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:background="@drawable/post_box_back_design"
+                            android:padding="@dimen/_15sdp"
+                            android:spinnerMode="dialog" />
+
+                        <ProgressBar
+                            android:id="@+id/spnProgress"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="right|end|center"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:indeterminateTint="@color/colorGreen"
+                            android:visibility="gone" />
+                    </FrameLayout>
+
+                    <EditText
+                        android:id="@+id/edtTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:hint="Ad Title..."
+                        android:padding="12dp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_15sdp" />
+
+
+                    <EditText
+                        android:id="@+id/edtDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:gravity="left|top"
+                        android:hint="Write few lines about your product..."
+                        android:padding="12dp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <EditText
+                        android:id="@+id/edtPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:hint="Rent Price"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <EditText
+                        android:id="@+id/edtDeposit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:hint="Security Deposit"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <EditText
+                        android:id="@+id/edtDays"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:hint="No. of Days to keep on Rent"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/post_box_back_design"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:padding="5dp"
+                            android:text="Condition"
+                            android:textSize="15dp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerCondition"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/grey"
+                            android:entries="@array/conditions"
+                            android:padding="15dp"
+                            android:spinnerMode="dialog" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/greyLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#E0E0E0"
-                    android:visibility="gone">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rvImages"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="1dp">
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="1dp"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|left"
-                                android:padding="5dp"
-                                android:text="Your Name"
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@color/white"
-                                android:padding="15dp"
-                                android:textColor="@color/grey" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="1dp"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|left"
-                                android:padding="5dp"
-                                android:text="Your Mobile No."
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@color/white"
-                                android:inputType="number"
-                                android:padding="15dp"
-                                android:textColor="@color/grey" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="1dp"
-                        app:cardPreventCornerOverlap="false"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center|left"
-                                android:padding="5dp"
-                                android:text="Your Email Address"
-                                android:textSize="15dp" />
-
-                            <EditText
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:background="@color/white"
-                                android:padding="15dp"
-                                android:textColor="@color/grey" />
-                        </LinearLayout>
-                    </android.support.v7.widget.CardView>
-
-                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

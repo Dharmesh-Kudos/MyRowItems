@@ -80,6 +80,17 @@ public class RentItSignupFragment extends Fragment {
         edtEmail = (EditText) v.findViewById(R.id.edtEmail);
         edtPhone = (EditText) v.findViewById(R.id.edtPhone);
         edtCity = (EditText) v.findViewById(R.id.edtCity);
+        imgProPic = (CircleImageView) v.findViewById(R.id.imgProfilePicture);
+
+        imgProPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (CheckPermissionForWriteStorage()) {
+
+                    OpenImageChooser();
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -417,7 +428,7 @@ public class RentItSignupFragment extends Fragment {
 
             OpenImageChooser();
         } else {
-            Toast.makeText(getActivity(), "No Permission", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Permission not given", Toast.LENGTH_SHORT).show();
         }
 
     }

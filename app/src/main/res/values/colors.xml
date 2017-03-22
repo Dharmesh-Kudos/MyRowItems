@@ -5,6 +5,7 @@
     <color name="colorAccent">#FDD835</color>
 
     <color name="colorYellow">#FDD835</color>
+    <color name="colorDarkYellow">#e4bb09</color>
     <color name="colorGreen">#009688</color>
     <color name="lightGreen">#019666</color>
     <color name="black">#000</color>

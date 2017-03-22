@@ -3,6 +3,8 @@ package com.example.tasol.myrowitems;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -27,10 +29,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +48,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import smart.caching.SmartCaching;
 import smart.framework.Constants;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
@@ -64,16 +72,42 @@ public class PostAdActivity extends AppCompatActivity {
     GridLayoutManager gridLayoutManager;
     FloatingActionButton btnUpload;
     RecyclerViewUploadedImagesGridAdapter recyclerViewUploadedImagesGridAdapter;
+    EditText edtTitle, edtDesc, edtPrice, edtDeposit, edtDays;
+    Spinner spinnerCategory, spinnerSubCategory, spinnerCondition;
+    String AVAILABLE = "1";
+    String TIME, CREATED_AT, UPDATED_AT;
+    ProgressBar spnProBar;
+    CustomCatAdapter customCatAdapter;
+    CustomSubCatAdapter customSubCatAdapter;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
     private int SELECT_PICTURE = 1;
     private String imgPath;
     private ArrayList<String> selectedPhotos = new ArrayList<>();
     private ProgressDialog progressDialog;
+    private ArrayList<String> catData = new ArrayList<>();
+    private ArrayList<String> subCatData = new ArrayList<>();
+    private ArrayList<ContentValues> cvCatData = new ArrayList<>();
+    private ArrayList<ContentValues> cvSubCatData = new ArrayList<>();
+    private smart.caching.SmartCaching smartCaching;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_ad);
+        smartCaching = new SmartCaching(PostAdActivity.this);
+        spnProBar = (ProgressBar) findViewById(R.id.spnProgress);
+        edtTitle = (EditText) findViewById(R.id.edtTitle);
+        edtDesc = (EditText) findViewById(R.id.edtDesc);
+        edtPrice = (EditText) findViewById(R.id.edtPrice);
+        edtDeposit = (EditText) findViewById(R.id.edtDeposit);
+        edtDays = (EditText) findViewById(R.id.edtDays);
+
+
+        spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
+        spinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
+        spinnerCondition = (Spinner) findViewById(R.id.spinnerCondition);
+
+
         btnPostAd = (Button) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         greyLayout = (LinearLayout) findViewById(R.id.greyLayout);
@@ -82,6 +116,8 @@ public class PostAdActivity extends AppCompatActivity {
         rvImages.setLayoutManager(gridLayoutManager);
         btnUpload = (FloatingActionButton) findViewById(R.id.btnUpload);
 
+
+        fillCategory();
 
         closeIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,8 +133,8 @@ public class PostAdActivity extends AppCompatActivity {
                 progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
 
                 progressDialog.setContentView(R.layout.progress_dialog);
-                progressDialog.setCancelable(false);
-                progressDialog.setCanceledOnTouchOutside(false);
+                progressDialog.setCancelable(true);
+                progressDialog.setCanceledOnTouchOutside(true);
                 ((ProgressBar) progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
                 progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 progressDialog.show();
@@ -111,14 +147,28 @@ public class PostAdActivity extends AppCompatActivity {
                 requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
                 final JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(TASK, "imgtest");
+                    jsonObject.put(TASK, "submitPostAd");
                     JSONObject taskData = new JSONObject();
-//                    try {
-//
-//                        taskData.put("user_image", selectedPhotos.get(0));
-//
-//                    } catch (Throwable e) {
-//                    }
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String currentDateandTime = sdf.format(new Date());
+                        taskData.put("user_id", "");
+                        taskData.put("cat_id", "");
+                        taskData.put("subCat_id", "");
+                        taskData.put("title", "");
+                        taskData.put("desc", "");
+                        taskData.put("price", "");
+                        taskData.put("deposit", "");
+                        taskData.put("days", "");
+                        taskData.put("condition", "");
+                        taskData.put("time", currentDateandTime);
+                        taskData.put("available", "1");
+                        taskData.put("created_at", currentDateandTime);
+                        taskData.put("updated_at", currentDateandTime);
+                        taskData.put("total_image", selectedPhotos.size());
+
+                    } catch (Throwable e) {
+                    }
                     jsonObject.put(TASKDATA, taskData);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +185,7 @@ public class PostAdActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            startActivity(new Intent(PostAdActivity.this, MainActivity.class));
+                            // startActivity(new Intent(PostAdActivity.this, MainActivity.class));
                         } else {
                             Toast.makeText(PostAdActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                         }
@@ -148,7 +198,17 @@ public class PostAdActivity extends AppCompatActivity {
                         SmartUtils.hideProgressDialog();
                     }
                 });
-                SmartWebManager.getInstance(PostAdActivity.this).addToRequestQueueMultipart(requestParams, selectedPhotos.get(0), null, true);
+
+                if (selectedPhotos != null && selectedPhotos.size() > 0) {
+
+                    String[] images = new String[selectedPhotos.size()];
+                    images = selectedPhotos.toArray(images);
+                    SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipartUpload(requestParams, images, "", false);
+                } else {
+
+                    SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+                }
+                //SmartWebManager.getInstance(PostAdActivity.this).addToRequestQueueMultipart(requestParams, selectedPhotos.get(0), null, true);
             }
         });
 
@@ -162,6 +222,129 @@ public class PostAdActivity extends AppCompatActivity {
             }
         });
 
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    Log.d("ITEM = ", "ZERO");
+                } else {
+                    fillSubCategory(cvCatData.get(i - 1).getAsString("cat_id"));
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
+    private void fillCategory() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Fill Categories");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "getAllCats");
+            JSONObject taskData = new JSONObject();
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                Log.d("RESULT = ", String.valueOf(response));
+                try {
+                    catData = new ArrayList<String>();
+                    subCatData = new ArrayList<String>();
+                    if (responseCode == 200) {
+                        cvCatData = smartCaching.parseResponse(response.getJSONArray("allCategories"), "ALLCATEGORIES", null).get("ALLCATEGORIES");
+                        catData.add(0, "Choose Category");
+                        for (int i = 0; i < cvCatData.size(); i++) {
+
+                            catData.add(cvCatData.get(i).getAsString("cat_name"));
+                        }
+                        customCatAdapter = new CustomCatAdapter(PostAdActivity.this, catData);
+                        spinnerCategory.setAdapter(customCatAdapter);
+
+                        subCatData.add("Choose Sub Category");
+                        customSubCatAdapter = new CustomSubCatAdapter(PostAdActivity.this, subCatData);
+                        spinnerSubCategory.setAdapter(customSubCatAdapter);
+                    } else if (responseCode == 204) {
+                        Toast.makeText(PostAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+                Toast.makeText(PostAdActivity.this, "In Response Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
+    }
+
+    private void fillSubCategory(String catid) {
+        spnProBar.setVisibility(View.VISIBLE);
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "getAllSubCats");
+            JSONObject taskData = new JSONObject();
+            taskData.put("cat_id", catid);
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                Log.d("RESULT = ", String.valueOf(response));
+                try {
+                    subCatData = new ArrayList<String>();
+                    if (responseCode == 200) {
+                        cvSubCatData = smartCaching.parseResponse(response.getJSONArray("subCategories"), "SUBCATEGORIES", null).get("SUBCATEGORIES");
+                        subCatData.add("Choose Sub Category");
+                        for (int i = 0; i < cvSubCatData.size(); i++) {
+                            subCatData.add(cvSubCatData.get(i).getAsString("subCat_name"));
+                        }
+                        customSubCatAdapter = new CustomSubCatAdapter(PostAdActivity.this, subCatData);
+                        spinnerSubCategory.setAdapter(customSubCatAdapter);
+                        spnProBar.setVisibility(View.GONE);
+                    } else if (responseCode == 204) {
+                        Toast.makeText(PostAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+                Toast.makeText(PostAdActivity.this, "In Response Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
     }
 
     private void OpenImageChooser() {
@@ -501,5 +684,87 @@ public class PostAdActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    /***** Adapter class extends with ArrayAdapter ******/
+    public class CustomCatAdapter extends BaseAdapter {
+
+        LayoutInflater inflater;
+        private ArrayList<String> mCatData;
+
+        /*************  CustomAdapter Constructor *****************/
+        public CustomCatAdapter(Context applicationContext, ArrayList<String> mCatData) {
+
+            this.mCatData = mCatData;
+            inflater = (LayoutInflater.from(applicationContext));
+            /***********  Layout inflator to call external xml layout () **********************/
+
+        }
+
+        @Override
+        public int getCount() {
+            return mCatData.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.spinner_rows, null);
+            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            names.setText(catData.get(i));
+            return view;
+        }
+
+    }
+
+    /***** Adapter class extends with ArrayAdapter ******/
+    public class CustomSubCatAdapter extends BaseAdapter {
+
+        LayoutInflater inflater;
+        private ArrayList<String> mSubCatData;
+
+        /*************  CustomAdapter Constructor *****************/
+        public CustomSubCatAdapter(Context applicationContext, ArrayList<String> mSubCatData) {
+
+            this.mSubCatData = mSubCatData;
+            inflater = (LayoutInflater.from(applicationContext));
+            /***********  Layout inflator to call external xml layout () **********************/
+
+        }
+
+        @Override
+        public int getCount() {
+            return mSubCatData.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.spinner_rows, null);
+            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            names.setText(mSubCatData.get(i));
+            return view;
+        }
+
+    }
+
 
 }
