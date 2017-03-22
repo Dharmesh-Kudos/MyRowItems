@@ -136,6 +136,7 @@ public class PostAdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("HELLO", "1");
+                progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
                 progressDialog.setContentView(R.layout.progress_dialog);
                 progressDialog.setCancelable(true);
                 progressDialog.setCanceledOnTouchOutside(true);
@@ -193,6 +194,7 @@ public class PostAdActivity extends AppCompatActivity {
                                 Log.d("RESULT = ", String.valueOf(response));
 
                                 startActivity(new Intent(PostAdActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
+                                finish();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

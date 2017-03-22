@@ -10,7 +10,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_height="@dimen/_180sdp"
         android:background="@color/white">
 
         <ImageView
@@ -28,14 +28,18 @@
         <TextView
             android:id="@+id/txtCatName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:background="@color/colorAccent"
-            android:gravity="center"
+            android:background="#22000000"
+            android:gravity="center|bottom"
             android:padding="@dimen/_10sdp"
+            android:shadowColor="@color/black"
+            android:shadowDx="5"
+            android:shadowDy="5"
+            android:shadowRadius="10"
             android:text="Cars"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_25sdp"
             android:textStyle="bold" />
 
     </FrameLayout>

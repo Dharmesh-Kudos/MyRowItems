@@ -19,6 +19,7 @@
             android:transitionName="back" />
 
         <LinearLayout
+            android:id="@+id/lilo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

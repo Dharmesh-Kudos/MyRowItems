@@ -10,9 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +24,9 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.daimajia.slider.library.SliderLayout;
+import com.github.clans.fab.FloatingActionButton;
+import com.twotoasters.jazzylistview.JazzyHelper;
+import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     //, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
 
 
+    private static final String KEY_TRANSITION_EFFECT = "transition_effect";
     RecyclerView imageRv;
     RecyclerView rvCategories;
     // private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
@@ -51,10 +55,8 @@ public class MainActivity extends AppCompatActivity
     //CustomPagerAdapter mCustomPagerAdapter;
     CollapsingToolbarLayout collapsingToolbarLayout;
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
-
     int[] IMAGESOFCATS = {R.drawable.cat_mobile, R.drawable.cat_electronic, R.drawable.cat_cars, R.drawable.cats_bikes, R.drawable.cat_cycle, R.drawable.cat_furniture, R.drawable.cat_books, R.drawable.cat_fashion, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cat_real, R.drawable.cat_decor};
     String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Cycles", "Furniture", "Books", "Fashion", "Sports", "Toys", "Real Estate", "Decoration"};
-
     int i = 0;
     int pos = 0;
     TextView txtUsername, txtEmail;
@@ -64,12 +66,14 @@ public class MainActivity extends AppCompatActivity
     TextView txtUserName, txtUserAge;
     NavigationView navigationView;
     private SliderLayout mDemoSlider;
-    private GridLayoutManager gridLayoutManager;
+    private StaggeredGridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int NUM_PAGES = 4;
     private int currentPage = 0;
     private JSONObject loginParams = null;
+    private JazzyRecyclerViewScrollListener jazzyScrollListener;
+    private int mCurrentTransitionEffect = JazzyHelper.SLIDE_IN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //   collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
@@ -129,14 +133,14 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         //   collapsingToolbarLayout.setTitle("Categories");
 
-        com.github.clans.fab.FloatingActionButton fab1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fabPostAd);
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, PostAdActivity.class));
             }
         });
-        com.github.clans.fab.FloatingActionButton fab2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fabRequestAd);
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fabRequestAd);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,6 +183,15 @@ public class MainActivity extends AppCompatActivity
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
+
+        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
+        rvCategories.setOnScrollListener(jazzyScrollListener);
+
+        if (savedInstanceState != null) {
+            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
+            setupJazziness(mCurrentTransitionEffect);
+        }
+
 //        ghumao();
 //        try {
 //            JSONObject userData = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(SP_LOGGED_IN_USER_DATA, ""));
@@ -190,6 +203,11 @@ public class MainActivity extends AppCompatActivity
 //            e.printStackTrace();
 //        }
 
+    }
+
+    private void setupJazziness(int effect) {
+        mCurrentTransitionEffect = effect;
+        jazzyScrollListener.setTransitionEffect(mCurrentTransitionEffect);
     }
 
     private void ghumao() {

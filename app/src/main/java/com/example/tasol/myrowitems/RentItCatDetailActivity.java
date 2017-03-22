@@ -1,7 +1,5 @@
 package com.example.tasol.myrowitems;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Build;
@@ -22,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.github.florent37.picassopalette.PicassoPalette;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -172,12 +172,32 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
 
             if (elephantList.get(0).contains("http")) {
-                aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                Picasso.with(RentItCatDetailActivity.this).load(elephantList.get(0)).into(holder.imageCat,
+                        PicassoPalette.with(elephantList.get(0), holder.imageCat)
+                                .use(PicassoPalette.Profile.MUTED_DARK)
+                                .intoBackground(holder.lilo)
+                                .use(PicassoPalette.Profile.VIBRANT)
+                                .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
+                );
             } else {
-                aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                Picasso.with(RentItCatDetailActivity.this).load("http://" + elephantList.get(0)).into(holder.imageCat,
+                        PicassoPalette.with("http://" + elephantList.get(0), holder.imageCat)
+                                .use(PicassoPalette.Profile.MUTED_DARK)
+                                .intoBackground(holder.lilo)
+                                .use(PicassoPalette.Profile.VIBRANT)
+                                .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
+                );
             }
-
-            //holder.imageCat.setImageResource(IMAGESRRAY[position]);
+//
+//            Picasso.with(RentItCatDetailActivity.this).load(url).into(imageView,
+//                    PicassoPalette.with(url, imageView)
+//                            .use(PicassoPalette.Profile.MUTED_DARK)
+//                            .intoBackground(textView)
+//                            .use(PicassoPalette.Profile.VIBRANT)
+//                            .intoBackground(titleView, PicassoPalette.Swatch.RGB)
+//            );
 
             try {
                 JSONObject userData = new JSONObject(row.getAsString("userData"));
@@ -236,9 +256,11 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             CircleImageView imgProfilePicture;
             LinearLayout dataLayout;
             TextView txtTitle, txtPrice, txtUsername;
+            LinearLayout lilo;
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
                 txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
                 txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
