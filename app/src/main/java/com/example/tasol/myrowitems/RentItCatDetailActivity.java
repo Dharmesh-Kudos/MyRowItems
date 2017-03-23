@@ -37,6 +37,7 @@ import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
 import smart.weservice.SmartWebManager;
 
+import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
@@ -53,6 +54,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
+    private JSONObject loginParams = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,18 +203,17 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                                 .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
                 );
             }
-//
-//            Picasso.with(RentItCatDetailActivity.this).load(url).into(imageView,
-//                    PicassoPalette.with(url, imageView)
-//                            .use(PicassoPalette.Profile.MUTED_DARK)
-//                            .intoBackground(textView)
-//                            .use(PicassoPalette.Profile.VIBRANT)
-//                            .intoBackground(titleView, PicassoPalette.Swatch.RGB)
-//            );
 
             try {
+                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                        .getString(SP_LOGGED_IN_USER_DATA, ""));
+
                 JSONObject userData = new JSONObject(row.getAsString("userData"));
-                holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
+                if (row.getAsString("user_id").equals(loginParams.getString("id"))) {
+                    holder.txtUsername.setText("Uploaded By YOU");
+                } else {
+                    holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
+                }
                 if (userData.getString("user_pic").equals("")) {
                     holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
                 } else {

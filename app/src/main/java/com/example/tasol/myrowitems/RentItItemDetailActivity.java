@@ -131,9 +131,15 @@ public class RentItItemDetailActivity extends AppCompatActivity {
 
 
         try {
+            loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                    .getString(SP_LOGGED_IN_USER_DATA, ""));
             userData = new JSONObject(ROW.getAsString("userData"));
             txtByPhone.setText(userData.getString("user_phone"));
-            getSupportActionBar().setSubtitle("Uploaded By " + userData.getString("user_name"));
+            if (loginParams.getString("id").equals(userData.getString("user_id"))) {
+                getSupportActionBar().setSubtitle("Uploaded By YOU");
+            } else {
+                getSupportActionBar().setSubtitle("Uploaded By " + userData.getString("user_name"));
+            }
             if (userData.getString("user_pic").equals("")) {
                 imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
             } else {
