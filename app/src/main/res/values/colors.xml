@@ -10,6 +10,8 @@
     <color name="lightGreen">#019666</color>
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+    <color name="blue">#2196F3</color>
+    <color name="maroon">#F44336</color>
     <color name="grey">#616161</color>
     <color name="lightGrey">#99616161</color>
     <color name="itemSelection">#40000000</color>

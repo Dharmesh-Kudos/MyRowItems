@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //   collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);

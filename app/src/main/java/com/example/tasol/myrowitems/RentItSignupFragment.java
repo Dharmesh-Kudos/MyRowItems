@@ -10,8 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -27,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -44,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.framework.Constants;
 import smart.framework.SmartApplication;
@@ -64,6 +62,7 @@ public class RentItSignupFragment extends Fragment {
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
     private int SELECT_PICTURE = 1;
     private String selectedImagePath = "";
+    private SweetAlertDialog pDialog;
 
 
     public RentItSignupFragment() {
@@ -96,14 +95,11 @@ public class RentItSignupFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                progressDialog = ProgressDialog.show(getActivity(), "Rent It", "Authenticating...");
-
-                progressDialog.setContentView(R.layout.progress_dialog);
-                progressDialog.setCancelable(false);
-                progressDialog.setCanceledOnTouchOutside(false);
-                ((ProgressBar) progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                progressDialog.show();
+                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+                pDialog.setTitleText("Creating Account...");
+                pDialog.setCancelable(true);
+                pDialog.show();
 
 
                 HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
@@ -142,7 +138,7 @@ public class RentItSignupFragment extends Fragment {
                     @Override
                     public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
                         Log.d("RESULT = ", String.valueOf(response));
-                        progressDialog.dismiss();
+                        pDialog.dismiss();
                         try {
                             if (responseCode == 200) {
                                 Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();

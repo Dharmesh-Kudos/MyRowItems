@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:text="Report Inappropriate"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edtReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@drawable/post_box_back_design"
+        android:gravity="top|center"
+        android:hint="Write what do you find inappropriate about this product"
+        android:minLines="5"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/_12sdp" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@color/maroon"
+        android:text="SUBMIT"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>
