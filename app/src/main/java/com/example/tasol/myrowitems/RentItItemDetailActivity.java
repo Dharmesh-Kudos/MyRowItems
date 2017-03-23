@@ -51,6 +51,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
     List<String> elephantList;
     private int POS = 0;
     private AQuery aQuery;
+    private TextView txtDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,10 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         ROW = getIntent().getParcelableExtra("ROW");
         toolbarData = (Toolbar) findViewById(R.id.toolbarData);
         setSupportActionBar(toolbarData);
-        getSupportActionBar().setTitle(ROW.getAsString("title"));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(ROW.getAsString("title"));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         toolbarData.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +79,7 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         txtDeposit = (TextView) findViewById(R.id.txtDeposit);
         txtCondition = (TextView) findViewById(R.id.txtCondition);
         txtTime = (TextView) findViewById(R.id.txtTime);
-
+        txtDays = (TextView) findViewById(R.id.txtDays);
         txtByPhone = (TextView) findViewById(R.id.txtByPhone);
         txtByUsername = (TextView) findViewById(R.id.txtByUsername);
         rvOtherImages = (RecyclerView) findViewById(R.id.rvOtherImages);
@@ -119,8 +122,9 @@ public class RentItItemDetailActivity extends AppCompatActivity {
         txtDesc.setText(ROW.getAsString("description"));
         txtPrice.setText("Rs. " + ROW.getAsString("price"));
         txtDeposit.setText("Rs. " + ROW.getAsString("deposite") + "(Security Deposit)");
-        txtCondition.setText(ROW.getAsString("condition") + "in condition");
+        txtCondition.setText(ROW.getAsString("condition") + " in condition");
         txtTime.setText(ROW.getAsString("time"));
+        txtDays.setText(ROW.getAsString("days"));
 
 
         txtByPhone.setOnClickListener(new View.OnClickListener() {

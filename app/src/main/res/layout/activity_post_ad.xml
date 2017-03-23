@@ -111,28 +111,36 @@
                     </LinearLayout>
 
 
-                    <Spinner
+                    <Button
                         android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
+                        android:gravity="left"
                         android:padding="@dimen/_15sdp"
-                        android:spinnerMode="dialog" />
+                        android:text="Choose Category"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey" />
 
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <Spinner
+                        <Button
                             android:id="@+id/spinnerSubCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:background="@drawable/post_box_back_design"
+                            android:gravity="left"
                             android:padding="@dimen/_15sdp"
-                            android:spinnerMode="dialog" />
+                            android:text="Choose Sub Category"
+                            android:textAllCaps="false"
+                            android:textColor="@color/grey"
+
+                            />
 
                         <ProgressBar
                             android:id="@+id/spnProgress"
@@ -204,33 +212,18 @@
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
 
-                    <LinearLayout
+
+                    <Button
+                        android:id="@+id/spinnerCondition"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/post_box_back_design"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:gravity="left"
+                        android:padding="@dimen/_15sdp"
+                        android:text="Choose Category"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center|left"
-                            android:padding="5dp"
-                            android:text="Condition"
-                            android:textSize="15dp" />
-
-                        <Spinner
-                            android:id="@+id/spinnerCondition"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/grey"
-                            android:entries="@array/conditions"
-                            android:padding="15dp"
-                            android:spinnerMode="dialog" />
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -243,13 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="@dimen/_60sdp"
-            android:layout_marginLeft="@dimen/_60sdp"
-            android:layout_marginRight="@dimen/_60sdp"
-            android:layout_marginStart="@dimen/_60sdp"
-            android:background="@drawable/post_ad_circular"
-            android:elevation="5dp"
+            android:background="@color/colorGreen"
             android:text="POST AD"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sdp" />

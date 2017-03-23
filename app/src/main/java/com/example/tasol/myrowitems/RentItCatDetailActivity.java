@@ -65,12 +65,17 @@ public class RentItCatDetailActivity extends AppCompatActivity {
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getIntent().getStringExtra("TITLE"));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra("TITLE"));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 supportFinishAfterTransition();
+                overridePendingTransition(R.anim.open_main, R.anim.close_next);
+
             }
         });
         rvCatDetail = (RecyclerView) findViewById(R.id.rvCatDetail);
@@ -81,6 +86,12 @@ public class RentItCatDetailActivity extends AppCompatActivity {
 
         getCategoryList();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.open_main, R.anim.close_next);
     }
 
     private void getCategoryList() {

@@ -24,7 +24,8 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,8 +34,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize">
+                android:layout_height="match_parent">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -99,7 +99,6 @@
                                 android:orientation="vertical">
 
 
-
                                 <android.support.v7.widget.CardView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -125,7 +124,7 @@
                                             android:shadowDy="3"
                                             android:text="Moto G4 Plus"
                                             android:textColor="@color/grey"
-                                            android:textSize="20dp"
+                                            android:textSize="@dimen/_15sdp"
                                             android:textStyle="bold"
                                             android:typeface="sans" />
 
@@ -133,18 +132,19 @@
                                             android:id="@+id/txtDesc"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:gravity="center"
+                                            android:gravity="left"
                                             android:padding="@dimen/_5sdp"
                                             android:shadowColor="@color/grey"
                                             android:shadowDx="3"
                                             android:shadowDy="3"
                                             android:text="A Smartphone with Budget Features"
                                             android:textColor="@color/grey"
-                                            android:textSize="15dp"
+                                            android:textSize="@dimen/_12sdp"
                                             android:typeface="sans" />
 
                                     </LinearLayout>
                                 </android.support.v7.widget.CardView>
+
                                 <android.support.v7.widget.CardView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -155,40 +155,86 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:gravity="left"
-                                        android:orientation="vertical"
-                                        android:padding="5dp">
+                                        android:orientation="horizontal"
+                                        android:padding="@dimen/_5sdp">
 
-                                        <TextView
-                                            android:id="@+id/txtPrice"
+                                        <LinearLayout
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:padding="@dimen/_5sdp"
-                                            android:shadowColor="@color/grey"
-                                            android:shadowDx="3"
-                                            android:shadowDy="3"
-                                            android:text="Rs. 2500"
-                                            android:textColor="@color/grey"
-                                            android:textSize="20dp"
-                                            android:textStyle="bold"
-                                            android:typeface="sans" />
-                                        <TextView
-                                            android:id="@+id/txtDeposit"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="center"
-                                            android:padding="@dimen/_5sdp"
-                                            android:shadowColor="@color/grey"
-                                            android:shadowDx="3"
-                                            android:shadowDy="3"
-                                            android:text="Rs.500(Security Deposit)"
-                                            android:textColor="@color/grey"
-                                            android:textSize="15dp"
-                                            android:typeface="sans" />
+                                            android:layout_height="match_parent"
+                                            android:gravity="left"
+                                            android:orientation="vertical">
 
+                                            <TextView
+                                                android:id="@+id/txtPrice"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:padding="@dimen/_5sdp"
+                                                android:shadowColor="@color/grey"
+                                                android:shadowDx="3"
+                                                android:shadowDy="3"
+                                                android:text="Rs. 2500"
+                                                android:textColor="@color/grey"
+                                                android:textSize="@dimen/_15sdp"
+                                                android:textStyle="bold"
+                                                android:typeface="sans" />
+
+                                            <TextView
+                                                android:id="@+id/txtDeposit"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:padding="@dimen/_5sdp"
+                                                android:shadowColor="@color/grey"
+                                                android:shadowDx="3"
+                                                android:shadowDy="3"
+                                                android:text="Rs.500(Security Deposit)"
+                                                android:textColor="@color/grey"
+                                                android:textSize="@dimen/_12sdp"
+                                                android:typeface="sans" />
+                                        </LinearLayout>
+
+                                        <View
+                                            android:layout_width="@dimen/_1sdp"
+                                            android:layout_height="@dimen/_60sdp"
+                                            android:background="@color/lightGrey" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:id="@+id/txtDays"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:padding="@dimen/_5sdp"
+                                                android:shadowColor="@color/grey"
+                                                android:shadowDx="3"
+                                                android:shadowDy="3"
+                                                android:text="7"
+                                                android:textColor="@color/grey"
+                                                android:textSize="@dimen/_15sdp"
+                                                android:textStyle="bold"
+                                                android:typeface="sans" />
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center"
+                                                android:padding="@dimen/_5sdp"
+                                                android:shadowColor="@color/grey"
+                                                android:shadowDx="3"
+                                                android:shadowDy="3"
+                                                android:text="Days"
+                                                android:textColor="@color/grey"
+                                                android:textSize="@dimen/_12sdp"
+                                                android:typeface="sans" />
+                                        </LinearLayout>
                                     </LinearLayout>
                                 </android.support.v7.widget.CardView>
+
                                 <android.support.v7.widget.CardView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

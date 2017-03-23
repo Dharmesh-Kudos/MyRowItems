@@ -12,8 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -29,16 +27,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +53,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import smart.caching.SmartCaching;
 import smart.framework.Constants;
 import smart.framework.SmartApplication;
@@ -74,7 +74,7 @@ public class PostAdActivity extends AppCompatActivity {
     FloatingActionButton btnUpload;
     RecyclerViewUploadedImagesGridAdapter recyclerViewUploadedImagesGridAdapter;
     EditText edtTitle, edtDesc, edtPrice, edtDeposit, edtDays;
-    Spinner spinnerCategory, spinnerSubCategory, spinnerCondition;
+    Button btnCategory, btnSubCategory, btnCondition;
     String AVAILABLE = "1";
     String TIME, CREATED_AT, UPDATED_AT;
     String CATID, SUBCATID, CONDITION;
@@ -82,6 +82,9 @@ public class PostAdActivity extends AppCompatActivity {
     ProgressBar spnProBar;
     CustomCatAdapter customCatAdapter;
     CustomSubCatAdapter customSubCatAdapter;
+    CustomCondAdapter customCondAdapter;
+    DialogPlus dialogPlusCat, dialogPlusSubCat, dialogPlusCond;
+    SweetAlertDialog pDialog, pDialogVisit;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
     private int SELECT_PICTURE = 1;
     private String imgPath;
@@ -107,11 +110,12 @@ public class PostAdActivity extends AppCompatActivity {
         edtDeposit = (EditText) findViewById(R.id.edtDeposit);
         edtDays = (EditText) findViewById(R.id.edtDays);
 
-        arrConditions = getResources().getStringArray(R.array.conditions);
 
-        spinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
-        spinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
-        spinnerCondition = (Spinner) findViewById(R.id.spinnerCondition);
+        btnCategory = (Button) findViewById(R.id.spinnerCategory);
+        btnSubCategory = (Button) findViewById(R.id.spinnerSubCategory);
+        btnCondition = (Button) findViewById(R.id.spinnerCondition);
+        btnSubCategory.setEnabled(false);
+        btnCategory.setEnabled(false);
 
 
         btnPostAd = (Button) findViewById(R.id.btnPostAd);
@@ -122,7 +126,7 @@ public class PostAdActivity extends AppCompatActivity {
         rvImages.setLayoutManager(gridLayoutManager);
         btnUpload = (FloatingActionButton) findViewById(R.id.btnUpload);
 
-
+        fillConditions();
         fillCategory();
 
         closeIV.setOnClickListener(new View.OnClickListener() {
@@ -136,16 +140,11 @@ public class PostAdActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("HELLO", "1");
-                progressDialog = ProgressDialog.show(PostAdActivity.this, "Rent It", "Authenticating...");
-                progressDialog.setContentView(R.layout.progress_dialog);
-                progressDialog.setCancelable(true);
-                progressDialog.setCanceledOnTouchOutside(true);
-                progressDialog.setTitle("Rent It");
-                progressDialog.setMessage("Posting Ad...");
-                ((ProgressBar) progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                progressDialog.show();
-
+                pDialog = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+                pDialog.setTitleText("Posting Your Ad...");
+                pDialog.setCancelable(true);
+                pDialog.show();
 
                 HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
                 requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
@@ -188,13 +187,34 @@ public class PostAdActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                        progressDialog.dismiss();
+                        pDialog.dismiss();
                         if (responseCode == 200) {
                             try {
                                 Log.d("RESULT = ", String.valueOf(response));
+                                pDialogVisit = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                pDialogVisit.setTitleText("Ad Posted Successfully");
+                                pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                                pDialogVisit.setCancelText("Home");
 
-                                startActivity(new Intent(PostAdActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
-                                finish();
+                                pDialogVisit.setConfirmText("SEE MY AD");
+                                pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        supportFinishAfterTransition();
+                                    }
+                                });
+                                pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        startActivity(new Intent(PostAdActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
+                                        finish();
+                                    }
+                                });
+                                pDialogVisit.setCancelable(true);
+                                pDialogVisit.show();
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -233,58 +253,94 @@ public class PostAdActivity extends AppCompatActivity {
             }
         });
 
-        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//        btnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (i == 0) {
+//                    Log.d("ITEM = ", "ZERO");
+//                } else {
+//                    fillSubCategory(cvCatData.get(i - 1).getAsString("cat_id"));
+//                    CATID = cvCatData.get(i - 1).getAsString("cat_id");
+//                    CATNAME = cvCatData.get(i - 1).getAsString("cat_name");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+        btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    Log.d("ITEM = ", "ZERO");
-                } else {
-                    fillSubCategory(cvCatData.get(i - 1).getAsString("cat_id"));
-                    CATID = cvCatData.get(i - 1).getAsString("cat_id");
-                    CATNAME = cvCatData.get(i - 1).getAsString("cat_name");
-                }
-
+            public void onClick(View view) {
+                dialogPlusCat.show();
             }
-
+        });
+        btnSubCategory.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onClick(View view) {
+                dialogPlusSubCat.show();
+            }
+        });
+        btnCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogPlusCond.show();
             }
         });
 
-        spinnerSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    Log.d("ITEM = ", "ZERO");
-                } else {
-                    SUBCATID = cvSubCatData.get(i - 1).getAsString("subCat_id");
-                }
+//        btnSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (i == 0) {
+//                    Log.d("ITEM = ", "ZERO");
+//                } else {
+//                    SUBCATID = cvSubCatData.get(i - 1).getAsString("subCat_id");
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
-            }
+//        btnCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                if (i == 0) {
+//                    Log.d("ITEM = ", "ZERO");
+//                } else {
+//                    CONDITION = arrConditions[i];
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        spinnerCondition.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) {
-                    Log.d("ITEM = ", "ZERO");
-                } else {
-                    CONDITION = arrConditions[i];
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private void fillConditions() {
+        arrConditions = getResources().getStringArray(R.array.conditions);
+        customCondAdapter = new CustomCondAdapter(PostAdActivity.this, arrConditions);
+        dialogPlusCond = DialogPlus.newDialog(PostAdActivity.this)
+                .setAdapter(customCondAdapter)
+                .setCancelable(true)
+                .setOnItemClickListener(new OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                        btnCondition.setText(arrConditions[position]);
+                        CONDITION = arrConditions[position];
+                        dialog.dismiss();
+                    }
+                })
+                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                .create();
     }
 
 
@@ -309,21 +365,38 @@ public class PostAdActivity extends AppCompatActivity {
             public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
                 Log.d("RESULT = ", String.valueOf(response));
                 try {
+                    btnCategory.setEnabled(true);
+
                     catData = new ArrayList<String>();
                     subCatData = new ArrayList<String>();
                     if (responseCode == 200) {
                         cvCatData = smartCaching.parseResponse(response.getJSONArray("allCategories"), "ALLCATEGORIES", null).get("ALLCATEGORIES");
-                        catData.add(0, "Choose Category");
+                        //catData.add(0, "Choose Category");
                         for (int i = 0; i < cvCatData.size(); i++) {
 
                             catData.add(cvCatData.get(i).getAsString("cat_name"));
                         }
                         customCatAdapter = new CustomCatAdapter(PostAdActivity.this, catData);
-                        spinnerCategory.setAdapter(customCatAdapter);
+                        dialogPlusCat = DialogPlus.newDialog(PostAdActivity.this)
+                                .setAdapter(customCatAdapter)
+                                .setCancelable(true)
+                                .setOnItemClickListener(new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                                        btnCategory.setText(cvCatData.get(position).getAsString("cat_name"));
+                                        CATID = cvCatData.get(position).getAsString("cat_id");
+                                        CATNAME = cvCatData.get(position).getAsString("cat_name");
+                                        dialog.dismiss();
+                                        fillSubCategory(cvCatData.get(position).getAsString("cat_id"));
 
-                        subCatData.add("Choose Sub Category");
-                        customSubCatAdapter = new CustomSubCatAdapter(PostAdActivity.this, subCatData);
-                        spinnerSubCategory.setAdapter(customSubCatAdapter);
+                                    }
+                                })
+                                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                                .create();
+                        // dialogPlusCat.show();
+                        //btnCategory.setAdapter(customCatAdapter);
+
+
                     } else if (responseCode == 204) {
                         Toast.makeText(PostAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     }
@@ -367,13 +440,26 @@ public class PostAdActivity extends AppCompatActivity {
                 try {
                     subCatData = new ArrayList<String>();
                     if (responseCode == 200) {
+                        btnSubCategory.setEnabled(true);
                         cvSubCatData = smartCaching.parseResponse(response.getJSONArray("subCategories"), "SUBCATEGORIES", null).get("SUBCATEGORIES");
-                        subCatData.add("Choose Sub Category");
+                        //subCatData.add("Choose Sub Category");
                         for (int i = 0; i < cvSubCatData.size(); i++) {
                             subCatData.add(cvSubCatData.get(i).getAsString("subCat_name"));
                         }
                         customSubCatAdapter = new CustomSubCatAdapter(PostAdActivity.this, subCatData);
-                        spinnerSubCategory.setAdapter(customSubCatAdapter);
+                        dialogPlusSubCat = DialogPlus.newDialog(PostAdActivity.this)
+                                .setAdapter(customSubCatAdapter)
+                                .setCancelable(true)
+                                .setOnItemClickListener(new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                                        btnSubCategory.setText(cvSubCatData.get(position).getAsString("subCat_name"));
+                                        SUBCATID = cvSubCatData.get(position).getAsString("subCat_id");
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                                .create();
                         spnProBar.setVisibility(View.GONE);
                     } else if (responseCode == 204) {
                         Toast.makeText(PostAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
@@ -807,6 +893,46 @@ public class PostAdActivity extends AppCompatActivity {
             view = inflater.inflate(R.layout.spinner_rows, null);
             TextView names = (TextView) view.findViewById(R.id.txtItem);
             names.setText(mSubCatData.get(i));
+            return view;
+        }
+
+    }
+
+    /***** Adapter class extends with ArrayAdapter ******/
+    public class CustomCondAdapter extends BaseAdapter {
+
+        LayoutInflater inflater;
+        private String[] condData;
+
+        /*************  CustomAdapter Constructor *****************/
+        public CustomCondAdapter(Context applicationContext, String[] condData) {
+
+            this.condData = condData;
+            inflater = (LayoutInflater.from(applicationContext));
+            /***********  Layout inflator to call external xml layout () **********************/
+
+        }
+
+        @Override
+        public int getCount() {
+            return condData.length;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.spinner_rows, null);
+            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            names.setText(condData[i]);
             return view;
         }
 
