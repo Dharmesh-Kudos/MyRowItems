@@ -23,6 +23,8 @@
     <string name="title_activity_rentt_login">Sign in</string>
 
     <!-- Strings related to login -->
+    <string name="rs">\u20B9</string>
+    <string name="RS">\u20A8</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>

@@ -105,6 +105,7 @@ public class SplashActivity extends AppCompatActivity {
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
 
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
                     } else if (responseCode == 204) {
                         Toast.makeText(SplashActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {

@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.github.florent37.picassopalette.PicassoPalette;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.caching.SmartCaching;
 import smart.framework.SmartApplication;
@@ -180,28 +179,15 @@ public class RentItCatItemsActivity extends AppCompatActivity {
             final ContentValues row = categoryData.get(position);
 
             holder.txtTitle.setText(row.getAsString("title"));
-            holder.txtPrice.setText("Rs." + row.getAsString("price") + "/" + row.getAsString("days") + "days");
+            holder.txtPrice.setText(getString(R.string.rs) + row.getAsString("price"));
 
             List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
 
             if (elephantList.get(0).contains("http")) {
-                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatItemsActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
-                Picasso.with(RentItCatItemsActivity.this).load(elephantList.get(0)).into(holder.imageCat,
-                        PicassoPalette.with(elephantList.get(0), holder.imageCat)
-                                .use(PicassoPalette.Profile.MUTED_DARK)
-                                .intoBackground(holder.lilo)
-                                .use(PicassoPalette.Profile.VIBRANT)
-                                .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
-                );
+                aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
             } else {
-                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatItemsActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
-                Picasso.with(RentItCatItemsActivity.this).load("http://" + elephantList.get(0)).into(holder.imageCat,
-                        PicassoPalette.with("http://" + elephantList.get(0), holder.imageCat)
-                                .use(PicassoPalette.Profile.MUTED_DARK)
-                                .intoBackground(holder.lilo)
-                                .use(PicassoPalette.Profile.VIBRANT)
-                                .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
-                );
+                aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
+
             }
 
             try {
@@ -209,11 +195,11 @@ public class RentItCatItemsActivity extends AppCompatActivity {
                         .getString(SP_LOGGED_IN_USER_DATA, ""));
 
                 JSONObject userData = new JSONObject(row.getAsString("userData"));
-                if (row.getAsString("user_id").equals(loginParams.getString("id"))) {
-                    holder.txtUsername.setText("Uploaded By YOU");
-                } else {
-                    holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
-                }
+//                if (row.getAsString("user_id").equals(loginParams.getString("id"))) {
+//                    holder.txtUsername.setText("Uploaded By YOU");
+//                } else {
+//                    holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
+//                }
                 if (userData.getString("user_pic").equals("")) {
                     holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
                 } else {
@@ -225,12 +211,6 @@ public class RentItCatItemsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-//            if (position % 2 == 0) {
-//                holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
-//            } else {
-//                holder.imgProfilePicture.setImageResource(R.drawable.indo_session_avatar);
-//            }
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -240,10 +220,7 @@ public class RentItCatItemsActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, holder.imgProfilePicture.getTransitionName());
                         Pair<View, String> p2 = Pair.create((View) holder.imageCat, holder.imageCat.getTransitionName());
-//                        Pair<View, String> p3 = Pair.create((View) holder.dataLayout, holder.dataLayout.getTransitionName());
-//                        Pair<View, String> p4 = Pair.create((View) holder.tv1, holder.tv1.getTransitionName());
-//                        Pair<View, String> p5 = Pair.create((View) holder.tv2, holder.tv2.getTransitionName());
-//                        Pair<View, String> p6 = Pair.create((View) holder.tv3,holder.tv3.getTransitionName());
+
                         ActivityOptionsCompat options = ActivityOptionsCompat.
                                 makeSceneTransitionAnimation(RentItCatItemsActivity.this, p1, p2);
                         startActivity(intent, options.toBundle());

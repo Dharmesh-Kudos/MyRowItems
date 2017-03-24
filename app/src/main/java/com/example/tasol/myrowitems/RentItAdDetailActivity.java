@@ -142,6 +142,26 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
         // aQuery.id(imageCat).image(ROW.getAsString("photo"), true, true);
 
+        imgProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RentItAdDetailActivity.this, RentItUserProfileActivity.class);
+                intent.putExtra("POS", POS);
+                intent.putExtra("ROW", ROW);
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Pair<View, String> p1 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(RentItAdDetailActivity.this, p1);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    startActivity(intent);
+                }
+                startActivity(intent);
+            }
+        });
+
 
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
@@ -164,8 +184,8 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
         txtTitle.setText(ROW.getAsString("title"));
         txtDesc.setText(ROW.getAsString("description"));
-        txtPrice.setText("Rs. " + ROW.getAsString("price"));
-        txtDeposit.setText("Rs. " + ROW.getAsString("deposite") + "(Security Deposit)");
+        txtPrice.setText(getString(R.string.rs) + ROW.getAsString("price"));
+        txtDeposit.setText(getString(R.string.rs) + ROW.getAsString("deposite") + "(Security Deposit)");
         txtCondition.setText(ROW.getAsString("condition") + " in condition");
         txtTime.setText(ROW.getAsString("time"));
         txtDays.setText(ROW.getAsString("days"));

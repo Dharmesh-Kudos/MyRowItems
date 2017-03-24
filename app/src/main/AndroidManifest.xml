@@ -39,7 +39,8 @@
         <activity android:name=".PostAdActivity" />
         <activity android:name=".FullImageActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".RentItLoginActivity"></activity>
+        <activity android:name=".RentItLoginActivity" />
+        <activity android:name=".RentItUserProfileActivity"></activity>
     </application>
 
 </manifest>
