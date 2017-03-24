@@ -1,18 +1,15 @@
 package com.example.tasol.myrowitems;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.caching.SmartCaching;
@@ -36,6 +35,7 @@ import static smart.framework.Constants.TASKDATA;
 
 public class RentItUserProfileActivity extends AppCompatActivity {
 
+    RecyclerView rvImages;
     CircleImageView imgProPic;
     int radiusArr[];
     Toolbar toolbarData;
@@ -46,8 +46,11 @@ public class RentItUserProfileActivity extends AppCompatActivity {
     TextView txtName, txtLoc, txtEmail, txtMob;
     ArrayList<ContentValues> allData = new ArrayList<>();
     JSONObject usersData = null;
+    RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     private ImageView imageview;
     private JSONObject userData = null;
+    private StaggeredGridLayoutManager linearLayoutManager;
+    private List<String> elephantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,16 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rent_it_user_profile);
         smartCaching = new SmartCaching(RentItUserProfileActivity.this);
         aQuery = new AQuery(RentItUserProfileActivity.this);
+        rvImages = (RecyclerView) findViewById(R.id.rvPhotos);
+        linearLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        rvImages.setHasFixedSize(true);
+        rvImages.setLayoutManager(linearLayoutManager);
+
+
+        txtEmail = (TextView) findViewById(R.id.txtEmail);
+        txtMob = (TextView) findViewById(R.id.txtMob);
+        txtName = (TextView) findViewById(R.id.txtName);
+        txtLoc = (TextView) findViewById(R.id.txtLoc);
 
         toolbarData = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarData);
@@ -72,18 +85,16 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         ROW = getIntent().getParcelableExtra("ROW");
         try {
             userData = new JSONObject(ROW.getAsString("userData"));
-            USERID = userData.getString("id");
+            USERID = userData.getString("user_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        imgProPic = (CircleImageView) findViewById(R.id.imgProfilePicture);
+        imageview = (ImageView) findViewById(R.id.img);
         getUserDetail(USERID);
 
-        imageview = (ImageView) findViewById(R.id.img);
-        BitmapDrawable drawable = (BitmapDrawable) imageview.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-        Bitmap blurred = blurRenderScript(bitmap, 15);//second parametre is radius
-        imageview.setImageBitmap(blurred);
+
     }
 
     private void getUserDetail(String userid) {
@@ -117,7 +128,7 @@ public class RentItUserProfileActivity extends AppCompatActivity {
                         Log.d("RESULT = ", String.valueOf(response));
                         allData = smartCaching.parseResponse(response.getJSONArray("allData"), "ALLDATA", null).get("ALLDATA");
 
-                        usersData = new JSONObject(String.valueOf(response.getJSONObject("userData")));
+                        usersData = response.getJSONObject("userData");
 
                         if (allData != null && allData.size() > 0) {
                             makePage(allData, usersData);
@@ -151,58 +162,61 @@ public class RentItUserProfileActivity extends AppCompatActivity {
             txtMob.setText(usersData.getString("user_phone"));
             aQuery.id(imgProPic).image(usersData.getString("user_pic"), true, true);
             aQuery.id(imageview).image(usersData.getString("user_pic"), true, true);
+            StringBuilder photo = new StringBuilder();
+            for (int i = 0; i < allData.size(); i++) {
+                ContentValues row = allData.get(i);
+                photo.append(row.getAsString("photo"));
+            }
+            elephantList = Arrays.asList(photo.toString().split(","));
+
+            recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
+            rvImages.setAdapter(recyclerViewCategoryGridAdapter);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    @SuppressLint("NewApi")
-    private Bitmap blurRenderScript(Bitmap smallBitmap, int radius) {
+    private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        try {
-            smallBitmap = RGB565toARGB888(smallBitmap);
-        } catch (Exception e) {
-            e.printStackTrace();
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rentit_user_gallery_images_row_item,
+                    parent, false);
+            RecyclerView.ViewHolder viewHolder = new RecyclerViewCategoryGridAdapter.ViewHolder(parentView);
+            return viewHolder;
         }
 
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+            RecyclerViewCategoryGridAdapter.ViewHolder holder = (RecyclerViewCategoryGridAdapter.ViewHolder) viewHolder;
 
-        Bitmap bitmap = Bitmap.createBitmap(
-                smallBitmap.getWidth(), smallBitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
+//            elephantList = Arrays.asList(photo.split(","));
+            if (elephantList.get(position).contains("http")) {
+                aQuery.id(holder.ivImages).image(elephantList.get(position), true, true);
 
-        RenderScript renderScript = RenderScript.create(RentItUserProfileActivity.this);
+            } else {
+                aQuery.id(holder.ivImages).image("http://" + elephantList.get(position), true, true);
 
-        Allocation blurInput = Allocation.createFromBitmap(renderScript, smallBitmap);
-        Allocation blurOutput = Allocation.createFromBitmap(renderScript, bitmap);
+            }
 
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(renderScript,
-                Element.U8_4(renderScript));
-        blur.setInput(blurInput);
-        blur.setRadius(radius); // radius must be 0 < r <= 25
-        blur.forEach(blurOutput);
+        }
 
-        blurOutput.copyTo(bitmap);
-        renderScript.destroy();
+        @Override
+        public int getItemCount() {
+            return elephantList.size();
+        }
 
-        return bitmap;
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
+            public ImageView ivImages;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                ivImages = (ImageView) itemView.findViewById(R.id.ivImages);
+            }
+        }
     }
-
-    private Bitmap RGB565toARGB888(Bitmap img) throws Exception {
-        int numPixels = img.getWidth() * img.getHeight();
-        int[] pixels = new int[numPixels];
-
-        //Get JPEG pixels.  Each int is the color values for one pixel.
-        img.getPixels(pixels, 0, img.getWidth(), 0, 0, img.getWidth(), img.getHeight());
-
-        //Create a Bitmap of the appropriate format.
-        Bitmap result = Bitmap.createBitmap(img.getWidth(), img.getHeight(), Bitmap.Config.ARGB_8888);
-
-        //Set RGB pixels.
-        result.setPixels(pixels, 0, result.getWidth(), 0, 0, result.getWidth(), result.getHeight());
-        return result;
-    }
-
 
 }

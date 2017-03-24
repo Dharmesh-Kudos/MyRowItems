@@ -158,7 +158,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                 } else {
                     startActivity(intent);
                 }
-                startActivity(intent);
+//                startActivity(intent);
             }
         });
 
@@ -609,6 +609,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             ViewHolder holder = (ViewHolder) viewHolder;
+
 
             if (elephantList.get(position).contains("http")) {
                 aQuery.id(holder.ivImages).image(elephantList.get(position), true, true).progress(new ProgressDialog(RentItAdDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));

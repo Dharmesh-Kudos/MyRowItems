@@ -46,6 +46,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#50000000"
                     android:gravity="center|top"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/_20sdp">
@@ -88,7 +89,7 @@
                         android:textSize="@dimen/_10sdp" />
 
                     <LinearLayout
-                        android:id="@+id/txtEmail"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -97,7 +98,7 @@
 
 
                         <TextView
-                            android:id="@+id/txtMob"
+                            android:id="@+id/txtEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/indo_email_icn"
@@ -113,6 +114,7 @@
                             android:layout_height="match_parent" />
 
                         <TextView
+                            android:id="@+id/txtMob"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_upload_photo"
@@ -128,6 +130,12 @@
                 </LinearLayout>
 
             </FrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_3sdp" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
