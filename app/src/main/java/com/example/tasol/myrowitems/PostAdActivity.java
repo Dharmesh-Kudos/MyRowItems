@@ -208,7 +208,7 @@ public class PostAdActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                                         sweetAlertDialog.dismiss();
-                                        startActivity(new Intent(PostAdActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
+                                        startActivity(new Intent(PostAdActivity.this, RentItCatItemsActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
                                         finish();
                                     }
                                 });

@@ -34,8 +34,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RentItCatDetailActivity" />
-        <activity android:name=".RentItItemDetailActivity" />
+        <activity android:name=".RentItCatItemsActivity" />
+        <activity android:name=".RentItAdDetailActivity" />
         <activity android:name=".PostAdActivity" />
         <activity android:name=".FullImageActivity" />
         <activity android:name=".MainActivity" />

@@ -41,7 +41,7 @@ import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
-public class RentItCatDetailActivity extends AppCompatActivity {
+public class RentItCatItemsActivity extends AppCompatActivity {
 
 
     RecyclerView rvCatDetail;
@@ -62,8 +62,8 @@ public class RentItCatDetailActivity extends AppCompatActivity {
         setContentView(R.layout.rentit_cat_detail);
         // setupWindowAnimations();
         txtNotYet = (TextView) findViewById(R.id.txtNotYet);
-        smartCaching = new SmartCaching(RentItCatDetailActivity.this);
-        aQuery = new AQuery(RentItCatDetailActivity.this);
+        smartCaching = new SmartCaching(RentItCatItemsActivity.this);
+        aQuery = new AQuery(RentItCatItemsActivity.this);
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,7 +98,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
 
     private void getCategoryList() {
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItCatDetailActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItCatItemsActivity.this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "OpenCategoryDetails");
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
@@ -136,9 +136,9 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                     } else if (responseCode == 204) {
                         txtNotYet.setVisibility(View.VISIBLE);
                         rvCatDetail.setVisibility(View.GONE);
-                        //Toast.makeText(RentItCatDetailActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(RentItCatItemsActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(RentItCatDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RentItCatItemsActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -185,8 +185,8 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
 
             if (elephantList.get(0).contains("http")) {
-                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
-                Picasso.with(RentItCatDetailActivity.this).load(elephantList.get(0)).into(holder.imageCat,
+                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatItemsActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                Picasso.with(RentItCatItemsActivity.this).load(elephantList.get(0)).into(holder.imageCat,
                         PicassoPalette.with(elephantList.get(0), holder.imageCat)
                                 .use(PicassoPalette.Profile.MUTED_DARK)
                                 .intoBackground(holder.lilo)
@@ -194,8 +194,8 @@ public class RentItCatDetailActivity extends AppCompatActivity {
                                 .intoBackground(holder.lilo, PicassoPalette.Swatch.RGB)
                 );
             } else {
-                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
-                Picasso.with(RentItCatDetailActivity.this).load("http://" + elephantList.get(0)).into(holder.imageCat,
+                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItCatItemsActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+                Picasso.with(RentItCatItemsActivity.this).load("http://" + elephantList.get(0)).into(holder.imageCat,
                         PicassoPalette.with("http://" + elephantList.get(0), holder.imageCat)
                                 .use(PicassoPalette.Profile.MUTED_DARK)
                                 .intoBackground(holder.lilo)
@@ -234,7 +234,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(RentItCatDetailActivity.this, RentItItemDetailActivity.class);
+                    Intent intent = new Intent(RentItCatItemsActivity.this, RentItAdDetailActivity.class);
                     intent.putExtra("POS", position);
                     intent.putExtra("ROW", row);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -245,7 +245,7 @@ public class RentItCatDetailActivity extends AppCompatActivity {
 //                        Pair<View, String> p5 = Pair.create((View) holder.tv2, holder.tv2.getTransitionName());
 //                        Pair<View, String> p6 = Pair.create((View) holder.tv3,holder.tv3.getTransitionName());
                         ActivityOptionsCompat options = ActivityOptionsCompat.
-                                makeSceneTransitionAnimation(RentItCatDetailActivity.this, p1, p2);
+                                makeSceneTransitionAnimation(RentItCatItemsActivity.this, p1, p2);
                         startActivity(intent, options.toBundle());
                     } else {
                         startActivity(intent);

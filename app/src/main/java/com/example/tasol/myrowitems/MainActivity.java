@@ -380,9 +380,9 @@ public class MainActivity extends AppCompatActivity
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("IN_POS", position + 1).putExtra("TITLE", NAMESOFCATS[position]));
+                    startActivity(new Intent(MainActivity.this, RentItCatItemsActivity.class).putExtra("IN_POS", position + 1).putExtra("TITLE", NAMESOFCATS[position]));
                     overridePendingTransition(R.anim.open_next, R.anim.close_main);
-//                    startActivity(new Intent(MainActivity.this, RentItCatDetailActivity.class).putExtra("TITLE", NAMESOFCATS[position]));
+//                    startActivity(new Intent(MainActivity.this, RentItCatItemsActivity.class).putExtra("TITLE", NAMESOFCATS[position]));
                 }
             });
 
