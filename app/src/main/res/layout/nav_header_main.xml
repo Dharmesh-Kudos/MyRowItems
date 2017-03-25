@@ -25,6 +25,7 @@
             android:elevation="5dp"
             android:scaleType="centerCrop"
             android:src="@drawable/demopic"
+            android:transitionName="profile"
             app:border_color="#00000000"
             app:border_width="@dimen/_1sdp" />
 

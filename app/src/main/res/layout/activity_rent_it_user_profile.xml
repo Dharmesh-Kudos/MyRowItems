@@ -41,12 +41,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/demopic" />
+                    android:src="@drawable/woman" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#50000000"
+                    android:background="#80000000"
                     android:gravity="center|top"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/_20sdp">
@@ -56,7 +56,7 @@
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/demopic"
+                        android:src="@drawable/woman"
                         android:transitionName="profile"
                         app:border_color="@color/white"
                         app:border_width="@dimen/_1sdp"
@@ -71,7 +71,6 @@
                         android:shadowDx="3"
                         android:shadowDy="3"
                         android:shadowRadius="3"
-                        android:text="Dharmesh Basapati"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
@@ -80,16 +79,13 @@
                         android:id="@+id/txtLoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/wish_location"
+                        android:drawableLeft="@drawable/rent_loc_icon"
                         android:drawablePadding="@dimen/_2sdp"
-                        android:drawableTint="@color/white"
                         android:gravity="left|start"
-                        android:text="Ahmedabad,India"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
                     <LinearLayout
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -98,14 +94,13 @@
 
 
                         <TextView
+
                             android:id="@+id/txtEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/indo_email_icn"
+                            android:drawableLeft="@drawable/rent_mail_icon"
                             android:drawablePadding="@dimen/_2sdp"
-                            android:drawableTint="@color/white"
                             android:gravity="left|center"
-                            android:text="sksunny93@gmail.com"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp" />
 
@@ -113,15 +108,14 @@
                             android:layout_width="@dimen/_10sdp"
                             android:layout_height="match_parent" />
 
+
                         <TextView
                             android:id="@+id/txtMob"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_upload_photo"
+                            android:drawableLeft="@drawable/rent_call_icon"
                             android:drawablePadding="@dimen/_2sdp"
-                            android:drawableTint="@color/white"
                             android:gravity="left|center"
-                            android:text="96014 82687"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp" />
 
@@ -130,6 +124,16 @@
                 </LinearLayout>
 
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/txtMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp"
+                android:text="Photos uploaded till now by this user."
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvPhotos"

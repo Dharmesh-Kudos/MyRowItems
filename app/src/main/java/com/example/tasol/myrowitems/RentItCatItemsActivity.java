@@ -1,6 +1,7 @@
 package com.example.tasol.myrowitems;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,12 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,9 +35,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.caching.SmartCaching;
+import smart.framework.Constants;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
 import smart.weservice.SmartWebManager;
@@ -49,11 +55,16 @@ public class RentItCatItemsActivity extends AppCompatActivity {
     AQuery aQuery;
     int IN_POS;
     TextView txtNotYet;
+    Button btnByCity;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
     private JSONObject loginParams = null;
+    private ArrayList<String> subCityData;
+    private CustomCityAdapter customSubCatAdapter;
+    private ArrayList<ContentValues> cvSubCatData;
+    private DialogPlus dialogPlusSubCat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +72,7 @@ public class RentItCatItemsActivity extends AppCompatActivity {
         setContentView(R.layout.rentit_cat_detail);
         // setupWindowAnimations();
         txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        btnByCity = (Button) findViewById(R.id.btnByCity);
         smartCaching = new SmartCaching(RentItCatItemsActivity.this);
         aQuery = new AQuery(RentItCatItemsActivity.this);
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
@@ -84,9 +96,70 @@ public class RentItCatItemsActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvCatDetail.setHasFixedSize(true);
         rvCatDetail.setLayoutManager(linearLayoutManager);
-
+        rvCatDetail.setNestedScrollingEnabled(false);
         getCategoryList();
 
+        btnByCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItCatItemsActivity.this);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+                final JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(TASK, "fetchCity");
+                    JSONObject taskData = new JSONObject();
+                    jsonObject.put(TASKDATA, taskData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+                    @Override
+                    public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                        Log.d("RESULT = ", String.valueOf(response));
+                        try {
+                            subCityData = new ArrayList<String>();
+                            if (responseCode == 200) {
+                                cvSubCatData = smartCaching.parseResponse(response.getJSONArray("cityData"), "CITYDATA", null).get("CITYDATA");
+                                //subCityData.add("Choose Sub Category");
+                                for (int i = 0; i < cvSubCatData.size(); i++) {
+                                    subCityData.add(cvSubCatData.get(i).getAsString("name"));
+                                }
+                                customSubCatAdapter = new CustomCityAdapter(RentItCatItemsActivity.this, subCityData);
+                                dialogPlusSubCat = DialogPlus.newDialog(RentItCatItemsActivity.this)
+                                        .setAdapter(customSubCatAdapter)
+                                        .setCancelable(true)
+                                        .setOnItemClickListener(new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                                        .create();
+                                dialogPlusSubCat.show();
+                            } else if (responseCode == 204) {
+                                Toast.makeText(RentItCatItemsActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onResponseError() {
+                        Toast.makeText(RentItCatItemsActivity.this, "In Response Error", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
+            }
+        });
     }
 
     @Override
@@ -184,9 +257,11 @@ public class RentItCatItemsActivity extends AppCompatActivity {
             List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
 
             if (elephantList.get(0).contains("http")) {
-                aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
+                Picasso.with(RentItCatItemsActivity.this).load(elephantList.get(0)).placeholder(R.drawable.no_image).into(holder.imageCat);
+                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
             } else {
-                aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
+                Picasso.with(RentItCatItemsActivity.this).load("http://" + elephantList.get(0)).placeholder(R.drawable.no_image).into(holder.imageCat);
+                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
 
             }
 
@@ -201,7 +276,7 @@ public class RentItCatItemsActivity extends AppCompatActivity {
 //                    holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
 //                }
                 if (userData.getString("user_pic").equals("")) {
-                    holder.imgProfilePicture.setImageResource(R.drawable.indo_profile_avatar);
+                    holder.imgProfilePicture.setImageResource(R.drawable.man);
                 } else {
                     aQuery.id(holder.imgProfilePicture).image(userData.getString("user_pic"), true, true);
                 }
@@ -260,6 +335,44 @@ public class RentItCatItemsActivity extends AppCompatActivity {
         }
     }
 
+    /***** Adapter class extends with ArrayAdapter ******/
+    public class CustomCityAdapter extends BaseAdapter {
 
+        LayoutInflater inflater;
+        private ArrayList<String> mCityData;
+
+        /*************  CustomAdapter Constructor *****************/
+        public CustomCityAdapter(Context applicationContext, ArrayList<String> mCatData) {
+
+            this.mCityData = mCatData;
+            inflater = (LayoutInflater.from(applicationContext));
+            /***********  Layout inflator to call external xml layout () **********************/
+
+        }
+
+        @Override
+        public int getCount() {
+            return mCityData.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.spinner_rows, null);
+            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            names.setText(mCityData.get(i));
+            return view;
+        }
+
+    }
 
 }

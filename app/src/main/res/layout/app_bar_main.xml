@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/trans_success_stroke_color"
     tools:context="com.example.tasol.myrowitems.MainActivity">
 
     <!--<android.support.design.widget.AppBarLayout-->

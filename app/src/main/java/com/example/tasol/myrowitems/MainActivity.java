@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -162,12 +164,40 @@ public class MainActivity extends AppCompatActivity
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                     .getString(SP_LOGGED_IN_USER_DATA, ""));
+            if (loginParams.getString("user_pic").equals("")) {
+                imgProfilePicture.setImageResource(R.drawable.man);
+            } else {
+                aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
+            }
             aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
             txtUsername.setText(loginParams.getString("name"));
             txtEmail.setText(loginParams.getString("email"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        imgProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, RentItUserProfileActivity.class);
+                intent.putExtra("FROM", "MAIN");
+                try {
+                    intent.putExtra("UID", loginParams.getString("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    Pair<View, String> p1 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(MainActivity.this, p1);
+                    startActivity(intent, options.toBundle());
+                } else {
+                    startActivity(intent);
+                }
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
         //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
         // viewPager = (ViewPager) findViewById(R.id.imageRV);

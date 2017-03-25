@@ -1,6 +1,8 @@
 package com.example.tasol.myrowitems;
 
 import android.content.ContentValues;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,10 +47,11 @@ public class RentItUserProfileActivity extends AppCompatActivity {
     String USERID = "";
     SmartCaching smartCaching;
     AQuery aQuery;
-    TextView txtName, txtLoc, txtEmail, txtMob;
+    TextView txtName, txtLoc, txtEmail, txtMob, txtMessage;
     ArrayList<ContentValues> allData = new ArrayList<>();
     JSONObject usersData = null;
-    RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
+    RecyclerViewUserAdsGridAdapter recyclerViewUserAdsGridAdapter;
+    Bitmap icon;
     private ImageView imageview;
     private JSONObject userData = null;
     private StaggeredGridLayoutManager linearLayoutManager;
@@ -62,13 +67,13 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         linearLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         rvImages.setHasFixedSize(true);
         rvImages.setLayoutManager(linearLayoutManager);
-
+        rvImages.setNestedScrollingEnabled(false);
 
         txtEmail = (TextView) findViewById(R.id.txtEmail);
         txtMob = (TextView) findViewById(R.id.txtMob);
         txtName = (TextView) findViewById(R.id.txtName);
         txtLoc = (TextView) findViewById(R.id.txtLoc);
-
+        txtMessage = (TextView) findViewById(R.id.txtMessage);
         toolbarData = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarData);
         if (getSupportActionBar() != null) {
@@ -82,16 +87,24 @@ public class RentItUserProfileActivity extends AppCompatActivity {
 
             }
         });
-        ROW = getIntent().getParcelableExtra("ROW");
-        try {
-            userData = new JSONObject(ROW.getAsString("userData"));
-            USERID = userData.getString("user_id");
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if (getIntent().getStringExtra("FROM").equals("MAIN")) {
+            USERID = getIntent().getStringExtra("UID");
+        } else {
+            ROW = getIntent().getParcelableExtra("ROW");
+            try {
+                userData = new JSONObject(ROW.getAsString("userData"));
+                USERID = userData.getString("user_id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
 
         imgProPic = (CircleImageView) findViewById(R.id.imgProfilePicture);
         imageview = (ImageView) findViewById(R.id.img);
+        icon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.no_image);
         getUserDetail(USERID);
 
 
@@ -126,13 +139,19 @@ public class RentItUserProfileActivity extends AppCompatActivity {
                 if (responseCode == 200) {
                     try {
                         Log.d("RESULT = ", String.valueOf(response));
-                        allData = smartCaching.parseResponse(response.getJSONArray("allData"), "ALLDATA", null).get("ALLDATA");
 
                         usersData = response.getJSONObject("userData");
-
-                        if (allData != null && allData.size() > 0) {
-                            makePage(allData, usersData);
+                        if (response.getString("prodCode").equals("160")) {
+                            makePage(allData, usersData, false);
+                            txtMessage.setText(response.getString("prodData"));//No Prod Yet
+                        } else {
+                            allData = smartCaching.parseResponse(response.getJSONArray("prodData"), "PRODDATA", null).get("PRODDATA");
+                            if (allData != null && allData.size() > 0) {
+                                makePage(allData, usersData, true);
+                            }
                         }
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -153,7 +172,7 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
     }
 
-    private void makePage(ArrayList<ContentValues> allData, JSONObject usersData) {
+    private void makePage(ArrayList<ContentValues> allData, JSONObject usersData, boolean hasProducts) {
 
         try {
             txtName.setText(usersData.getString("user_name"));
@@ -162,15 +181,18 @@ public class RentItUserProfileActivity extends AppCompatActivity {
             txtMob.setText(usersData.getString("user_phone"));
             aQuery.id(imgProPic).image(usersData.getString("user_pic"), true, true);
             aQuery.id(imageview).image(usersData.getString("user_pic"), true, true);
-            StringBuilder photo = new StringBuilder();
-            for (int i = 0; i < allData.size(); i++) {
-                ContentValues row = allData.get(i);
-                photo.append(row.getAsString("photo"));
-            }
-            elephantList = Arrays.asList(photo.toString().split(","));
 
-            recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
-            rvImages.setAdapter(recyclerViewCategoryGridAdapter);
+            if (hasProducts) {
+                StringBuilder photo = new StringBuilder();
+                for (int i = 0; i < allData.size(); i++) {
+                    ContentValues row = allData.get(i);
+                    photo.append(row.getAsString("photo") + ",");
+                }
+                elephantList = Arrays.asList(photo.toString().split(","));
+
+                recyclerViewUserAdsGridAdapter = new RecyclerViewUserAdsGridAdapter();
+                rvImages.setAdapter(recyclerViewUserAdsGridAdapter);
+            }
 
 
         } catch (JSONException e) {
@@ -178,26 +200,30 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         }
     }
 
-    private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class RecyclerViewUserAdsGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rentit_user_gallery_images_row_item,
                     parent, false);
-            RecyclerView.ViewHolder viewHolder = new RecyclerViewCategoryGridAdapter.ViewHolder(parentView);
+            RecyclerView.ViewHolder viewHolder = new RecyclerViewUserAdsGridAdapter.ViewHolder(parentView);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-            RecyclerViewCategoryGridAdapter.ViewHolder holder = (RecyclerViewCategoryGridAdapter.ViewHolder) viewHolder;
+            RecyclerViewUserAdsGridAdapter.ViewHolder holder = (RecyclerViewUserAdsGridAdapter.ViewHolder) viewHolder;
 
+
+            holder.pbar.setVisibility(View.GONE);
 //            elephantList = Arrays.asList(photo.split(","));
             if (elephantList.get(position).contains("http")) {
-                aQuery.id(holder.ivImages).image(elephantList.get(position), true, true);
+                Picasso.with(RentItUserProfileActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
+//                aQuery.id(holder.ivImages).progress(holder.pbar).image(elephantList.get(position), true, true, 0, 0, icon, Constants.FADE_IN);
 
             } else {
-                aQuery.id(holder.ivImages).image("http://" + elephantList.get(position), true, true);
+                Picasso.with(RentItUserProfileActivity.this).load("http://" + elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
+                //aQuery.id(holder.ivImages).progress(holder.pbar).image("http://" + elephantList.get(position), true, true, 0, 0, icon, Constants.FADE_IN);
 
             }
 
@@ -211,10 +237,12 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView ivImages;
+            public ProgressBar pbar;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ivImages = (ImageView) itemView.findViewById(R.id.ivImages);
+                pbar = (ProgressBar) itemView.findViewById(R.id.pbar);
             }
         }
     }
