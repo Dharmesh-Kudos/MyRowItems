@@ -129,9 +129,9 @@
                 android:id="@+id/txtMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="left"
                 android:padding="@dimen/_5sdp"
-                android:text="Photos uploaded till now by this user."
+                android:text="Photos of Uploaded Ads."
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold" />
 

@@ -29,89 +29,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#99000000"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="@dimen/_2sdp">
-
-            <Button
-                android:id="@+id/btnByCity"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:layout_weight="1"
-                android:background="@drawable/post_ad_circular"
-                android:padding="@dimen/_1sdp"
-                android:text="By City"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btnLowToHigh"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:layout_weight="1"
-                android:background="@drawable/post_ad_circular"
-                android:padding="@dimen/_1sdp"
-                android:text="Low to High"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btnHighToLow"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:layout_weight="1"
-                android:background="@drawable/post_ad_circular"
-                android:padding="@dimen/_2sdp"
-                android:text="Hight to Low"
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/btnMostRecent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_2sdp"
-                android:layout_weight="1"
-                android:background="@drawable/post_ad_circular"
-                android:padding="@dimen/_1sdp"
-                android:text=" Most Recent "
-                android:textAllCaps="false"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="@dimen/_1sdp">
 
                 <TextView
                     android:id="@+id/txtNotYet"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="No Products Yet."
+                    android:text="No Ads Found !!!"
                     android:textColor="#929292"
-                    android:textSize="@dimen/_30sdp"
+                    android:textSize="@dimen/_20sdp"
                     android:textStyle="bold"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvCatDetail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </FrameLayout>
-        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 </LinearLayout>

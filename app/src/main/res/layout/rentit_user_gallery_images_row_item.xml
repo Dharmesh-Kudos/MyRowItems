@@ -6,7 +6,7 @@
     android:foreground="@drawable/ripple_selector"
     app:cardElevation="@dimen/_1sdp"
     app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="false">
+    app:cardUseCompatPadding="true">
 
 
     <FrameLayout

@@ -1,9 +1,7 @@
 package com.example.tasol.myrowitems;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -136,9 +134,11 @@ public class RentItAdDetailActivity extends AppCompatActivity {
         elephantList = Arrays.asList(ROW.getAsString("photo").split(","));
 
         if (elephantList.get(0).contains("http")) {
-            aQuery.id(imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItAdDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+            Picasso.with(RentItAdDetailActivity.this).load(elephantList.get(0)).placeholder(R.drawable.no_image).into(imageCat);
+//            aQuery.id(imageCat).image(elephantList.get(0), true, true).progress(new ProgressDialog(RentItAdDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
         } else {
-            aQuery.id(imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItAdDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
+            Picasso.with(RentItAdDetailActivity.this).load("http://" + elephantList.get(0)).placeholder(R.drawable.no_image).into(imageCat);
+//            aQuery.id(imageCat).image("http://" + elephantList.get(0), true, true).progress(new ProgressDialog(RentItAdDetailActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT));
         }
 
         // aQuery.id(imageCat).image(ROW.getAsString("photo"), true, true);
@@ -618,7 +618,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                 Picasso.with(RentItAdDetailActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
             } else {
                 // aQuery.id(holder.ivImages).image("http://" + elephantList.get(position), true, true);
-                Picasso.with(RentItAdDetailActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
+                Picasso.with(RentItAdDetailActivity.this).load("http://" + elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -628,7 +628,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                         Picasso.with(RentItAdDetailActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(imageCat);
                     } else {
                         //      aQuery.id(imageCat).image("http://" + elephantList.get(position), true, true);
-                        Picasso.with(RentItAdDetailActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(imageCat);
+                        Picasso.with(RentItAdDetailActivity.this).load("http://" + elephantList.get(position)).placeholder(R.drawable.no_image).into(imageCat);
                     }
                     POS = position;
                 }
