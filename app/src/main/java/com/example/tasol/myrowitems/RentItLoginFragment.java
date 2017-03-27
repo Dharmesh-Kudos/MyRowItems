@@ -110,6 +110,7 @@ public class RentItLoginFragment extends Fragment {
                                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
 
                                 startActivity(new Intent(getActivity(), MainActivity.class));
+                                getActivity().finish();
                             } else if (responseCode == 204) {
                                 Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {

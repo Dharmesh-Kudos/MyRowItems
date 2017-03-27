@@ -46,7 +46,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#80000000"
                     android:gravity="center|top"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/_20sdp">
@@ -79,9 +78,11 @@
                         android:id="@+id/txtLoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/user_detail_circular_fill"
                         android:drawableLeft="@drawable/rent_loc_icon"
                         android:drawablePadding="@dimen/_2sdp"
                         android:gravity="left|start"
+                        android:padding="@dimen/_5sdp"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
@@ -94,18 +95,19 @@
 
 
                         <TextView
-
                             android:id="@+id/txtEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/user_detail_circular_fill"
                             android:drawableLeft="@drawable/rent_mail_icon"
                             android:drawablePadding="@dimen/_2sdp"
                             android:gravity="left|center"
+                            android:padding="@dimen/_5sdp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp" />
 
                         <View
-                            android:layout_width="@dimen/_10sdp"
+                            android:layout_width="@dimen/_3sdp"
                             android:layout_height="match_parent" />
 
 
@@ -113,9 +115,11 @@
                             android:id="@+id/txtMob"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/user_detail_circular_fill"
                             android:drawableLeft="@drawable/rent_call_icon"
                             android:drawablePadding="@dimen/_2sdp"
                             android:gravity="left|center"
+                            android:padding="@dimen/_5sdp"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_10sdp" />
 

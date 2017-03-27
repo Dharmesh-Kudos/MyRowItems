@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -29,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import smart.caching.SmartCaching;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
@@ -180,7 +182,11 @@ public class RentItUserProfileActivity extends AppCompatActivity {
             txtEmail.setText(usersData.getString("user_email"));
             txtMob.setText(usersData.getString("user_phone"));
             aQuery.id(imgProPic).image(usersData.getString("user_pic"), true, true);
-            aQuery.id(imageview).image(usersData.getString("user_pic"), true, true);
+            //aQuery.id(imageview).image(usersData.getString("user_pic"), true, true);
+
+            Glide.with(RentItUserProfileActivity.this).load(usersData.getString("user_pic")).placeholder(R.drawable.no_image).error(R.drawable.no_image)
+                    .bitmapTransform(new BlurTransformation(RentItUserProfileActivity.this))
+                    .into((ImageView) findViewById(R.id.img));
 
             if (hasProducts) {
                 StringBuilder photo = new StringBuilder();
@@ -218,10 +224,12 @@ public class RentItUserProfileActivity extends AppCompatActivity {
             holder.pbar.setVisibility(View.GONE);
 //            elephantList = Arrays.asList(photo.split(","));
             if (elephantList.get(position).contains("http")) {
+
                 Picasso.with(RentItUserProfileActivity.this).load(elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
 //                aQuery.id(holder.ivImages).progress(holder.pbar).image(elephantList.get(position), true, true, 0, 0, icon, Constants.FADE_IN);
 
             } else {
+
                 Picasso.with(RentItUserProfileActivity.this).load("http://" + elephantList.get(position)).placeholder(R.drawable.no_image).into(holder.ivImages);
                 //aQuery.id(holder.ivImages).progress(holder.pbar).image("http://" + elephantList.get(position), true, true, 0, 0, icon, Constants.FADE_IN);
 

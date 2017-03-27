@@ -17,14 +17,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,13 +69,17 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
     RecyclerView rvCatDetail;
     Toolbar toolbar;
     int[] IMAGESRRAY = {R.drawable.cat_fashion, R.drawable.cat_electronic, R.drawable.mobile1, R.drawable.cat_furniture, R.drawable.cat_cars, R.drawable.mobile3, R.drawable.mobile, R.drawable.mobile2};
-    AQuery aQuery;
+
     int IN_POS;
     TextView txtNotYet;
     Button btnByCity;
     LinearLayoutManager linearLayoutManagerHori;
     LinearLayout layoutCity;
     ContextMenuDialogFragment mMenuDialogFragment;
+    AQuery aQuery;
+    LinearLayout liloSearch;
+    EditText edtSearch;
+    ImageView ivSearch;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();
@@ -86,7 +93,6 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
     private String CITYNAME;
     private RecyclerViewFilterAdapter recyclerViewFilterAdapter;
     private SweetAlertDialog pDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +119,9 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
             }
         });
+        liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
+        edtSearch = (EditText) findViewById(R.id.edtSearchName);
+        ivSearch = (ImageView) findViewById(R.id.ivSearch);
         rvCatDetail = (RecyclerView) findViewById(R.id.rvCatDetail);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -120,6 +129,46 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         rvCatDetail.setLayoutManager(linearLayoutManager);
         rvCatDetail.setNestedScrollingEnabled(false);
         getCategoryList(false);
+
+        ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (edtSearch.getText().length() > 0) {
+                    pDialog = new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+                    pDialog.setTitleText("Searching...");
+                    pDialog.setCancelable(true);
+                    pDialog.show();
+                    filterByPriceAndRecent("searchByName");
+
+                } else {
+                    Toast.makeText(RentItCatItemsActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    if (edtSearch.getText().length() > 0) {
+                        pDialog = new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+                        pDialog.setTitleText("Searching...");
+                        pDialog.setCancelable(true);
+                        pDialog.show();
+                        filterByPriceAndRecent("searchByName");
+                        return true;
+                    } else {
+                        Toast.makeText(RentItCatItemsActivity.this, "Please enter something", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -158,8 +207,12 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         List<MenuObject> menuObjects = new ArrayList<>();
 
+
         MenuObject close = new MenuObject();
         close.setResource(R.drawable.icn_close);
+
+        MenuObject searchBy = new MenuObject("Search by name");
+        searchBy.setResource(R.drawable.wish_search);
 
         MenuObject send = new MenuObject("By City");
         send.setResource(R.drawable.ic_action_skyline);
@@ -180,6 +233,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 //        block.setResource(R.drawable.icn_5);
 
         menuObjects.add(close);
+        menuObjects.add(searchBy);
         menuObjects.add(send);
         menuObjects.add(like);
         menuObjects.add(addFr);
@@ -253,25 +307,33 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         switch (position) {
             case 1:
+                //Search by name
+//                Animation slide_down= AnimationUtils.loadAnimation(RentItCatItemsActivity.this,R.anim.slide_down);
+//
+//                liloSearch.startAnimation(slide_down);
+                liloSearch.setVisibility(View.VISIBLE);
+                break;
+            case 2:
                 //CIty Call
                 fetchCity();
                 break;
-            case 2:
-                //Low to high
-                filterByPrice("lowToHigh");
-                break;
             case 3:
-                //High to low
-                filterByPrice("highToLow");
+                //Low to high
+                filterByPriceAndRecent("lowToHigh");
                 break;
             case 4:
+                //High to low
+                filterByPriceAndRecent("highToLow");
+                break;
+            case 5:
                 //Most Recent
+                filterByPriceAndRecent("mostRecent");
                 break;
         }
 
     }
 
-    private void filterByPrice(String priceSortType) {
+    private void filterByPriceAndRecent(final String priceSortType) {
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItCatItemsActivity.this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
@@ -281,8 +343,15 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         try {
             jsonObject.put(TASK, "filterData");
             JSONObject taskData = new JSONObject();
-            taskData.put("type", priceSortType);
+            if (priceSortType.equals("searchByName")) {
+                taskData.put("type", priceSortType);//searchByName
+                taskData.put("name", edtSearch.getText().toString());
+            } else {
+                taskData.put("type", priceSortType);//LowToHigh,HighToLow,MostRecent
+            }
+
             taskData.put("catid", IN_POS);
+
             jsonObject.put(TASKDATA, taskData);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -292,6 +361,9 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
             @Override
             public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                if (priceSortType.equals("searchByName")) {
+                    pDialog.dismiss();
+                }
                 Log.d("RESULT = ", String.valueOf(response));
                 try {
                     if (responseCode == 200) {
@@ -465,6 +537,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
                 pDialog.setCancelable(true);
                 pDialog.show();
                 getCategoryList(true);
+                liloSearch.setVisibility(View.GONE);
                 break;
         }
         return super.onOptionsItemSelected(item);

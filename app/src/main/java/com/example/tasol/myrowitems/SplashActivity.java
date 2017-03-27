@@ -34,13 +34,19 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        SmartUtils.setNetworkStateAvailability(this);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (SmartUtils.getLoginParams() != null
                         && !TextUtils.isEmpty(SmartUtils.getLoginParams().toString())) {
                     if (!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(SP_ISLOGOUT, true)) {
-                        authentication();
+                        if (SmartUtils.isNetworkAvailable()) {
+                            authentication();
+                        } else {
+                            Toast.makeText(SplashActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         finish();
