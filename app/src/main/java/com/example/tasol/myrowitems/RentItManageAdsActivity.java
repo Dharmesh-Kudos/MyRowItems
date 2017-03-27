@@ -185,7 +185,7 @@ public class RentItManageAdsActivity extends AppCompatActivity {
             holder.btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(RentItManageAdsActivity.this, PostAdActivity.class));
+                    startActivity(new Intent(RentItManageAdsActivity.this, PostAdActivity.class).putExtra("ROW", row).putExtra("FROM", "PROFILE"));
                 }
             });
 

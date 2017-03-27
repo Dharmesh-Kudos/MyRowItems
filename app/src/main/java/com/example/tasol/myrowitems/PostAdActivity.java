@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +99,8 @@ public class PostAdActivity extends AppCompatActivity {
     private smart.caching.SmartCaching smartCaching;
     private JSONObject loginParams = null;
     private String CATNAME;
+    private ContentValues ROW;
+    private List<String> elephantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,9 +129,32 @@ public class PostAdActivity extends AppCompatActivity {
         gridLayoutManager = new GridLayoutManager(this, 3);
         rvImages.setLayoutManager(gridLayoutManager);
         btnUpload = (FloatingActionButton) findViewById(R.id.btnUpload);
-
         fillConditions();
         fillCategory();
+
+        if (getIntent().getStringExtra("FROM").equalsIgnoreCase("PROFILE")) {
+            ROW = getIntent().getParcelableExtra("ROW");
+            edtTitle.setText(ROW.getAsString("title"));
+            edtDesc.setText(ROW.getAsString("description"));
+            edtPrice.setText(ROW.getAsString("price"));
+            edtDeposit.setText(ROW.getAsString("deposite"));
+            edtDays.setText(ROW.getAsString("days"));
+            //btnCategory.setText(cvCatData.get(ROW.getAsInteger("catid")).getAsString("cat_name"));
+            btnCondition.setText(ROW.getAsString("condition"));
+
+            if (!ROW.getAsString("photo").isEmpty()) {
+                elephantList = Arrays.asList(ROW.getAsString("photo").split(","));
+                for (int i = 0; i < elephantList.size(); i++) {
+                    selectedPhotos.add(elephantList.get(i));
+                }
+
+                greyLayout.setVisibility(View.VISIBLE);
+                recyclerViewUploadedImagesGridAdapter = new RecyclerViewUploadedImagesGridAdapter();
+                rvImages.setAdapter(recyclerViewUploadedImagesGridAdapter);
+            }
+
+        }
+
 
         closeIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -781,7 +808,17 @@ public class PostAdActivity extends AppCompatActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             ViewHolder holder = (ViewHolder) viewHolder;
 
-            holder.ivImages.setImageURI(Uri.parse(selectedPhotos.get(position)));
+            if (getIntent().getStringExtra("FROM").equals("PROFILE")) {
+
+                if (selectedPhotos.get(position).contains("http")) {
+                    Picasso.with(PostAdActivity.this).load(Uri.parse(selectedPhotos.get(position))).placeholder(R.drawable.no_image).into(holder.ivImages);
+                } else {
+
+                    Picasso.with(PostAdActivity.this).load(Uri.parse("http://" + selectedPhotos.get(position))).placeholder(R.drawable.no_image).into(holder.ivImages);
+                }
+            } else {
+                holder.ivImages.setImageURI(Uri.parse(selectedPhotos.get(position)));
+            }
             holder.ivClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
