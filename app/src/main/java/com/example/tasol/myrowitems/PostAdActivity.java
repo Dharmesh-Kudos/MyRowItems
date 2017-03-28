@@ -101,6 +101,8 @@ public class PostAdActivity extends AppCompatActivity {
     private String CATNAME;
     private ContentValues ROW;
     private List<String> elephantList;
+    private boolean ISNEAR = false;
+    private boolean ISUPDATE = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +135,7 @@ public class PostAdActivity extends AppCompatActivity {
         fillCategory();
 
         if (getIntent().getStringExtra("FROM").equalsIgnoreCase("PROFILE")) {
+            ISUPDATE = true;
             ROW = getIntent().getParcelableExtra("ROW");
             edtTitle.setText(ROW.getAsString("title"));
             edtDesc.setText(ROW.getAsString("description"));
@@ -141,7 +144,7 @@ public class PostAdActivity extends AppCompatActivity {
             edtDays.setText(ROW.getAsString("days"));
             //btnCategory.setText(cvCatData.get(ROW.getAsInteger("catid")).getAsString("cat_name"));
             btnCondition.setText(ROW.getAsString("condition"));
-
+            CONDITION = ROW.getAsString("condition");
             if (!ROW.getAsString("photo").isEmpty()) {
                 elephantList = Arrays.asList(ROW.getAsString("photo").split(","));
                 for (int i = 0; i < elephantList.size(); i++) {
@@ -169,7 +172,11 @@ public class PostAdActivity extends AppCompatActivity {
                 Log.d("HELLO", "1");
                 pDialog = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                pDialog.setTitleText("Posting Your Ad...");
+                if (ISUPDATE) {
+                    pDialog.setTitleText("Updating Your Ad...");
+                } else {
+                    pDialog.setTitleText("Posting Your Ad...");
+                }
                 pDialog.setCancelable(true);
                 pDialog.show();
 
@@ -180,28 +187,45 @@ public class PostAdActivity extends AppCompatActivity {
                 requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
                 final JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(TASK, "submitPostAd");
+                    if (ISUPDATE) {
+                        jsonObject.put(TASK, "updateAds");
+                    } else {
+                        jsonObject.put(TASK, "submitPostAd");
+                    }
                     JSONObject taskData = new JSONObject();
                     try {
                         loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                                 .getString(SP_LOGGED_IN_USER_DATA, ""));
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         String currentDateandTime = sdf.format(new Date());
-                        taskData.put("user_id", loginParams.getString("id"));
-                        taskData.put("cat_id", CATID);
-                        taskData.put("subCat_id", SUBCATID);
-                        taskData.put("title", edtTitle.getText().toString());
-                        taskData.put("desc", edtDesc.getText().toString());
-                        taskData.put("price", edtPrice.getText().toString());
-                        taskData.put("deposit", edtDeposit.getText().toString());
-                        taskData.put("days", edtDays.getText().toString());
-                        taskData.put("condition", CONDITION);
-                        taskData.put("time", currentDateandTime);
-                        taskData.put("available", "1");
-                        taskData.put("created_at", currentDateandTime);
-                        taskData.put("updated_at", currentDateandTime);
-                        taskData.put("total_image", selectedPhotos.size());
 
+                        if (ISUPDATE) {
+                            taskData.put("product_id", ROW.getAsString("product_id"));
+                            taskData.put("title", edtTitle.getText().toString());
+                            taskData.put("desc", edtDesc.getText().toString());
+                            taskData.put("price", edtPrice.getText().toString());
+                            taskData.put("deposit", edtDeposit.getText().toString());
+                            taskData.put("days", edtDays.getText().toString());
+                            taskData.put("condition", CONDITION);
+                            taskData.put("updated_at", currentDateandTime);
+                            taskData.put("total_image", selectedPhotos.size());
+                        } else {
+                            taskData.put("user_id", loginParams.getString("id"));
+                            taskData.put("cat_id", CATID);
+                            taskData.put("subCat_id", SUBCATID);
+                            taskData.put("title", edtTitle.getText().toString());
+                            taskData.put("desc", edtDesc.getText().toString());
+                            taskData.put("price", edtPrice.getText().toString());
+                            taskData.put("deposit", edtDeposit.getText().toString());
+                            taskData.put("days", edtDays.getText().toString());
+                            taskData.put("condition", CONDITION);
+                            taskData.put("time", currentDateandTime);
+                            taskData.put("available", "1");
+                            taskData.put("created_at", currentDateandTime);
+                            taskData.put("updated_at", currentDateandTime);
+                            taskData.put("total_image", selectedPhotos.size());
+
+                        }
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
@@ -219,9 +243,17 @@ public class PostAdActivity extends AppCompatActivity {
                             try {
                                 Log.d("RESULT = ", String.valueOf(response));
                                 pDialogVisit = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                                pDialogVisit.setTitleText("Ad Posted Successfully");
-                                pDialogVisit.setContentText("Lets have a look at your Ad!!!");
-                                pDialogVisit.setCancelText("Home");
+
+                                if (ISUPDATE) {
+                                    pDialogVisit.setTitleText("Ad Updated Successfully");
+                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                                    pDialogVisit.setCancelText("Back");
+                                } else {
+
+                                    pDialogVisit.setTitleText("Ad Posted Successfully");
+                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                                    pDialogVisit.setCancelText("Home");
+                                }
 
                                 pDialogVisit.setConfirmText("SEE MY AD");
                                 pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -559,11 +591,13 @@ public class PostAdActivity extends AppCompatActivity {
                 if (isCamera) {
                     String selectedImagePath = imgPath;
                     scaleImage(selectedImagePath);
+                    ISNEAR = true;
                     selectedPhotos.add(selectedImagePath);
                 } else {
                     String selectedImagePath = getAbsolutePath(data.getData());
                     selectedImagePath = getRightAngleImage(selectedImagePath);
                     scaleImage(selectedImagePath);
+                    ISNEAR = true;
                     selectedPhotos.add(selectedImagePath);
                 }
 
@@ -807,17 +841,16 @@ public class PostAdActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             ViewHolder holder = (ViewHolder) viewHolder;
+            Log.d("SIP = ", selectedPhotos.get(position));
 
-            if (getIntent().getStringExtra("FROM").equals("PROFILE")) {
-
-                if (selectedPhotos.get(position).contains("http")) {
-                    Picasso.with(PostAdActivity.this).load(Uri.parse(selectedPhotos.get(position))).placeholder(R.drawable.no_image).into(holder.ivImages);
+            if (selectedPhotos.get(position).contains("http")) {
+                Picasso.with(PostAdActivity.this).load(Uri.parse(selectedPhotos.get(position))).placeholder(R.drawable.no_image).into(holder.ivImages);
+            } else {
+                if (selectedPhotos.get(position).contains("storage")) {
+                    holder.ivImages.setImageURI(Uri.parse(selectedPhotos.get(position)));
                 } else {
-
                     Picasso.with(PostAdActivity.this).load(Uri.parse("http://" + selectedPhotos.get(position))).placeholder(R.drawable.no_image).into(holder.ivImages);
                 }
-            } else {
-                holder.ivImages.setImageURI(Uri.parse(selectedPhotos.get(position)));
             }
             holder.ivClose.setOnClickListener(new View.OnClickListener() {
                 @Override
