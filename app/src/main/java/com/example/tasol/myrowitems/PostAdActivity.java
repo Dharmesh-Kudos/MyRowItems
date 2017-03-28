@@ -103,6 +103,7 @@ public class PostAdActivity extends AppCompatActivity {
     private List<String> elephantList;
     private boolean ISNEAR = false;
     private boolean ISUPDATE = false;
+    private String UPDCATID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,8 @@ public class PostAdActivity extends AppCompatActivity {
             edtDays.setText(ROW.getAsString("days"));
             //btnCategory.setText(cvCatData.get(ROW.getAsInteger("catid")).getAsString("cat_name"));
             btnCondition.setText(ROW.getAsString("condition"));
+            UPDCATID = ROW.getAsString("catid");
+            CATID = ROW.getAsString("catid");
             CONDITION = ROW.getAsString("condition");
             if (!ROW.getAsString("photo").isEmpty()) {
                 elephantList = Arrays.asList(ROW.getAsString("photo").split(","));
@@ -208,7 +211,17 @@ public class PostAdActivity extends AppCompatActivity {
                             taskData.put("days", edtDays.getText().toString());
                             taskData.put("condition", CONDITION);
                             taskData.put("updated_at", currentDateandTime);
-                            taskData.put("total_image", selectedPhotos.size());
+                            int oldPhotosSize = 0;
+                            StringBuilder oldPhotos = new StringBuilder();
+                            for (int i = 0; i < selectedPhotos.size(); i++) {
+                                if (selectedPhotos.get(i).contains("/rentimgs/")) {
+                                    oldPhotosSize++;
+                                    oldPhotos.append(selectedPhotos.get(i) + ",");
+                                }
+                            }
+                            taskData.put("total_image", oldPhotosSize);
+                            taskData.put("oldPhotos", oldPhotos.toString());
+
                         } else {
                             taskData.put("user_id", loginParams.getString("id"));
                             taskData.put("cat_id", CATID);
@@ -291,9 +304,14 @@ public class PostAdActivity extends AppCompatActivity {
                 });
 
                 if (selectedPhotos != null && selectedPhotos.size() > 0) {
-
-                    String[] images = new String[selectedPhotos.size()];
-                    images = selectedPhotos.toArray(images);
+                    ArrayList<String> sendPics = new ArrayList<String>();
+                    for (int i = 0; i < selectedPhotos.size(); i++) {
+                        if (!selectedPhotos.get(i).contains("/rentimgs/")) {
+                            sendPics.add(selectedPhotos.get(i));
+                        }
+                    }
+                    String[] images = new String[sendPics.size()];
+                    images = sendPics.toArray(images);
                     SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipartUpload(requestParams, images, "", false);
                 } else {
 
@@ -454,7 +472,9 @@ public class PostAdActivity extends AppCompatActivity {
                                 .create();
                         // dialogPlusCat.show();
                         //btnCategory.setAdapter(customCatAdapter);
-
+                        if (ISUPDATE) {
+                            CATNAME = cvCatData.get(Integer.parseInt(UPDCATID)).getAsString("cat_name");
+                        }
 
                     } else if (responseCode == 204) {
                         Toast.makeText(PostAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
