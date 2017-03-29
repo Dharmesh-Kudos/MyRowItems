@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -24,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.SliderLayout;
 import com.github.clans.fab.FloatingActionButton;
 import com.twotoasters.jazzylistview.JazzyHelper;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity
     int i = 0;
     int pos = 0;
     TextView txtUsername, txtEmail;
-    CircleImageView imgProfilePicture;
+    ImageView imgProfilePicture;
     AQuery aQuery;
     CircleImageView imgProPic;
     TextView txtUserName, txtUserAge;
@@ -75,6 +74,7 @@ public class MainActivity extends AppCompatActivity
     private JSONObject loginParams = null;
     private JazzyRecyclerViewScrollListener jazzyScrollListener;
     private int mCurrentTransitionEffect = JazzyHelper.SLIDE_IN;
+    private ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,14 +138,14 @@ public class MainActivity extends AppCompatActivity
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PostAdActivity.class));
+                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
             }
         });
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fabRequestAd);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PostAdActivity.class));
+                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
             }
         });
 
@@ -157,46 +157,51 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View v = navigationView.getHeaderView(0);
-        imgProfilePicture = (CircleImageView) v.findViewById(R.id.imgProfilePicture);
+        //imgBack=(ImageView) v.findViewById(R.id.imgBack);
+        imgProfilePicture = (ImageView) v.findViewById(R.id.imgProfilePicture);
         txtUsername = (TextView) v.findViewById(R.id.txtUsername);
         txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+
+
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                     .getString(SP_LOGGED_IN_USER_DATA, ""));
-            if (loginParams.getString("user_pic").equals("")) {
-                imgProfilePicture.setImageResource(R.drawable.man);
-            } else {
-                aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
-            }
-            aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
+            Glide.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
+                    .into((ImageView) v.findViewById(R.id.imgProfilePicture));
+//            if (loginParams.getString("user_pic").equals("")) {
+//                imgProfilePicture.setImageResource(R.drawable.man);
+//            } else {
+//                aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
+//            }
+            // aQuery.id(imgProfilePicture).image(loginParams.getString("user_pic"), true, true);
             txtUsername.setText(loginParams.getString("name"));
             txtEmail.setText(loginParams.getString("email"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        imgProfilePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, RentItUserProfileActivity.class);
-                intent.putExtra("FROM", "MAIN");
-                try {
-                    intent.putExtra("UID", loginParams.getString("id"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    Pair<View, String> p1 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
-
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(MainActivity.this, p1);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    startActivity(intent);
-                }
-            }
-        });
+//        imgProfilePicture.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, RentItUserProfileActivity.class);
+//                intent.putExtra("FROM", "MAIN");
+//                try {
+//                    intent.putExtra("UID", loginParams.getString("id"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                    Pair<View, String> p1 = Pair.create((View) imgProfilePicture, imgProfilePicture.getTransitionName());
+//
+//                    ActivityOptionsCompat options = ActivityOptionsCompat.
+//                            makeSceneTransitionAnimation(MainActivity.this, p1);
+//                    startActivity(intent, options.toBundle());
+//                } else {
+//                    startActivity(intent);
+//                }
+//            }
+//        });
         navigationView.setNavigationItemSelectedListener(this);
         //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
         // viewPager = (ViewPager) findViewById(R.id.imageRV);
@@ -301,6 +306,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent = new Intent(MainActivity.this, RentItUserProfileActivity.class);
+            intent.putExtra("FROM", "MAIN");
+            try {
+                intent.putExtra("UID", loginParams.getString("id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            startActivity(intent);
+
         } else if (id == R.id.nav_gallery) {
             Intent loginIntent = new Intent(MainActivity.this, RentItManageAdsActivity.class);
             startActivity(loginIntent);

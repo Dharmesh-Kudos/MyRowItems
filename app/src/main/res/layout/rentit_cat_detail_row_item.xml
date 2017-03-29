@@ -83,6 +83,20 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnAvailable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right|end"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/report_back_design"
+            android:padding="@dimen/_3sdp"
+            android:text="Unavailable for Rent"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfilePicture"
             android:layout_width="@dimen/_70sdp"

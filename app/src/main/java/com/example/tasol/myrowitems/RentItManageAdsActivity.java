@@ -2,6 +2,7 @@ package com.example.tasol.myrowitems;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import smart.caching.SmartCaching;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
@@ -49,6 +51,8 @@ public class RentItManageAdsActivity extends AppCompatActivity {
     private int IN_POS;
     private ArrayList<ContentValues> userAdsData = new ArrayList<>();
     private JSONObject loginParams = null;
+    private SweetAlertDialog pDialogVisit;
+    private SweetAlertDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +147,151 @@ public class RentItManageAdsActivity extends AppCompatActivity {
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", true);
     }
 
+    private void deleteAd(String product_id) {
+        pDialog = new SweetAlertDialog(RentItManageAdsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        pDialog.setTitleText("Deleting Your Ad...");
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItManageAdsActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Submit Report");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "deleteAd");
+            JSONObject taskData = new JSONObject();
+            try {
+
+                taskData.put("product_id", product_id);
+
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                pDialog.dismiss();
+                if (responseCode == 200) {
+                    try {
+                        Log.d("RESULT = ", String.valueOf(response));
+                        pDialogVisit = new SweetAlertDialog(RentItManageAdsActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                        pDialogVisit.setTitleText("KUDOS");
+                        pDialogVisit.setContentText("Ad Deleted Successfully!");
+
+                        pDialogVisit.setConfirmText("Done");
+
+                        pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                getAllUserAds();
+                            }
+                        });
+                        pDialogVisit.setCancelable(true);
+                        pDialogVisit.show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(RentItManageAdsActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+
+
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+    }
+
+    private void changeAdStatus(String product_id, String available) {
+        pDialog = new SweetAlertDialog(RentItManageAdsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        pDialog.setTitleText("Changing Ad Status...");
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItManageAdsActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Submit Report");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "changeAdStatus");
+            JSONObject taskData = new JSONObject();
+            try {
+
+                taskData.put("product_id", product_id);
+                taskData.put("available", available);
+
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                pDialog.dismiss();
+                if (responseCode == 200) {
+                    try {
+                        Log.d("RESULT = ", String.valueOf(response));
+                        pDialogVisit = new SweetAlertDialog(RentItManageAdsActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                        pDialogVisit.setTitleText("KUDOS");
+                        pDialogVisit.setContentText("Ad Status Changed!");
+
+                        pDialogVisit.setConfirmText("Thanks");
+
+                        pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                getAllUserAds();
+                            }
+                        });
+                        pDialogVisit.setCancelable(true);
+                        pDialogVisit.show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(RentItManageAdsActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+
+
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+    }
+
     //    private void setupWindowAnimations() {
 //
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -182,10 +331,54 @@ public class RentItManageAdsActivity extends AppCompatActivity {
 
             }
 
+            if (row.getAsString("available").equals("1")) {
+                holder.btnMakeable.setText("Make Unavailable");
+                holder.btnMakeable.setBackgroundColor(getResources().getColor(R.color.grey));
+            } else {
+                holder.btnMakeable.setText("Make Available");
+                holder.btnMakeable.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+            }
+
+            holder.btnMakeable.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (row.getAsString("available").equals("1")) {
+                        changeAdStatus(row.getAsString("product_id"), "0");
+                    } else {
+                        changeAdStatus(row.getAsString("product_id"), "1");
+                    }
+                }
+            });
+
             holder.btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(RentItManageAdsActivity.this, PostAdActivity.class).putExtra("ROW", row).putExtra("FROM", "PROFILE"));
+                }
+            });
+            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pDialogVisit = new SweetAlertDialog(RentItManageAdsActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    pDialogVisit.setTitleText("Manage Ads");
+                    pDialogVisit.setContentText("Are You Sure you want to Delete?");
+                    pDialogVisit.setCancelText("Cancel");
+                    pDialogVisit.setConfirmText("Yes");
+                    pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismiss();
+                        }
+                    });
+                    pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismiss();
+                            deleteAd(row.getAsString("product_id"));
+                        }
+                    });
+                    pDialogVisit.setCancelable(true);
+                    pDialogVisit.show();
                 }
             });
 

@@ -473,7 +473,7 @@ public class PostAdActivity extends AppCompatActivity {
                         // dialogPlusCat.show();
                         //btnCategory.setAdapter(customCatAdapter);
                         if (ISUPDATE) {
-                            CATNAME = cvCatData.get(Integer.parseInt(UPDCATID)).getAsString("cat_name");
+                            CATNAME = cvCatData.get(Integer.parseInt(UPDCATID) - 1).getAsString("cat_name");
                         }
 
                     } else if (responseCode == 204) {
