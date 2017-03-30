@@ -16,25 +16,23 @@
             android:id="@+id/ivCatName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:src="@drawable/cat_electronic" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#33000000" />
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/txtCatName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:background="@drawable/cat_name_back_design"
+            android:background="@color/white"
             android:elevation="@dimen/_5sdp"
             android:gravity="center|bottom"
             android:padding="@dimen/_10sdp"
             android:text="Electronics"
-            android:textColor="@color/white"
+            android:textColor="@color/grey"
             android:textSize="@dimen/_15sdp"
             android:textStyle="bold" />
 

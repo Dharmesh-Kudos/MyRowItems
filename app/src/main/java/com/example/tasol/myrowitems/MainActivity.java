@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity
     //CustomPagerAdapter mCustomPagerAdapter;
     CollapsingToolbarLayout collapsingToolbarLayout;
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
-    int[] IMAGESOFCATS = {R.drawable.cat_mobile, R.drawable.cat_electronic, R.drawable.cat_cars, R.drawable.cats_bikes, R.drawable.cat_cycle, R.drawable.cat_furniture, R.drawable.cat_books, R.drawable.cat_fashion, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cat_real, R.drawable.cat_decor};
-    String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Cycles", "Furniture", "Books", "Fashion", "Sports", "Toys", "Real Estate", "Decoration"};
+    int[] IMAGESOFCATS = {R.drawable.mobiles, R.drawable.electronics, R.drawable.cars, R.drawable.bike, R.drawable.jobs, R.drawable.furniture, R.drawable.book, R.drawable.fashion, R.drawable.sports, R.drawable.services, R.drawable.estate, R.drawable.pets};
+    String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Jobs", "Furniture", "Books", "Fashion", "Sports", "Services", "Real Estate", "Pets"};
     int i = 0;
     int pos = 0;
     TextView txtUsername, txtEmail;
