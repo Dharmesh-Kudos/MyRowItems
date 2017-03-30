@@ -1,11 +1,13 @@
 package com.example.tasol.myrowitems;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,11 +21,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.bumptech.glide.Glide;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.github.clans.fab.FloatingActionButton;
 import com.twotoasters.jazzylistview.JazzyHelper;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
@@ -31,6 +38,7 @@ import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListene
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,7 +50,7 @@ import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     //, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
 
@@ -50,9 +58,9 @@ public class MainActivity extends AppCompatActivity
     private static final String KEY_TRANSITION_EFFECT = "transition_effect";
     RecyclerView imageRv;
     RecyclerView rvCategories;
-    // private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
+    //   private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     ViewPager viewPager;
-    //CustomPagerAdapter mCustomPagerAdapter;
+    CustomPagerAdapter mCustomPagerAdapter;
     CollapsingToolbarLayout collapsingToolbarLayout;
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
     int[] IMAGESOFCATS = {R.drawable.mobiles, R.drawable.electronics, R.drawable.cars, R.drawable.bike, R.drawable.jobs, R.drawable.furniture, R.drawable.book, R.drawable.fashion, R.drawable.sports, R.drawable.services, R.drawable.estate, R.drawable.pets};
@@ -87,47 +95,47 @@ public class MainActivity extends AppCompatActivity
 //        }
 
 
-        //   collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
-//        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-//        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-//        file_maps.put("Moto G4 Plus", R.drawable.mobile);
-//        file_maps.put("Moto White S3", R.drawable.mobile1);
-//        file_maps.put("Google Pixel XL", R.drawable.mobile2);
-//        file_maps.put("Black Moto", R.drawable.mobile3);
-//        file_maps.put("Cars", R.drawable.cat_cars);
-//        file_maps.put("Electronics", R.drawable.cat_electronic);
-//        file_maps.put("Fashion", R.drawable.cat_fashion);
-//        file_maps.put("Furnitures", R.drawable.cat_furniture);
-//
-//
-//        for (String name : file_maps.keySet()) {
-//
-//            TextSliderView textSliderView = new TextSliderView(this);
-//            // initialize a SliderLayout
-//            textSliderView
-//                    .description(name)
-//                    .image(file_maps.get(name))
-//                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-//                    .setOnSliderClickListener(MainActivity.this);
-//
-//
-//            //add your extra information
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle()
-//                    .putString("extra", name);
-//            textSliderView.getBundle().putString("pos", String.valueOf(pos++));
-//
-//            mDemoSlider.addSlider(textSliderView);
-//        }
-//        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
-//        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-//        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-//        mDemoSlider.setDuration(3000);
-//        mDemoSlider.addOnPageChangeListener(this);
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
+        file_maps.put("Moto G4 Plus", R.drawable.mobile);
+        file_maps.put("Moto White S3", R.drawable.mobile1);
+        file_maps.put("Google Pixel XL", R.drawable.mobile2);
+        file_maps.put("Black Moto", R.drawable.mobile3);
+        file_maps.put("Cars", R.drawable.cat_cars);
+        file_maps.put("Electronics", R.drawable.cat_electronic);
+        file_maps.put("Fashion", R.drawable.cat_fashion);
+        file_maps.put("Furnitures", R.drawable.cat_furniture);
+
+
+        for (String name : file_maps.keySet()) {
+
+            TextSliderView textSliderView = new TextSliderView(this);
+            // initialize a SliderLayout
+            textSliderView
+                    .description(name)
+                    .image(file_maps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                    .setOnSliderClickListener(MainActivity.this);
+
+
+            //add your extra information
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", name);
+            textSliderView.getBundle().putString("pos", String.valueOf(pos++));
+
+            mDemoSlider.addSlider(textSliderView);
+        }
+        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        mDemoSlider.setDuration(3000);
+        mDemoSlider.addOnPageChangeListener(this);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -203,8 +211,8 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        });
         navigationView.setNavigationItemSelectedListener(this);
-        //        imageRv= (RecyclerView) findViewById(R.id.imageRV);
-        // viewPager = (ViewPager) findViewById(R.id.imageRV);
+//        imageRv= (RecyclerView) findViewById(R.id.imageRV);
+//        viewPager = (ViewPager) findViewById(R.id.imageRV);
 //        linearLayoutManager = new LinearLayoutManager(this);
 //        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 //        imageRv.setHasFixedSize(true);
@@ -218,13 +226,13 @@ public class MainActivity extends AppCompatActivity
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
 
-        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
-        rvCategories.setOnScrollListener(jazzyScrollListener);
-
-        if (savedInstanceState != null) {
-            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
-            setupJazziness(mCurrentTransitionEffect);
-        }
+//        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
+//        rvCategories.setOnScrollListener(jazzyScrollListener);
+//
+//        if (savedInstanceState != null) {
+//            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
+//            setupJazziness(mCurrentTransitionEffect);
+//        }
 
 //        ghumao();
 //        try {
@@ -339,65 +347,65 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-//    @Override
-//    public void onSliderClick(BaseSliderView slider) {
-//        startActivity(new Intent(MainActivity.this, FullImageActivity.class).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
-////        Log.d("HELO = ",slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"));
-////        Toast.makeText(this,slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"), Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//    }
-//
-//    @Override
-//    public void onPageSelected(int position) {
-//
-//    }
-//
-//    @Override
-//    public void onPageScrollStateChanged(int state) {
-//
-//    }
-//
-//    class CustomPagerAdapter extends PagerAdapter {
-//
-//        Context mContext;
-//        LayoutInflater mLayoutInflater;
-//
-//        public CustomPagerAdapter(Context context) {
-//            mContext = context;
-//            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return IMAGESRRAY.length;
-//        }
-//
-//        @Override
-//        public boolean isViewFromObject(View view, Object object) {
-//            return view == ((LinearLayout) object);
-//        }
-//
-//        @Override
-//        public Object instantiateItem(ViewGroup container, int position) {
-//            View itemView = mLayoutInflater.inflate(R.layout.rentit_mobile_row_item_two, container, false);
-//
-//            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
-//            imageView.setImageResource(IMAGESRRAY[position]);
-//
-//            container.addView(itemView);
-//
-//            return itemView;
-//        }
-//
-//        @Override
-//        public void destroyItem(ViewGroup container, int position, Object object) {
-//            container.removeView((LinearLayout) object);
-//        }
-//    }
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        startActivity(new Intent(MainActivity.this, FullImageActivity.class).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
+//        Log.d("HELO = ",slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"));
+//        Toast.makeText(this,slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    class CustomPagerAdapter extends PagerAdapter {
+
+        Context mContext;
+        LayoutInflater mLayoutInflater;
+
+        public CustomPagerAdapter(Context context) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return IMAGESRRAY.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((LinearLayout) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.rentit_mobile_row_item_two, container, false);
+
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView.setImageResource(IMAGESRRAY[position]);
+
+            container.addView(itemView);
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((LinearLayout) object);
+        }
+    }
 
     private class RecyclerViewCategoryGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
