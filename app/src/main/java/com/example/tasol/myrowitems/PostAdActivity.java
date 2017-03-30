@@ -143,7 +143,7 @@ public class PostAdActivity extends AppCompatActivity {
             edtPrice.setText(ROW.getAsString("price"));
             edtDeposit.setText(ROW.getAsString("deposite"));
             edtDays.setText(ROW.getAsString("days"));
-            //btnCategory.setText(cvCatData.get(ROW.getAsInteger("catid")).getAsString("cat_name"));
+            //btnUpdate.setText(cvCatData.get(ROW.getAsInteger("catid")).getAsString("cat_name"));
             btnCondition.setText(ROW.getAsString("condition"));
             UPDCATID = ROW.getAsString("catid");
             CATID = ROW.getAsString("catid");
@@ -330,7 +330,7 @@ public class PostAdActivity extends AppCompatActivity {
             }
         });
 
-//        btnCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//        btnUpdate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 //                if (i == 0) {
@@ -471,7 +471,7 @@ public class PostAdActivity extends AppCompatActivity {
                                 .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                                 .create();
                         // dialogPlusCat.show();
-                        //btnCategory.setAdapter(customCatAdapter);
+                        //btnUpdate.setAdapter(customCatAdapter);
                         if (ISUPDATE) {
                             CATNAME = cvCatData.get(Integer.parseInt(UPDCATID) - 1).getAsString("cat_name");
                         }

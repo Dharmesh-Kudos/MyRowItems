@@ -306,13 +306,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Intent intent = new Intent(MainActivity.this, RentItUserProfileActivity.class);
-            intent.putExtra("FROM", "MAIN");
-            try {
-                intent.putExtra("UID", loginParams.getString("id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_gallery) {

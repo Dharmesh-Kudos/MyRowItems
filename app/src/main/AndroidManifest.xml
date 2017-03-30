@@ -41,6 +41,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RentItLoginActivity" />
         <activity android:name=".RentItUserProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity android:name=".RentItManageAdsActivity"></activity>
     </application>
 
