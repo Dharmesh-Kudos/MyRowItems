@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="drawable_array">
+
+        <item>@drawable/icn_post_ad</item>
+        <item>@drawable/icn_req_ad</item>
+    </array>
+
+</resources>

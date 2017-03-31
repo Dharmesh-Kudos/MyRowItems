@@ -43,7 +43,8 @@
         <activity android:name=".RentItUserProfileActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".RentItManageAdsActivity" />
-        <activity android:name=".ContactUsActivity"></activity>
+        <activity android:name=".ContactUsActivity" />
+        <activity android:name=".FeedbackActivity"></activity>
     </application>
 
 </manifest>

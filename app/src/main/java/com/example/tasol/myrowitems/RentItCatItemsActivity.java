@@ -110,7 +110,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rentit_cat_detail);
+        setContentView(R.layout.rentit_cat_items_activity);
         fragmentManager = getSupportFragmentManager();
         // setupWindowAnimations();
         txtNotYet = (TextView) findViewById(R.id.txtNotYet);
@@ -134,30 +134,6 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
             }
         });
 
-        Bitmap image = BitmapFactory.decodeResource(getResources(),
-                IMAGESOFCATS[IN_POS - 1]);
-        Palette.from(image).generate(new Palette.PaletteAsyncListener() {
-            public void onGenerated(Palette palette) {
-
-                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
-                Palette.Swatch vibrantSwatch2 = palette.getDarkMutedSwatch();
-                Log.d("COLOR = ", String.valueOf(vibrantSwatch));
-                if (vibrantSwatch != null) {
-
-                    toolbar.setBackgroundColor(vibrantSwatch.getRgb());
-//                    outerLayout.setBackgroundColor(vibrantSwatch.getRgb());
-//                    titleText.setTextColor(vibrantSwatch.getTitleTextColor());
-//                    bodyText.setTextColor(vibrantSwatch.getBodyTextColor());
-                } else {
-                    if (vibrantSwatch2 != null) {
-                        toolbar.setBackgroundColor(vibrantSwatch2.getRgb());
-                    } else {
-
-                    }
-                }
-            }
-        });
-
         liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
         edtSearch = (EditText) findViewById(R.id.edtSearchName);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
@@ -167,6 +143,27 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         rvCatDetail.setHasFixedSize(true);
         rvCatDetail.setLayoutManager(linearLayoutManager);
         rvCatDetail.setNestedScrollingEnabled(false);
+        Bitmap image = BitmapFactory.decodeResource(getResources(),
+                IMAGESOFCATS[IN_POS - 1]);
+        Palette.from(image).generate(new Palette.PaletteAsyncListener() {
+            public void onGenerated(Palette palette) {
+
+                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                Palette.Swatch vibrantSwatch2 = palette.getDarkMutedSwatch();
+                if (vibrantSwatch != null) {
+                    liloSearch.setBackgroundColor(vibrantSwatch.getRgb());
+                    toolbar.setBackgroundColor(vibrantSwatch.getRgb());
+                } else {
+                    if (vibrantSwatch2 != null) {
+                        liloSearch.setBackgroundColor(vibrantSwatch2.getRgb());
+                        toolbar.setBackgroundColor(vibrantSwatch2.getRgb());
+                    } else {
+                        //Null Color
+                    }
+                }
+            }
+        });
+
         getCategoryList(false);
 
         ivSearch.setOnClickListener(new View.OnClickListener() {

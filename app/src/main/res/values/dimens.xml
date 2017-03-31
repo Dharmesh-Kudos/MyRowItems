@@ -19,5 +19,9 @@
     <integer name="anim_duration_very_long">1500</integer>
     <integer name="anim_duration_long">500</integer>
     <integer name="anim_duration_medium">300</integer>
+    <dimen name="min_height">160dp</dimen>
+    <dimen name="big_circle_radius">40dp</dimen>
+    <dimen name="small_circle_radius">20dp</dimen>
 
+    <dimen name="min_gap">80dp</dimen>
 </resources>
