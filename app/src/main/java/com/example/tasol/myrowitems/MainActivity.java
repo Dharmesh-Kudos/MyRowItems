@@ -466,7 +466,10 @@ public class MainActivity extends AppCompatActivity
     public void onSliderClick(BaseSliderView slider) {
         Log.d("ROW = ", trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString())).toString());
         Log.d("POS", slider.getBundle().get("pos").toString());
-        startActivity(new Intent(MainActivity.this, RentItAdDetailActivity.class).putExtra("ROW", trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString()))).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
+        startActivity(new Intent(MainActivity.this, RentItAdDetailActivity.class)
+                .putExtra("IMGPOS", Integer.parseInt(trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString())).getAsString("cat_id")))
+                .putExtra("ROW", trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString())))
+                .putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
     }
 
     @Override
@@ -538,6 +541,8 @@ public class MainActivity extends AppCompatActivity
 
             holder.txtCatName.setText(NAMESOFCATS[position]);
             holder.ivCatName.setImageResource(IMAGESOFCATS[position]);
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

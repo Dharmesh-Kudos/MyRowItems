@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -61,12 +64,24 @@ import static smart.framework.Constants.TASKDATA;
 public class RentItAdDetailActivity extends AppCompatActivity {
 
     public ImageView imageCat;
+    int[] IMAGESOFCATS = {R.drawable.mobiles,
+            R.drawable.electronics,
+            R.drawable.cars,
+            R.drawable.bike,
+            R.drawable.jobs,
+            R.drawable.furniture,
+            R.drawable.book,
+            R.drawable.fashion,
+            R.drawable.sports,
+            R.drawable.services,
+            R.drawable.estate,
+            R.drawable.pets};
     int[] IMAGESRRAY = {R.drawable.cat_fashion, R.drawable.cat_electronic, R.drawable.mobile1, R.drawable.cat_furniture, R.drawable.cat_cars, R.drawable.mobile3, R.drawable.mobile, R.drawable.mobile2};
     CircleImageView imgProfilePicture;
     Toolbar toolbarData;
     RecyclerView rvOtherImages;
     LinearLayoutManager linearLayoutManager;
-    int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
+    //  int[] IMAGESOFCATS = {R.drawable.cat_books, R.drawable.cat_cars, R.drawable.cat_cycle, R.drawable.cat_decor, R.drawable.cat_electronic, R.drawable.cat_fashion, R.drawable.cat_furniture, R.drawable.cat_mobile, R.drawable.cat_real, R.drawable.cat_sports, R.drawable.cat_toys, R.drawable.cats_bikes};
     RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
     RecyclerViewCommentsAdapter recyclerViewCommentsAdapter;
     Animation slide_down, slide_up;
@@ -87,6 +102,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
     private DialogPlus dialogPlusComment;
     private smart.caching.SmartCaching smartCaching;
     private ArrayList<ContentValues> cvAllCommentsData = new ArrayList<>();
+    private int IN_POS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +111,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
         aQuery = new AQuery(RentItAdDetailActivity.this);
         smartCaching = new SmartCaching(RentItAdDetailActivity.this);
         ROW = getIntent().getParcelableExtra("ROW");
+        IN_POS = getIntent().getIntExtra("IMGPOS", 1);
         toolbarData = (Toolbar) findViewById(R.id.toolbarData);
         setSupportActionBar(toolbarData);
         if (getSupportActionBar() != null) {
@@ -108,7 +125,29 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
             }
         });
+        Bitmap image = BitmapFactory.decodeResource(getResources(),
+                IMAGESOFCATS[IN_POS - 1]);
+        Palette.from(image).generate(new Palette.PaletteAsyncListener() {
+            public void onGenerated(Palette palette) {
 
+                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                Palette.Swatch vibrantSwatch2 = palette.getDarkMutedSwatch();
+                Log.d("COLOR = ", String.valueOf(vibrantSwatch));
+                if (vibrantSwatch != null) {
+
+                    toolbarData.setBackgroundColor(vibrantSwatch.getRgb());
+//                    outerLayout.setBackgroundColor(vibrantSwatch.getRgb());
+//                    titleText.setTextColor(vibrantSwatch.getTitleTextColor());
+//                    bodyText.setTextColor(vibrantSwatch.getBodyTextColor());
+                } else {
+                    if (vibrantSwatch2 != null) {
+                        toolbarData.setBackgroundColor(vibrantSwatch2.getRgb());
+                    } else {
+
+                    }
+                }
+            }
+        });
         btnComment = (Button) findViewById(R.id.btnComment);
         btnReport = (Button) findViewById(R.id.btnReport);
         txtTitle = (TextView) findViewById(R.id.txtTitle);

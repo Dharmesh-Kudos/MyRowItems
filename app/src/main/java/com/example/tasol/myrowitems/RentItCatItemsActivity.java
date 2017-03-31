@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -80,6 +81,18 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
     LinearLayout liloSearch;
     EditText edtSearch;
     ImageView ivSearch;
+    int[] IMAGESOFCATS = {R.drawable.mobiles,
+            R.drawable.electronics,
+            R.drawable.cars,
+            R.drawable.bike,
+            R.drawable.jobs,
+            R.drawable.furniture,
+            R.drawable.book,
+            R.drawable.fashion,
+            R.drawable.sports,
+            R.drawable.services,
+            R.drawable.estate,
+            R.drawable.pets};
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();
@@ -104,6 +117,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         smartCaching = new SmartCaching(RentItCatItemsActivity.this);
         aQuery = new AQuery(RentItCatItemsActivity.this);
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -119,6 +133,31 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
             }
         });
+
+        Bitmap image = BitmapFactory.decodeResource(getResources(),
+                IMAGESOFCATS[IN_POS - 1]);
+        Palette.from(image).generate(new Palette.PaletteAsyncListener() {
+            public void onGenerated(Palette palette) {
+
+                Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
+                Palette.Swatch vibrantSwatch2 = palette.getDarkMutedSwatch();
+                Log.d("COLOR = ", String.valueOf(vibrantSwatch));
+                if (vibrantSwatch != null) {
+
+                    toolbar.setBackgroundColor(vibrantSwatch.getRgb());
+//                    outerLayout.setBackgroundColor(vibrantSwatch.getRgb());
+//                    titleText.setTextColor(vibrantSwatch.getTitleTextColor());
+//                    bodyText.setTextColor(vibrantSwatch.getBodyTextColor());
+                } else {
+                    if (vibrantSwatch2 != null) {
+                        toolbar.setBackgroundColor(vibrantSwatch2.getRgb());
+                    } else {
+
+                    }
+                }
+            }
+        });
+
         liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
         edtSearch = (EditText) findViewById(R.id.edtSearchName);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
@@ -611,6 +650,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(RentItCatItemsActivity.this, RentItAdDetailActivity.class);
+                    intent.putExtra("IMGPOS", IN_POS);
                     intent.putExtra("POS", position);
                     intent.putExtra("ROW", row);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
