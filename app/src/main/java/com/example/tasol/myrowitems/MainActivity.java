@@ -1,10 +1,10 @@
 package com.example.tasol.myrowitems;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.bumptech.glide.Glide;
@@ -38,16 +40,24 @@ import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListene
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import smart.caching.SmartCaching;
 import smart.framework.SmartApplication;
+import smart.framework.SmartUtils;
+import smart.weservice.SmartWebManager;
 
 import static smart.framework.Constants.SP_ISLOGOUT;
 import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
 import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
+import static smart.framework.Constants.TASK;
+import static smart.framework.Constants.TASKDATA;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
@@ -61,9 +71,20 @@ public class MainActivity extends AppCompatActivity
     //   private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     ViewPager viewPager;
     CustomPagerAdapter mCustomPagerAdapter;
-    CollapsingToolbarLayout collapsingToolbarLayout;
+    //    CollapsingToolbarLayout collapsingToolbarLayout;
     int[] IMAGESRRAY = {R.drawable.mobile, R.drawable.mobile1, R.drawable.mobile2, R.drawable.mobile3};
-    int[] IMAGESOFCATS = {R.drawable.mobiles, R.drawable.electronics, R.drawable.cars, R.drawable.bike, R.drawable.jobs, R.drawable.furniture, R.drawable.book, R.drawable.fashion, R.drawable.sports, R.drawable.services, R.drawable.estate, R.drawable.pets};
+    int[] IMAGESOFCATS = {R.drawable.mobiles,
+            R.drawable.electronics,
+            R.drawable.cars,
+            R.drawable.bike,
+            R.drawable.jobs,
+            R.drawable.furniture,
+            R.drawable.book,
+            R.drawable.fashion,
+            R.drawable.sports,
+            R.drawable.services,
+            R.drawable.estate,
+            R.drawable.pets};
     String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Jobs", "Furniture", "Books", "Fashion", "Sports", "Services", "Real Estate", "Pets"};
     int i = 0;
     int pos = 0;
@@ -83,11 +104,14 @@ public class MainActivity extends AppCompatActivity
     private JazzyRecyclerViewScrollListener jazzyScrollListener;
     private int mCurrentTransitionEffect = JazzyHelper.SLIDE_IN;
     private ImageView imgBack;
+    private ArrayList<ContentValues> trendingData = new ArrayList<>();
+    private smart.caching.SmartCaching smartCaching;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        smartCaching = new SmartCaching(MainActivity.this);
         aQuery = new AQuery(MainActivity.this);
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            Window w = getWindow(); // in Activity's onCreate() for instance
@@ -95,51 +119,22 @@ public class MainActivity extends AppCompatActivity
 //        }
 
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+//        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        HashMap<String, Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Moto G4 Plus", R.drawable.mobile);
-        file_maps.put("Moto White S3", R.drawable.mobile1);
-        file_maps.put("Google Pixel XL", R.drawable.mobile2);
-        file_maps.put("Black Moto", R.drawable.mobile3);
-        file_maps.put("Cars", R.drawable.cat_cars);
-        file_maps.put("Electronics", R.drawable.cat_electronic);
-        file_maps.put("Fashion", R.drawable.cat_fashion);
-        file_maps.put("Furnitures", R.drawable.cat_furniture);
 
-
-        for (String name : file_maps.keySet()) {
-
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                    .setOnSliderClickListener(MainActivity.this);
-
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-            textSliderView.getBundle().putString("pos", String.valueOf(pos++));
-
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.DepthPage);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(3000);
-        mDemoSlider.addOnPageChangeListener(this);
+        getTrendingAds();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Rent It Home");
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Rent It Home");
+        }
         //   collapsingToolbarLayout.setTitle("Categories");
 
         FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
@@ -247,6 +242,131 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void getTrendingAds() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, MainActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "OpenTrendingAds");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "trendingAds");
+            JSONObject taskData = new JSONObject();
+
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+
+                try {
+                    if (responseCode == 200) {
+
+                        Log.d("RESULT = ", String.valueOf(response));
+                        trendingData = smartCaching.parseResponse(response.getJSONArray("trendingData"), "TRENDINGDATA", "userData").get("TRENDINGDATA");
+                        if (trendingData != null && trendingData.size() > 0) {
+
+
+                            List<String> elephantList = null;
+
+//                            HashMap<String, String> file_maps = new HashMap<String, String>();
+//                            for (int j = 0; j < trendingData.size(); j++) {
+//                                ContentValues row = trendingData.get(j);
+//                                elephantList = Arrays.asList(row.getAsString("photo").split(","));
+//
+//                                if (elephantList.get(0).contains("http")) {
+//                                    file_maps.put(row.getAsString("title"), elephantList.get(0));
+//                                } else {
+//                                    file_maps.put(row.getAsString("title"), "http://" + elephantList.get(0));
+//
+//                                }
+//
+//                            }
+
+//                                file_maps.put("Moto G4 Plus", Integer.valueOf(elephantList.get(0)));
+//                                file_maps.put("Moto White S3", R.drawable.mobile1);
+//                                file_maps.put("Google Pixel XL", R.drawable.mobile2);
+//                                file_maps.put("Black Moto", R.drawable.mobile3);
+//                                file_maps.put("Cars", R.drawable.cat_cars);
+//                                file_maps.put("Electronics", R.drawable.cat_electronic);
+//                                file_maps.put("Fashion", R.drawable.cat_fashion);
+//                                file_maps.put("Furnitures", R.drawable.cat_furniture);
+                            for (int j = 0; j < trendingData.size(); j++) {
+                                String imageStr;
+                                elephantList = Arrays.asList(trendingData.get(j).getAsString("photo").split(","));
+                                if (elephantList.get(0).contains("http")) {
+                                    imageStr = elephantList.get(0);
+                                } else {
+                                    imageStr = "http://" + elephantList.get(0);
+
+                                }
+                                TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+                                // initialize a SliderLayout
+                                textSliderView
+                                        .description(trendingData.get(j).getAsString("title"))
+                                        .image(imageStr)
+                                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                                        .setOnSliderClickListener(MainActivity.this);
+
+
+                                //add your extra information
+                                textSliderView.bundle(new Bundle());
+                                textSliderView.getBundle()
+                                        .putString("extra", trendingData.get(j).getAsString("title"));
+                                textSliderView.getBundle().putString("pos", String.valueOf(pos++));
+
+                                mDemoSlider.addSlider(textSliderView);
+                            }
+
+//                            for (String name : file_maps.keySet()) {
+//
+//                                TextSliderView textSliderView = new TextSliderView(MainActivity.this);
+//                                // initialize a SliderLayout
+//                                textSliderView
+//                                        .description(name)
+//                                        .image(file_maps.get(name))
+//                                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+//                                        .setOnSliderClickListener(MainActivity.this);
+//
+//
+//                                //add your extra information
+//                                textSliderView.bundle(new Bundle());
+//                                textSliderView.getBundle()
+//                                        .putString("extra", name);
+//                                textSliderView.getBundle().putString("pos", String.valueOf(pos++));
+//
+//                                mDemoSlider.addSlider(textSliderView);
+//                            }
+                            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
+                            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                            mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                            mDemoSlider.setDuration(3000);
+                            mDemoSlider.addOnPageChangeListener(MainActivity.this);
+                        }
+                    } else if (responseCode == 204) {
+
+                        //Toast.makeText(RentItCatItemsActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", true);
+    }
+
     private void setupJazziness(int effect) {
         mCurrentTransitionEffect = effect;
         jazzyScrollListener.setTransitionEffect(mCurrentTransitionEffect);
@@ -323,7 +443,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
+            Intent contactusIntent = new Intent(MainActivity.this, ContactUsActivity.class);
+            startActivity(contactusIntent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -334,24 +455,18 @@ public class MainActivity extends AppCompatActivity
             startActivity(loginIntent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.
+                id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onStop() {
-        // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
-        //mDemoSlider.stopAutoCycle();
-        super.onStop();
     }
 
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        startActivity(new Intent(MainActivity.this, FullImageActivity.class).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
-//        Log.d("HELO = ",slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"));
-//        Toast.makeText(this,slider.getBundle().get("extra") + " - " + slider.getBundle().get("pos"), Toast.LENGTH_SHORT).show();
+        Log.d("ROW = ", trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString())).toString());
+        Log.d("POS", slider.getBundle().get("pos").toString());
+        startActivity(new Intent(MainActivity.this, RentItAdDetailActivity.class).putExtra("ROW", trendingData.get(Integer.parseInt(slider.getBundle().get("pos").toString()))).putExtra("POS", Integer.parseInt(slider.getBundle().get("pos").toString())));
     }
 
     @Override
