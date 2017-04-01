@@ -16,12 +16,12 @@
 
     <dimen name="size_icon_toolbar">40dp</dimen>
 
-    <integer name="anim_duration_very_long">1500</integer>
-    <integer name="anim_duration_long">500</integer>
-    <integer name="anim_duration_medium">300</integer>
+    <integer name="anim_duration_very_long">1000</integer>
+    <integer name="anim_duration_long">300</integer>
+    <integer name="anim_duration_medium">200</integer>
     <dimen name="min_height">160dp</dimen>
-    <dimen name="big_circle_radius">40dp</dimen>
-    <dimen name="small_circle_radius">20dp</dimen>
+    <dimen name="big_circle_radius">30dp</dimen>
+    <dimen name="small_circle_radius">15dp</dimen>
 
     <dimen name="min_gap">80dp</dimen>
 </resources>

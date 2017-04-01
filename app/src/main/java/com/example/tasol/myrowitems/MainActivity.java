@@ -33,6 +33,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.github.clans.fab.FloatingActionButton;
 import com.twotoasters.jazzylistview.JazzyHelper;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
@@ -59,7 +60,7 @@ import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener, GooeyMenu.GooeyMenuInterface {
+        implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     //, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
 
@@ -106,7 +107,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<ContentValues> trendingData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
 
-    private GooeyMenu mGooeyMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +114,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         smartCaching = new SmartCaching(MainActivity.this);
         aQuery = new AQuery(MainActivity.this);
-        mGooeyMenu = (GooeyMenu) findViewById(R.id.gooey_menu);
-        mGooeyMenu.setOnMenuListener(MainActivity.this);
+
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            Window w = getWindow(); // in Activity's onCreate() for instance
 //            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -140,20 +139,20 @@ public class MainActivity extends AppCompatActivity
         }
         //   collapsingToolbarLayout.setTitle("Categories");
 
-//        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
-//        fab1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
-//            }
-//        });
-//        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fabRequestAd);
-//        fab2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
-//            }
-//        });
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
+            }
+        });
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fabRequestAd);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -493,29 +492,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void menuOpen() {
-
-    }
-
-    @Override
-    public void menuClose() {
-
-    }
-
-    @Override
-    public void menuItemClicked(int menuNumber) {
-        switch (menuNumber) {
-            case 0:
-                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
-
-                break;
-            case 1:
-                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
-
-                break;
-        }
-    }
 
     class CustomPagerAdapter extends PagerAdapter {
 

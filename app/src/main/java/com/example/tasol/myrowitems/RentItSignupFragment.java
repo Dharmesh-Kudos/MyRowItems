@@ -1,6 +1,7 @@
 package com.example.tasol.myrowitems;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -19,13 +20,20 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +71,9 @@ public class RentItSignupFragment extends Fragment {
     private int SELECT_PICTURE = 1;
     private String selectedImagePath = "";
     private SweetAlertDialog pDialog;
+    private String CODE;
+    private boolean IS_VERIFIED = false;
+    private String verifyMsg;
 
 
     public RentItSignupFragment() {
@@ -92,79 +103,257 @@ public class RentItSignupFragment extends Fragment {
         });
 
         button.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
 
-                pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                pDialog.setTitleText("Creating Account...");
-                pDialog.setCancelable(true);
-                pDialog.show();
 
+                CODE = "" + ((int) (Math.random() * 9000) + 1000);//Generating 4-digit Code
 
-                HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, getActivity());
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                final JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(TASK, "register");
-                    JSONObject taskData = new JSONObject();
-                    try {
+                verifyMsg = "Your 4-digit Verification Code is " + CODE;//Making Verification Message
 
-                        taskData.put("name", edtUsername.getText().toString().trim());
-                        taskData.put("password", edtPassword.getText().toString().trim());
-                        taskData.put("email", edtEmail.getText().toString().trim());
-                        taskData.put("phone", edtPhone.getText().toString().trim());
-                        taskData.put("city", edtCity.getText().toString().trim());
-                        taskData.put("is_admin", "0");
-                        taskData.put("varified", "0");
-                        taskData.put("remember_token", "kjdahfjkhfuincskuckdcjsdkuc");
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentDateandTime = sdf.format(new Date());
-                        taskData.put("created_at", currentDateandTime);
-                        taskData.put("updated_at", currentDateandTime);
+                sendMailAndVerify(false);
 
-                    } catch (Throwable e) {
-                    }
-                    jsonObject.put(TASKDATA, taskData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-                    @Override
-                    public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                        Log.d("RESULT = ", String.valueOf(response));
-                        pDialog.dismiss();
-                        try {
-                            if (responseCode == 200) {
-                                Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                                ((RentItLoginActivity) getActivity()).selectFragment(0);
-                            } else if (responseCode == 204) {
-                                Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                            } else if (responseCode == 205) {
-                                Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void onResponseError() {
-
-                        SmartUtils.hideProgressDialog();
-                    }
-                });
-                SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, selectedImagePath, null, true);
             }
         });
 
         return v;
+    }
+
+    private void sendMailAndVerify(boolean isShow) {
+        pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        if (isShow) {
+            pDialog.setTitleText("Sending Verification Code...");
+        } else {
+            pDialog.setTitleText("Sending Details...");
+        }
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        BackgroundMail.newBuilder(getActivity())
+                .withUsername("rentitcontact@gmail.com")
+                .withPassword("rentanything")
+                .withMailto(edtEmail.getText().toString())
+                .withSubject("Rent It User Verification !!!")
+                .withBody(verifyMsg)
+                .withProcessVisibility(true)
+                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                    @Override
+                    public void onSuccess() {
+                        pDialog.dismiss();
+                        //do some magic
+                        final Dialog dialog = new Dialog(getActivity());
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dialog.setContentView(R.layout.email_verify_layout);
+
+                        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                        lp.copyFrom(dialog.getWindow().getAttributes());
+                        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        dialog.getWindow().setAttributes(lp);
+
+                        final EditText edtCode1, edtCode2, edtCode3, edtCode4;
+                        TextView btnResendCode, btnSignNow;
+
+                        edtCode1 = (EditText) dialog.findViewById(R.id.edtCode1);
+                        edtCode2 = (EditText) dialog.findViewById(R.id.edtCode2);
+                        edtCode3 = (EditText) dialog.findViewById(R.id.edtCode3);
+                        edtCode4 = (EditText) dialog.findViewById(R.id.edtCode4);
+
+                        btnResendCode = (TextView) dialog.findViewById(R.id.btnResendCode);
+                        btnSignNow = (TextView) dialog.findViewById(R.id.btnSignNow);
+
+
+                        edtCode1.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                // TODO Auto-generated method stub
+                                if (edtCode1.getText().toString().length() == 1)     //size as per your requirement
+                                {
+                                    edtCode2.requestFocus();
+                                }
+                            }
+
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+                        edtCode2.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                // TODO Auto-generated method stub
+                                if (edtCode2.getText().toString().length() == 1)     //size as per your requirement
+                                {
+                                    edtCode3.requestFocus();
+                                }
+                            }
+
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+                        edtCode3.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                // TODO Auto-generated method stub
+                                if (edtCode3.getText().toString().length() == 1)     //size as per your requirement
+                                {
+                                    edtCode4.requestFocus();
+                                }
+                            }
+
+                            public void beforeTextChanged(CharSequence s, int start,
+                                                          int count, int after) {
+                                // TODO Auto-generated method stub
+
+                            }
+
+                            public void afterTextChanged(Editable s) {
+                                // TODO Auto-generated method stub
+                            }
+
+                        });
+
+
+                        btnSignNow.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final String userInputCode = edtCode1.getText().toString() +
+                                        edtCode2.getText().toString() +
+                                        edtCode3.getText().toString() +
+                                        edtCode4.getText().toString();
+
+                                if (CODE.equals(userInputCode)) {
+                                    //IS_VERIFIED = true;
+                                    doSignup();
+                                    dialog.dismiss();
+                                } else {
+                                    //IS_VERIFIED = false;
+                                    dialog.dismiss();
+                                    Toast.makeText(getActivity(), "Wrong Verification Code...Try Again", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+                        btnResendCode.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                verifyMsg = "";
+                                CODE = "";
+
+                                CODE = "" + ((int) (Math.random() * 9000) + 1000);//Generating 4-digit Code
+
+                                verifyMsg = "Your 4-digit Verification Code is " + CODE;//Making Verification Message
+
+                                sendMailAndVerify(true);//Resend Code Again
+
+                            }
+                        });
+
+
+                        dialog.show();
+                    }
+                })
+                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                    @Override
+                    public void onFail() {
+
+                        //do some magic
+                        Toast.makeText(getActivity(), "Try Again.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .send();
+    }
+
+    public void doSignup() {
+        pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        pDialog.setTitleText("Creating Account...");
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, getActivity());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "register");
+            JSONObject taskData = new JSONObject();
+            try {
+
+                taskData.put("name", edtUsername.getText().toString().trim());
+                taskData.put("password", edtPassword.getText().toString().trim());
+                taskData.put("email", edtEmail.getText().toString().trim());
+                taskData.put("phone", edtPhone.getText().toString().trim());
+                taskData.put("city", edtCity.getText().toString().trim());
+                taskData.put("is_admin", "0");
+                taskData.put("varified", "1");
+                taskData.put("remember_token", CODE);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+                taskData.put("created_at", currentDateandTime);
+                taskData.put("updated_at", currentDateandTime);
+
+            } catch (Throwable e) {
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                Log.d("RESULT = ", String.valueOf(response));
+                pDialog.dismiss();
+                try {
+                    if (responseCode == 200) {
+                        edtEmail.setText("");
+                        edtUsername.setText("");
+                        edtPassword.setText("");
+                        edtPhone.setText("");
+                        edtCity.setText("");
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                        ((RentItLoginActivity) getActivity()).selectFragment(0);
+                    } else if (responseCode == 204) {
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 205) {
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+        SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, selectedImagePath, null, true);
     }
 
     @Override
