@@ -49,18 +49,20 @@
                 android:background="#EEE">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_15sdp"
+                    android:layout_weight="25"
+                    android:padding="@dimen/_8sdp"
                     android:text="Username"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_10sdp" />
 
                 <EditText
                     android:id="@+id/edtUsername"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="75"
                     android:background="@color/float_transparent"
+                    android:gravity="left|start"
                     android:padding="@dimen/_15sdp"
                     android:singleLine="true" />
             </LinearLayout>
@@ -72,9 +74,11 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/_15sdp"
+                    android:layout_weight="25"
+                    android:gravity="center"
+                    android:padding="@dimen/_8sdp"
                     android:text="Password"
                     android:textSize="@dimen/_12sdp" />
 
@@ -82,8 +86,9 @@
                     android:id="@+id/edtPassword"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="75"
                     android:background="#00000000"
+                    android:gravity="left|start"
                     android:hint="Enter Password"
                     android:inputType="textPassword"
                     android:padding="@dimen/_15sdp"
@@ -98,8 +103,10 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:gravity="left|start"
                     android:padding="@dimen/_15sdp"
                     android:text="Email"
                     android:textSize="@dimen/_12sdp" />
@@ -108,11 +115,13 @@
                     android:id="@+id/edtEmail"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="75"
                     android:background="@color/float_transparent"
+                    android:gravity="left|start"
                     android:inputType="textEmailAddress"
-                    android:padding="@dimen/_15sdp"
-                    android:singleLine="true" />
+                    android:maxLines="2"
+                    android:padding="@dimen/_10sdp"
+                    android:text="dharmesh.tailored75@gmail.com" />
             </LinearLayout>
 
             <LinearLayout
@@ -121,8 +130,10 @@
                 android:background="#FAFAFA">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="25"
+                    android:gravity="left|start"
                     android:padding="@dimen/_15sdp"
                     android:text="Mobile"
                     android:textSize="@dimen/_12sdp" />
@@ -131,8 +142,9 @@
                     android:id="@+id/edtPhone"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="75"
                     android:background="#00000000"
+                    android:gravity="left|start"
                     android:inputType="number"
                     android:padding="@dimen/_15sdp"
                     android:singleLine="true" />
@@ -145,8 +157,10 @@
                 android:gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:gravity="left|start"
                     android:padding="@dimen/_15sdp"
                     android:text="City"
                     android:textSize="@dimen/_12sdp" />
@@ -155,7 +169,8 @@
                     android:id="@+id/spnCity"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="75"
+                    android:gravity="left|start"
                     android:padding="@dimen/_15sdp" />
             </LinearLayout>
 
