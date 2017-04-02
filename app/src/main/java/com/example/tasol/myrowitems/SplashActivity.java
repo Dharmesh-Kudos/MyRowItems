@@ -104,14 +104,20 @@ public class SplashActivity extends AppCompatActivity {
                             JSONObject userData = response.getJSONObject("userData");
                             Log.d("userData = ", userData.toString());
                             SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
+                            if (userData.getString("is_admin").equals("1")) {
+                                startActivity(new Intent(SplashActivity.this, MainActivityAdmin.class));
+                                finish();
+                            } else {
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                                finish();
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
-                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
 
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        finish();
                     } else if (responseCode == 204) {
                         Toast.makeText(SplashActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {

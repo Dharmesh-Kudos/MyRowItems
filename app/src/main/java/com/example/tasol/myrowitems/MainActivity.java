@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         rvCategories.setNestedScrollingEnabled(false);
 
 //        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
-//        rvCategories.setOnScrollListener(jazzyScrollListener);
+//        rvAllAds.setOnScrollListener(jazzyScrollListener);
 //
 //        if (savedInstanceState != null) {
 //            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);

@@ -39,12 +39,14 @@
         <activity android:name=".PostAdActivity" />
         <activity android:name=".FullImageActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivityAdmin" />
         <activity android:name=".RentItLoginActivity" />
         <activity android:name=".RentItUserProfileActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".RentItManageAdsActivity" />
         <activity android:name=".ContactUsActivity" />
-        <activity android:name=".FeedbackActivity"></activity>
+        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".AllAdsActivity"></activity>
     </application>
 
 </manifest>

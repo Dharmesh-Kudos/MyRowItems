@@ -109,8 +109,14 @@ public class RentItLoginFragment extends Fragment {
                                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, userData.getString("name"));
                                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
 
-                                startActivity(new Intent(getActivity(), MainActivity.class));
-                                getActivity().finish();
+                                if (userData.getString("is_admin").equals("1")) {
+                                    startActivity(new Intent(getActivity(), MainActivityAdmin.class));
+                                    getActivity().finish();
+                                } else {
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                    getActivity().finish();
+                                }
+
                             } else if (responseCode == 204) {
                                 Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                             } else {
