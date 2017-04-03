@@ -713,13 +713,13 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_all_ads_row_item,
                     parent, false);
-            RecyclerView.ViewHolder viewHolder = new ViewHolder(parentView);
+            RecyclerView.ViewHolder viewHolder = new adminViewHolder(parentView);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-            final ViewHolder holder = (ViewHolder) viewHolder;
+            final adminViewHolder holder = (adminViewHolder) viewHolder;
 
             final ContentValues row = cvSubCatData.get(position);
 
@@ -801,10 +801,11 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
 
         @Override
         public int getItemCount() {
+            Log.d("CHECKER 3=", "" + cvSubCatData.size());
             return cvSubCatData.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class adminViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
             TextView txtTitle, txtPrice, txtUsername;
@@ -812,8 +813,9 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
             TextView btnAvailable;
 
 
-            public ViewHolder(View itemView) {
+            public adminViewHolder(View itemView) {
                 super(itemView);
+                Log.d("CHECKER =", "4");
                 btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
                 btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);

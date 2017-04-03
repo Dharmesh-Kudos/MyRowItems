@@ -46,7 +46,11 @@
         <activity android:name=".RentItManageAdsActivity" />
         <activity android:name=".ContactUsActivity" />
         <activity android:name=".FeedbackActivity" />
-        <activity android:name=".AllAdsActivity"></activity>
+        <activity android:name=".AllAdsActivity" />
+        <activity android:name=".AllUsersActivity" />
+        <activity android:name=".RequestAdActivity" />
+        <activity android:name=".ReqProdsListActivity" />
+        <activity android:name=".ReqProdsDetailActivity"></activity>
     </application>
 
 </manifest>

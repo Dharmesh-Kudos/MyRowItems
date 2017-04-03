@@ -149,8 +149,8 @@ public class MainActivityAdmin extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_all_users) {
-//            Intent loginIntent = new Intent(MainActivityAdmin.this, RentItManageAdsActivity.class);
-//            startActivity(loginIntent);
+            Intent loginIntent = new Intent(MainActivityAdmin.this, AllUsersActivity.class);
+            startActivity(loginIntent);
         } else if (id == R.id.nav_all_ads) {
             Intent feedbackIntent = new Intent(MainActivityAdmin.this, AllAdsActivity.class);
             startActivity(feedbackIntent);

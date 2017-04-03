@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="#FFF"
     tools:context="com.example.tasol.myrowitems.PostAdActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -48,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
+        android:background="#FFF"
         android:orientation="vertical">
 
         <android.support.v4.widget.NestedScrollView
@@ -110,19 +111,18 @@
                             android:layout_margin="@dimen/_5sdp" />
                     </LinearLayout>
 
-
                     <Button
                         android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
+                        android:drawableRight="@drawable/ic_chevron_down_grey600_24dp"
                         android:gravity="left"
                         android:padding="@dimen/_15sdp"
                         android:text="Choose Category"
                         android:textAllCaps="false"
                         android:textColor="@color/grey" />
-
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -134,20 +134,19 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
                             android:background="@drawable/post_box_back_design"
+                            android:drawableRight="@drawable/ic_chevron_down_grey600_24dp"
                             android:gravity="left"
                             android:padding="@dimen/_15sdp"
                             android:text="Choose Sub Category"
                             android:textAllCaps="false"
-                            android:textColor="@color/grey"
-
-                            />
+                            android:textColor="@color/grey" />
 
                         <ProgressBar
                             android:id="@+id/spnProgress"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="right|end|center"
-                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_15sdp"
                             android:indeterminateTint="@color/colorGreen"
                             android:visibility="gone" />
                     </FrameLayout>
@@ -167,11 +166,12 @@
                     <EditText
                         android:id="@+id/edtDesc"
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
                         android:gravity="left|top"
                         android:hint="Write few lines about your product..."
+                        android:lines="5"
                         android:padding="12dp"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
@@ -184,6 +184,7 @@
                         android:background="@drawable/post_box_back_design"
                         android:hint="Rent Price"
                         android:inputType="number"
+                        android:maxLength="5"
                         android:padding="12dp"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
@@ -194,8 +195,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
-                        android:hint="Security Deposit"
+                        android:hint="Security Deposit (if any)"
                         android:inputType="number"
+                        android:maxLength="5"
                         android:padding="12dp"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
@@ -217,7 +219,9 @@
                         android:id="@+id/spinnerCondition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
+                        android:drawableRight="@drawable/ic_chevron_down_grey600_24dp"
                         android:gravity="left"
                         android:padding="@dimen/_15sdp"
                         android:text="Choose Category"

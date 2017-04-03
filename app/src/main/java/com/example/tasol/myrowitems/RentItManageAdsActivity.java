@@ -383,46 +383,6 @@ public class RentItManageAdsActivity extends AppCompatActivity {
             });
 
 
-//            try {
-//                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-//                        .getString(SP_LOGGED_IN_USER_DATA, ""));
-//
-//                JSONObject userData = new JSONObject(row.getAsString("userData"));
-////                if (row.getAsString("user_id").equals(loginParams.getString("id"))) {
-////                    holder.txtUsername.setText("Uploaded By YOU");
-////                } else {
-////                    holder.txtUsername.setText("Uploaded By " + userData.getString("user_name"));
-////                }
-//                if (userData.getString("user_pic").equals("")) {
-//                    holder.imgProfilePicture.setImageResource(R.drawable.man);
-//                } else {
-//                    aQuery.id(holder.imgProfilePicture).image(userData.getString("user_pic"), true, true);
-//                }
-//
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
-//            holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    Intent intent = new Intent(RentItManageAdsActivity.this, RentItAdDetailActivity.class);
-//                    intent.putExtra("POS", position);
-//                    intent.putExtra("ROW", row);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                        Pair<View, String> p1 = Pair.create((View) holder.imgProfilePicture, holder.imgProfilePicture.getTransitionName());
-//                        Pair<View, String> p2 = Pair.create((View) holder.imageCat, holder.imageCat.getTransitionName());
-//
-//                        ActivityOptionsCompat options = ActivityOptionsCompat.
-//                                makeSceneTransitionAnimation(RentItManageAdsActivity.this, p1, p2);
-//                        startActivity(intent, options.toBundle());
-//                    } else {
-//                        startActivity(intent);
-//                    }
-//
-//                }
-//            });
 
 
         }

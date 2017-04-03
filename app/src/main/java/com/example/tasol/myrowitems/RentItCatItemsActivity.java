@@ -699,6 +699,8 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            Log.d("CHECKER =", "1");
+
             View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rentit_cat_detail_row_item,
                     parent, false);
             RecyclerView.ViewHolder viewHolder = new ViewHolder(parentView);
@@ -707,6 +709,8 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+            Log.d("CHECKER =", "2");
+
             final ViewHolder holder = (ViewHolder) viewHolder;
 
             final ContentValues row = cvSubCatData.get(position);
@@ -771,6 +775,8 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         @Override
         public int getItemCount() {
+            Log.d("CHECKER =", "3");
+
             return cvSubCatData.size();
         }
 
@@ -784,6 +790,8 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                Log.d("CHECKER =", "4");
+
                 lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
                 txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);

@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity
     CircleImageView imgProPic;
     TextView txtUserName, txtUserAge;
     NavigationView navigationView;
+    Button btnViewReqProds;
     private SliderLayout mDemoSlider;
     private StaggeredGridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
@@ -106,7 +108,6 @@ public class MainActivity extends AppCompatActivity
     private ImageView imgBack;
     private ArrayList<ContentValues> trendingData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,12 +123,12 @@ public class MainActivity extends AppCompatActivity
 
 
 //        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-
+        btnViewReqProds = (Button) findViewById(R.id.btnViewReqProds);
         getTrendingAds();
 
 
@@ -150,7 +151,15 @@ public class MainActivity extends AppCompatActivity
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PostAdActivity.class).putExtra("FROM", "MAIN"));
+                startActivity(new Intent(MainActivity.this, RequestAdActivity.class).putExtra("FROM", "MAIN"));
+            }
+        });
+
+        btnViewReqProds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ReqProdsListActivity.class));
+
             }
         });
 
