@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="Dharmesh Basapati"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="says"
+                android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:background="@color/lightGrey" />
+
+        <TextView
+            android:id="@+id/txtReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="* I think this product has some non-viable contents in it for childrens less than 18 years of age. *"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold|italic" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:background="@color/lightGrey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="about this"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/txtPID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:text="PRODUCT ID"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:textAllCaps="false"
+                android:textColor="@color/grey" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnViewAd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/blue"
+                android:padding="@dimen/_5sdp"
+                android:text="View Ad"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
+
+            <View
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btnDeleteAd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/maroon"
+                android:padding="@dimen/_5sdp"
+                android:text="Delete Ad"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

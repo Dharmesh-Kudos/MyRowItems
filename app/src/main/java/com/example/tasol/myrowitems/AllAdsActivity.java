@@ -86,7 +86,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
     private String CITYNAME;
     private DialogPlus dialogPlusSubCat;
     private CustomCityAdapter customSubCatAdapter;
-    private RecyclerViewFilterAdapter recyclerViewFilterAdapter;
+    private FilterAdapter recyclerViewFilterAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,7 +450,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
                         txtNotYet.setVisibility(View.GONE);
                         rvAllAds.setVisibility(View.VISIBLE);
                         cvSubCatData = smartCaching.parseResponse(response.getJSONArray("filterData"), "FILTERDATA", "userData").get("FILTERDATA");
-                        recyclerViewFilterAdapter = new RecyclerViewFilterAdapter();
+                        recyclerViewFilterAdapter = new FilterAdapter();
                         rvAllAds.setAdapter(recyclerViewFilterAdapter);
                     } else if (responseCode == 204) {
                         recyclerViewAllAdsAdapter.notifyDataSetChanged();
@@ -561,7 +561,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
                         txtNotYet.setVisibility(View.GONE);
                         rvAllAds.setVisibility(View.VISIBLE);
                         cvSubCatData = smartCaching.parseResponse(response.getJSONArray("filterData"), "FILTERDATA", "userData").get("FILTERDATA");
-                        recyclerViewFilterAdapter = new RecyclerViewFilterAdapter();
+                        recyclerViewFilterAdapter = new FilterAdapter();
                         rvAllAds.setAdapter(recyclerViewFilterAdapter);
                     } else if (responseCode == 204) {
                         recyclerViewAllAdsAdapter.notifyDataSetChanged();
@@ -706,23 +706,19 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         }
     }
 
-
-    private class RecyclerViewFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class FilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_all_ads_row_item,
-                    parent, false);
-            RecyclerView.ViewHolder viewHolder = new adminViewHolder(parentView);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_all_ads_row_item, parent, false);
+            RecyclerView.ViewHolder viewHolder = new ViewHolder(v);
             return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-            final adminViewHolder holder = (adminViewHolder) viewHolder;
-
+            final ViewHolder holder = (ViewHolder) viewHolder;
             final ContentValues row = cvSubCatData.get(position);
-
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtPrice.setText(getString(R.string.rs) + row.getAsString("price"));
             try {
@@ -796,16 +792,14 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
                 }
             });
 
-
         }
 
         @Override
         public int getItemCount() {
-            Log.d("CHECKER 3=", "" + cvSubCatData.size());
             return cvSubCatData.size();
         }
 
-        public class adminViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
             TextView txtTitle, txtPrice, txtUsername;
@@ -813,9 +807,8 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
             TextView btnAvailable;
 
 
-            public adminViewHolder(View itemView) {
+            public ViewHolder(View itemView) {
                 super(itemView);
-                Log.d("CHECKER =", "4");
                 btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
                 btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
@@ -825,6 +818,126 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
             }
         }
     }
+
+
+//    private class RecyclerViewFilterAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+//
+//        @Override
+//        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            View parentView = LayoutInflater.from(parent.getContext()).inflate(R.layout.admin_all_ads_row_item,
+//                    parent, false);
+//            RecyclerView.ViewHolder viewHolder = new adminViewHolder(parentView);
+//            return viewHolder;
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+//            final adminViewHolder holder = (adminViewHolder) viewHolder;
+//
+//            final ContentValues row = cvSubCatData.get(position);
+//
+//            holder.txtTitle.setText(row.getAsString("title"));
+//            holder.txtPrice.setText(getString(R.string.rs) + row.getAsString("price"));
+//            try {
+//                JSONObject userObj = new JSONObject(row.getAsString("userData"));
+//                holder.txtUsername.setText("By " + userObj.getString("user_name"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//            List<String> elephantList = Arrays.asList(row.getAsString("photo").split(","));
+//
+//            if (elephantList.get(0).contains("http")) {
+//                Picasso.with(AllAdsActivity.this).load(elephantList.get(0)).placeholder(R.drawable.no_image).into(holder.imageCat);
+//                //aQuery.id(holder.imageCat).image(elephantList.get(0), true, true).progress(new SweetAlertDialog(AllAdsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
+//            } else {
+//                Picasso.with(AllAdsActivity.this).load("http://" + elephantList.get(0)).placeholder(R.drawable.no_image).into(holder.imageCat);
+//                //aQuery.id(holder.imageCat).image("http://" + elephantList.get(0), true, true).progress(new SweetAlertDialog(AllAdsActivity.this, SweetAlertDialog.PROGRESS_TYPE));
+//
+//            }
+//
+//            if (row.getAsString("available").equals("1")) {
+//                holder.btnAvailable.setText("Available");
+//                holder.btnAvailable.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+//            } else {
+//                holder.btnAvailable.setText("Unavailable");
+//                holder.btnAvailable.setBackgroundColor(getResources().getColor(R.color.grey));
+//            }
+//
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(AllAdsActivity.this, RentItAdDetailActivity.class);
+//                    intent.putExtra("POS", position);
+//                    intent.putExtra("ROW", row);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        Pair<View, String> p2 = Pair.create((View) holder.imageCat, holder.imageCat.getTransitionName());
+//
+//                        ActivityOptionsCompat options = ActivityOptionsCompat.
+//                                makeSceneTransitionAnimation(AllAdsActivity.this, p2);
+//                        startActivity(intent, options.toBundle());
+//                    } else {
+//                        startActivity(intent);
+//                    }
+//                }
+//            });
+//
+//            holder.btnDelete.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    pDialogVisit = new SweetAlertDialog(AllAdsActivity.this, SweetAlertDialog.WARNING_TYPE);
+//                    pDialogVisit.setTitleText("All Ads");
+//                    pDialogVisit.setContentText("Are You Sure you want to Delete?");
+//                    pDialogVisit.setCancelText("Cancel");
+//                    pDialogVisit.setConfirmText("Yes");
+//                    pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                            sweetAlertDialog.dismiss();
+//                        }
+//                    });
+//                    pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                            sweetAlertDialog.dismiss();
+//                            deleteAd(row.getAsString("product_id"));
+//                        }
+//                    });
+//                    pDialogVisit.setCancelable(true);
+//                    pDialogVisit.show();
+//                }
+//            });
+//
+//
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            Log.d("CHECKER 3=", "" + cvSubCatData.size());
+//            return cvSubCatData.size();
+//        }
+//
+//        public class adminViewHolder extends RecyclerView.ViewHolder {
+//
+//            public ImageView imageCat;
+//            TextView txtTitle, txtPrice, txtUsername;
+//            Button btnDelete;
+//            TextView btnAvailable;
+//
+//
+//            public adminViewHolder(View itemView) {
+//                super(itemView);
+//                Log.d("CHECKER =", "4");
+//                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
+//                btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
+//                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+//                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
+//                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+//                imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
+//            }
+//        }
+//    }
 
     /***** Adapter class extends with ArrayAdapter ******/
     public class CustomCityAdapter extends BaseAdapter {

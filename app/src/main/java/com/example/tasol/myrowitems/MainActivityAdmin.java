@@ -155,8 +155,8 @@ public class MainActivityAdmin extends AppCompatActivity
             Intent feedbackIntent = new Intent(MainActivityAdmin.this, AllAdsActivity.class);
             startActivity(feedbackIntent);
         } else if (id == R.id.nav_reports) {
-//            Intent contactusIntent = new Intent(MainActivityAdmin.this, ContactUsActivity.class);
-//            startActivity(contactusIntent);
+            Intent contactusIntent = new Intent(MainActivityAdmin.this, AllReportsActivity.class);
+            startActivity(contactusIntent);
         } else if (id == R.id.nav_faq) {
 
         } else if (id == R.id.nav_feedback) {

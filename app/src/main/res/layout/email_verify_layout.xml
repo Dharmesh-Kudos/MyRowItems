@@ -72,6 +72,15 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtWrongCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Wrong Code..Try Again"
+        android:textColor="@color/maroon"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

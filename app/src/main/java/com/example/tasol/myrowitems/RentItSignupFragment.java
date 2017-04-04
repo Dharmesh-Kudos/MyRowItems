@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -65,6 +66,7 @@ public class RentItSignupFragment extends Fragment {
     CircleImageView imgProPic;
     Button button;
     EditText edtUsername, edtPassword, edtEmail, edtPhone, edtCity;
+    TextView txtWrongCode;
     private ProgressDialog progressDialog;
     private String imgPath;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
@@ -143,6 +145,7 @@ public class RentItSignupFragment extends Fragment {
                     @Override
                     public void onSuccess() {
                         pDialog.dismiss();
+                        // check("pop3.gmail.com","pop3","sksunny93@gmail.com","talentgoogle65");
                         //do some magic
                         final Dialog dialog = new Dialog(getActivity());
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -156,7 +159,7 @@ public class RentItSignupFragment extends Fragment {
 
                         final EditText edtCode1, edtCode2, edtCode3, edtCode4;
                         TextView btnResendCode, btnSignNow;
-
+                        txtWrongCode = (TextView) dialog.findViewById(R.id.txtWrongCode);
                         edtCode1 = (EditText) dialog.findViewById(R.id.edtCode1);
                         edtCode2 = (EditText) dialog.findViewById(R.id.edtCode2);
                         edtCode3 = (EditText) dialog.findViewById(R.id.edtCode3);
@@ -244,9 +247,18 @@ public class RentItSignupFragment extends Fragment {
                                     doSignup();
                                     dialog.dismiss();
                                 } else {
+                                    txtWrongCode.setVisibility(View.VISIBLE);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            txtWrongCode.setVisibility(View.GONE);
+                                        }
+                                    }, 2000);
+
                                     //IS_VERIFIED = false;
-                                    dialog.dismiss();
-                                    Toast.makeText(getActivity(), "Wrong Verification Code...Try Again", Toast.LENGTH_SHORT).show();
+                                    /*dialog.dismiss();
+                                    */
+//                                    Toast.makeText(getActivity(), "Wrong Verification Code...Try Again", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -637,4 +649,54 @@ public class RentItSignupFragment extends Fragment {
 
         return true;
     }
+
+//    public void check(String host, String storeType, String user,
+//                             String password)
+//    {
+//        try {
+//
+//            //create properties field
+//            Properties properties = new Properties();
+//
+//            properties.put("mail.pop3.host", host);
+//            properties.put("mail.pop3.port", "995");
+//            properties.put("mail.pop3.starttls.enable", "true");
+//            Session emailSession = Session.getDefaultInstance(properties);
+//
+//            //create the POP3 store object and connect with the pop server
+//            Store store = emailSession.getStore("pop3s");
+//
+//            store.connect(host, user, password);
+//
+//            //create the folder object and open it
+//            Folder emailFolder = store.getFolder("INBOX");
+//            emailFolder.open(Folder.READ_ONLY);
+//
+//            // retrieve the messages from the folder in an array and print it
+//            Message[] messages = emailFolder.getMessages();
+//            Log.d("HOLA","messages.length---" + messages.length);
+//
+//            for (int i = 0, n = messages.length; i < n; i++) {
+//                Message message = messages[i];
+//                Log.d("HOLA","---------------------------------");
+//                Log.d("HOLA","Email Number " + (i + 1));
+//                Log.d("HOLA","Subject: " + message.getSubject());
+//                Log.d("HOLA","From: " + message.getFrom()[0]);
+//                Log.d("HOLA","Text: " + message.getContent().toString());
+//
+//            }
+//
+//            //close the store and folder objects
+//            emailFolder.close(false);
+//            store.close();
+//
+//        } catch (NoSuchProviderException e) {
+//            e.printStackTrace();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

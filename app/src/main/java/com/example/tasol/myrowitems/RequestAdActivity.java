@@ -80,6 +80,12 @@ public class RequestAdActivity extends AppCompatActivity {
         btnPostAd = (Button) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         fillCategory();
+        closeIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supportFinishAfterTransition();
+            }
+        });
 
         if (getIntent().getStringExtra("FROM").equalsIgnoreCase("PROFILE")) {
             ISUPDATE = true;

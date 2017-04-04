@@ -50,7 +50,8 @@
         <activity android:name=".AllUsersActivity" />
         <activity android:name=".RequestAdActivity" />
         <activity android:name=".ReqProdsListActivity" />
-        <activity android:name=".ReqProdsDetailActivity"></activity>
+        <activity android:name=".ReqProdsDetailActivity" />
+        <activity android:name=".AllReportsActivity"></activity>
     </application>
 
 </manifest>
