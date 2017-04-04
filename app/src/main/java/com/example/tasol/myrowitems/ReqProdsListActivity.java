@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,7 +149,7 @@ public class ReqProdsListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             final ViewHolder holder = (ViewHolder) viewHolder;
-
+            holder.btnManager.setVisibility(View.GONE);
             final ContentValues row = categoryData.get(position);
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtFrom.setText("From " + getString(R.string.rs) + row.getAsString("budget_from"));
@@ -199,10 +200,10 @@ public class ReqProdsListActivity extends AppCompatActivity {
 
             ImageView imgProfilePicture;
             TextView txtTitle, txtFrom, txtTo, txtdays;
-
+            LinearLayout btnManager;
             public ViewHolder(View itemView) {
                 super(itemView);
-
+                btnManager = (LinearLayout) itemView.findViewById(R.id.btnManager);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
                 txtFrom = (TextView) itemView.findViewById(R.id.txtFrom);
                 txtTo = (TextView) itemView.findViewById(R.id.txtTo);

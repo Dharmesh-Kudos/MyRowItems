@@ -714,7 +714,9 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
             final ViewHolder holder = (ViewHolder) viewHolder;
 
             final ContentValues row = cvSubCatData.get(position);
-
+            if (row.getAsString("available").equals("0")) {
+                holder.btnAvailable.setVisibility(View.VISIBLE);
+            }
             holder.txtTitle.setText(row.getAsString("title"));
             holder.txtPrice.setText(getString(R.string.rs) + row.getAsString("price"));
 
@@ -785,12 +787,15 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
             public ImageView imageCat;
             CircleImageView imgProfilePicture;
             LinearLayout dataLayout;
+            Button btnAvailable;
+
             TextView txtTitle, txtPrice, txtUsername;
             LinearLayout lilo;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 Log.d("CHECKER =", "4");
+                btnAvailable = (Button) itemView.findViewById(R.id.btnAvailable);
 
                 lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
                 txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);

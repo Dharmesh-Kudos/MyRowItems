@@ -2,6 +2,7 @@ package com.example.tasol.myrowitems;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -164,7 +165,7 @@ public class RequestAdActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                                         sweetAlertDialog.dismiss();
-                                        //startActivity(new Intent(RequestAdActivity.this, RentItCatItemsActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
+                                        startActivity(new Intent(RequestAdActivity.this, ReqProdsListActivity.class));
                                         finish();
                                     }
                                 });
