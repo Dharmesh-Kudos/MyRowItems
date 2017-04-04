@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/edtPrice"
+                            android:id="@+id/edtBudgetFrom"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
@@ -127,7 +127,7 @@
                             android:textSize="@dimen/_15sdp" />
 
                         <EditText
-                            android:id="@+id/edtDeposit"
+                            android:id="@+id/edtBudgetTo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"

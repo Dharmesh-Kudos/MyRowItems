@@ -45,8 +45,8 @@ public class RequestAdActivity extends AppCompatActivity {
     private SmartCaching smartCaching;
     private EditText edtTitle;
     private EditText edtDesc;
-    private EditText edtPrice;
-    private EditText edtDeposit;
+    private EditText edtBudgetFrom;
+    private EditText edtBudgetTo;
     private EditText edtDays;
     private Button btnCategory;
     private Button btnPostAd;
@@ -62,6 +62,7 @@ public class RequestAdActivity extends AppCompatActivity {
     private SweetAlertDialog pDialogVisit;
     private boolean ISUPDATE = false;
     private JSONObject loginParams;
+    private ContentValues ROW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +71,28 @@ public class RequestAdActivity extends AppCompatActivity {
         smartCaching = new SmartCaching(RequestAdActivity.this);
         edtTitle = (EditText) findViewById(R.id.edtTitle);
         edtDesc = (EditText) findViewById(R.id.edtDesc);
-        edtPrice = (EditText) findViewById(R.id.edtPrice);
-        edtDeposit = (EditText) findViewById(R.id.edtDeposit);
+        edtBudgetFrom = (EditText) findViewById(R.id.edtBudgetFrom);
+        edtBudgetTo = (EditText) findViewById(R.id.edtBudgetTo);
         edtDays = (EditText) findViewById(R.id.edtDays);
         btnCategory = (Button) findViewById(R.id.spinnerCategory);
-
         btnCategory.setEnabled(false);
         btnCategory = (Button) findViewById(R.id.spinnerCategory);
-
-
         btnPostAd = (Button) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         fillCategory();
+
+        if (getIntent().getStringExtra("FROM").equalsIgnoreCase("PROFILE")) {
+            ISUPDATE = true;
+            ROW = getIntent().getParcelableExtra("ROW");
+            btnCategory.setText(ROW.getAsString("cat"));
+            edtTitle.setText(ROW.getAsString("title"));
+            edtDesc.setText(ROW.getAsString("description"));
+            edtBudgetFrom.setText(ROW.getAsString("budget_from"));
+            edtBudgetTo.setText(ROW.getAsString("budget_to"));
+            edtDays.setText(ROW.getAsString("days"));
+        }
+
+
         btnCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +104,11 @@ public class RequestAdActivity extends AppCompatActivity {
             public void onClick(View view) {
                 pDialog = new SweetAlertDialog(RequestAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                pDialog.setTitleText("Posting Your Ad...");
+                if (ISUPDATE) {
+                    pDialog.setTitleText("Updating Your Ad...");
+                } else {
+                    pDialog.setTitleText("Posting Your Ad...");
+                }
                 pDialog.setCancelable(true);
                 pDialog.show();
 
@@ -105,7 +120,12 @@ public class RequestAdActivity extends AppCompatActivity {
                 requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
                 final JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(TASK, "submitRequestAd");
+                    if (ISUPDATE) {
+                        jsonObject.put(TASK, "updateReqAds");
+                    } else {
+                        jsonObject.put(TASK, "submitRequestAd");
+                    }
+
                     JSONObject taskData = new JSONObject();
                     try {
                         loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
@@ -114,16 +134,30 @@ public class RequestAdActivity extends AppCompatActivity {
                         String currentDateandTime = sdf.format(new Date());
                         SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
                         String currentTime = sdfTime.format(new Date());
-                        taskData.put("user_id", loginParams.getString("id"));
-                        taskData.put("cat", btnCategory.getText().toString().trim());
-                        taskData.put("title", edtTitle.getText().toString().trim());
-                        taskData.put("desc", edtDesc.getText().toString().trim());
-                        taskData.put("budget_from", edtPrice.getText().toString().trim());
-                        taskData.put("budget_to", edtDeposit.getText().toString().trim());
-                        taskData.put("days", edtDays.getText().toString().trim());
-                        taskData.put("time", currentTime);
-                        taskData.put("created_at", currentDateandTime);
-                        taskData.put("updated_at", currentDateandTime);
+
+                        if (ISUPDATE) {
+                            taskData.put("product_id", ROW.getAsString("product_id"));
+                            taskData.put("cat", btnCategory.getText().toString().trim());
+                            taskData.put("title", edtTitle.getText().toString().trim());
+                            taskData.put("desc", edtDesc.getText().toString().trim());
+                            taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
+                            taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
+                            taskData.put("days", edtDays.getText().toString().trim());
+                            taskData.put("updated_at", currentDateandTime);
+                        } else {
+
+                            taskData.put("user_id", loginParams.getString("id"));
+                            taskData.put("cat", btnCategory.getText().toString().trim());
+                            taskData.put("title", edtTitle.getText().toString().trim());
+                            taskData.put("desc", edtDesc.getText().toString().trim());
+                            taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
+                            taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
+                            taskData.put("days", edtDays.getText().toString().trim());
+                            taskData.put("time", currentTime);
+                            taskData.put("created_at", currentDateandTime);
+                            taskData.put("updated_at", currentDateandTime);
+                        }
+
 
                     } catch (Throwable e) {
                     }

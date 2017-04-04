@@ -231,7 +231,7 @@ public class MyReqAdsFragment extends Fragment {
             holder.btnEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getActivity(), PostAdActivity.class).putExtra("ROW", row).putExtra("FROM", "PROFILE"));
+                    startActivity(new Intent(getActivity(), RequestAdActivity.class).putExtra("ROW", row).putExtra("FROM", "PROFILE"));
                 }
             });
             holder.btnDelete.setOnClickListener(new View.OnClickListener() {
