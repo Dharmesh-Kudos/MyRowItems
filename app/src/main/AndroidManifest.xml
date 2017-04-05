@@ -45,13 +45,16 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".RentItManageAdsActivity" />
         <activity android:name=".ContactUsActivity" />
-        <activity android:name=".FeedbackActivity" />
+        <activity android:name=".AddFeedbackActivity" />
         <activity android:name=".AllAdsActivity" />
         <activity android:name=".AllUsersActivity" />
         <activity android:name=".RequestAdActivity" />
         <activity android:name=".ReqProdsListActivity" />
         <activity android:name=".ReqProdsDetailActivity" />
-        <activity android:name=".AllReportsActivity"></activity>
+        <activity android:name=".AllReportsActivity" />
+        <activity android:name=".AddFAQActivity" />
+        <activity android:name=".ViewFeedbackActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

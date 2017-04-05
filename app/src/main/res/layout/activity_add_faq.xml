@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rent_splash_new"
-    tools:context="com.example.tasol.myrowitems.ContactUsActivity">
+    tools:context="com.example.tasol.myrowitems.AddFeedbackActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,72 +22,52 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="#FFFFFF">
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/_5sdp">
 
-            <EditText
-                android:id="@+id/edtName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/faq_back_design"
-                android:hint="Name"
-                android:padding="@dimen/_15sdp"
-                android:textColor="@color/grey"
-                android:textColorHint="@color/grey" />
 
             <EditText
-                android:id="@+id/edtEmail"
+                android:id="@+id/edtQue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/faq_back_design"
-                android:hint="Email"
-                android:padding="@dimen/_15sdp"
-                android:textColor="@color/grey"
-                android:textColorHint="@color/grey" />
-
-            <EditText
-                android:id="@+id/edtPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/faq_back_design"
-                android:hint="Phone"
-                android:padding="@dimen/_15sdp"
-                android:textColor="@color/grey"
-                android:textColorHint="@color/grey" />
-
-            <EditText
-                android:id="@+id/edtMsg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/faq_back_design"
                 android:gravity="top"
-                android:hint="Message"
+                android:hint="Write Question here..."
+                android:lines="2"
+                android:padding="@dimen/_15sdp"
+                android:textColor="@color/grey"
+                android:textColorHint="@color/grey" />
+
+            <EditText
+                android:id="@+id/edtAns"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/faq_back_design"
+                android:gravity="top"
+                android:hint="Write Answer Here..."
                 android:lines="5"
+                android:maxLength="140"
                 android:padding="@dimen/_15sdp"
                 android:textColor="@color/grey"
                 android:textColorHint="@color/grey" />
 
             <Button
-                android:id="@+id/btnSend"
+                android:id="@+id/btnPostFAQ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@color/colorGreen"
+                android:background="@color/colorYellow"
                 android:padding="@dimen/_15sdp"
-                android:text="SEND"
+                android:text="Post FAQ"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15sdp" />
         </LinearLayout>

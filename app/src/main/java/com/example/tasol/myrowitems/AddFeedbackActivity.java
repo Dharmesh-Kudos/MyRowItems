@@ -23,7 +23,7 @@ import smart.weservice.SmartWebManager;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
-public class FeedbackActivity extends AppCompatActivity {
+public class AddFeedbackActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     EditText edtName, edtEmail, edtPhone, edtMsg;
@@ -63,14 +63,14 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     private void addFeedback() {
-        pDialog = new SweetAlertDialog(FeedbackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog = new SweetAlertDialog(AddFeedbackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
         pDialog.setTitleText("Feedback Sending...");
         pDialog.setCancelable(true);
         pDialog.show();
 
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, FeedbackActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, AddFeedbackActivity.this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Add Feedback");
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
@@ -100,7 +100,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 if (responseCode == 200) {
                     try {
                         Log.d("RESULT = ", String.valueOf(response));
-                        pDialogVisit = new SweetAlertDialog(FeedbackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                        pDialogVisit = new SweetAlertDialog(AddFeedbackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
                         pDialogVisit.setTitleText("Thank You!!!");
                         pDialogVisit.setContentText("Feedback Sent Successfully.");
 
@@ -123,7 +123,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(FeedbackActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddFeedbackActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                 }
 
             }

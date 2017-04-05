@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -37,9 +38,9 @@ public class RentItLoginFragment extends Fragment {
 
     Button button;
     EditText edtEmail, edtPassword;
+    TextView btnForgetPassword;
     private ProgressDialog progressDialog;
     private SweetAlertDialog pDialog;
-
 
     public RentItLoginFragment() {
 
@@ -51,7 +52,14 @@ public class RentItLoginFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_rent_it_login, container, false);
         edtEmail = (EditText) v.findViewById(R.id.edtEmail);
         edtPassword = (EditText) v.findViewById(R.id.edtPassword);
+        btnForgetPassword = (TextView) v.findViewById(R.id.btnForgetPassword);
         button = (Button) v.findViewById(R.id.btnLogin);
+        btnForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

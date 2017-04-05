@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import smart.caching.SmartCaching;
 import smart.framework.SmartApplication;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView imgBack;
     private ArrayList<ContentValues> trendingData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
+    private SweetAlertDialog pDialogVisit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -454,19 +456,39 @@ public class MainActivity extends AppCompatActivity
             Intent loginIntent = new Intent(MainActivity.this, RentItManageAdsActivity.class);
             startActivity(loginIntent);
         } else if (id == R.id.nav_slideshow) {
-            Intent feedbackIntent = new Intent(MainActivity.this, FeedbackActivity.class);
+            Intent feedbackIntent = new Intent(MainActivity.this, AddFeedbackActivity.class);
             startActivity(feedbackIntent);
         } else if (id == R.id.nav_manage) {
             Intent contactusIntent = new Intent(MainActivity.this, ContactUsActivity.class);
             startActivity(contactusIntent);
         } else if (id == R.id.nav_share) {
-
+            Intent contactusIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(contactusIntent);
         } else if (id == R.id.nav_send) {
-            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
-            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
+            pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+            pDialogVisit.setTitleText("Rent It");
+            pDialogVisit.setContentText("Are You Sure to Logout?");
+            pDialogVisit.setCancelText("Not Really");
+            pDialogVisit.setConfirmText("Of course");
+            pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismiss();
+                }
+            });
+            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismiss();
+                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
+                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
 
-            Intent loginIntent = new Intent(MainActivity.this, RentItLoginActivity.class);
-            startActivity(loginIntent);
+                    Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
+                    startActivity(loginIntent2);
+                }
+            });
+            pDialogVisit.setCancelable(true);
+            pDialogVisit.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.

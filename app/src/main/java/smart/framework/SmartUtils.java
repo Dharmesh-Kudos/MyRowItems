@@ -322,6 +322,20 @@ public class SmartUtils implements Constants {
         }
     }
 
+
+    public static String getFormattedDate(String date) {
+        Date parsedDate = null;
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat output = new SimpleDateFormat("dd-MMM-yyyy");
+        try {
+            parsedDate = input.parse(date);
+            return output.format(parsedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * This method used to get date dialog.
      *

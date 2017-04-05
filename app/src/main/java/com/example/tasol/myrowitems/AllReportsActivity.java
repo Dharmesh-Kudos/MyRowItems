@@ -208,6 +208,11 @@ public class AllReportsActivity extends AppCompatActivity {
     }
 
     private void openReportedAd(String product_id) {
+        pDialog = new SweetAlertDialog(AllReportsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        pDialog.setTitleText("Opening  Ad...");
+        pDialog.setCancelable(true);
+        pDialog.show();
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, AllReportsActivity.this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
@@ -233,7 +238,7 @@ public class AllReportsActivity extends AppCompatActivity {
 
             @Override
             public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-
+                pDialog.dismiss();
                 try {
                     if (responseCode == 200) {
                         txtNotYet.setVisibility(View.GONE);
@@ -286,7 +291,7 @@ public class AllReportsActivity extends AppCompatActivity {
 
                 holder.txtReport.setText(Html.fromHtml("&ldquo; " + row.getAsString("report") + " &rdquo;"));
 
-                holder.txtPID.setText(row.getAsString("product_id"));
+                holder.txtPID.setText(row.getAsString("title"));
 
                 holder.btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
