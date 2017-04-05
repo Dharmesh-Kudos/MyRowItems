@@ -199,6 +199,7 @@ public class MainActivityAdmin extends AppCompatActivity {
 
                                     Intent loginIntent2 = new Intent(MainActivityAdmin.this, RentItLoginActivity.class);
                                     startActivity(loginIntent2);
+                                    finish();
                                 }
                             });
                             pDialogVisit.setCancelable(true);

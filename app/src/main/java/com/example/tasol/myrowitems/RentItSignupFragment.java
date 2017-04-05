@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -29,12 +31,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.OnItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +57,7 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
+import smart.caching.SmartCaching;
 import smart.framework.Constants;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
@@ -65,7 +71,8 @@ public class RentItSignupFragment extends Fragment {
 
     CircleImageView imgProPic;
     Button button;
-    EditText edtUsername, edtPassword, edtEmail, edtPhone, edtCity;
+    EditText edtUsername, edtPassword, edtEmail, edtPhone;
+    Button btnCity;
     TextView txtWrongCode;
     private ProgressDialog progressDialog;
     private String imgPath;
@@ -76,6 +83,12 @@ public class RentItSignupFragment extends Fragment {
     private String CODE;
     private boolean IS_VERIFIED = false;
     private String verifyMsg;
+    private DialogPlus dialogPlusSubCat;
+    private ArrayList<String> subCityData;
+    private ArrayList<ContentValues> cvSubCatData;
+    private String CITYNAME;
+    private smart.caching.SmartCaching smartCaching;
+    private CustomCityAdapter customSubCatAdapter;
 
 
     public RentItSignupFragment() {
@@ -86,14 +99,16 @@ public class RentItSignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_it_signup, container, false);
+        smartCaching = new SmartCaching(getActivity());
+
         button = (Button) v.findViewById(R.id.btnSignUp);
         edtUsername = (EditText) v.findViewById(R.id.edtUsername);
         edtPassword = (EditText) v.findViewById(R.id.edtPassword);
         edtEmail = (EditText) v.findViewById(R.id.edtEmail);
         edtPhone = (EditText) v.findViewById(R.id.edtPhone);
-        edtCity = (EditText) v.findViewById(R.id.edtCity);
+        btnCity = (Button) v.findViewById(R.id.btnCity);
         imgProPic = (CircleImageView) v.findViewById(R.id.imgProfilePicture);
-
+        fetchCity();
         imgProPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +116,14 @@ public class RentItSignupFragment extends Fragment {
 
                     OpenImageChooser();
                 }
+            }
+        });
+
+        btnCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialogPlusSubCat.show();
             }
         });
 
@@ -121,6 +144,68 @@ public class RentItSignupFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void fetchCity() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, getActivity());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "fetchCity");
+            JSONObject taskData = new JSONObject();
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                Log.d("RESULT = ", String.valueOf(response));
+                try {
+                    subCityData = new ArrayList<String>();
+                    if (responseCode == 200) {
+                        cvSubCatData = smartCaching.parseResponse(response.getJSONArray("cityData"), "CITYDATA", null).get("CITYDATA");
+                        //subCityData.add("Choose Sub Category");
+                        for (int i = 0; i < cvSubCatData.size(); i++) {
+                            subCityData.add(cvSubCatData.get(i).getAsString("name"));
+                        }
+                        customSubCatAdapter = new CustomCityAdapter(getActivity(), subCityData);
+                        dialogPlusSubCat = DialogPlus.newDialog(getActivity())
+                                .setAdapter(customSubCatAdapter)
+                                .setCancelable(true)
+                                .setOnItemClickListener(new OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(DialogPlus dialog, Object item, View view, int position) {
+
+                                        CITYNAME = cvSubCatData.get(position).getAsString("name");
+                                        btnCity.setText(CITYNAME);
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
+                                .create();
+
+                    } else if (responseCode == 204) {
+                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+                Toast.makeText(getActivity(), "In Response Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
     }
 
     private void sendMailAndVerify(boolean isShow) {
@@ -317,7 +402,7 @@ public class RentItSignupFragment extends Fragment {
                 taskData.put("password", edtPassword.getText().toString().trim());
                 taskData.put("email", edtEmail.getText().toString().trim());
                 taskData.put("phone", edtPhone.getText().toString().trim());
-                taskData.put("city", edtCity.getText().toString().trim());
+                taskData.put("city", btnCity.getText().toString().trim());
                 taskData.put("is_admin", "0");
                 taskData.put("varified", "1");
                 taskData.put("remember_token", CODE);
@@ -345,7 +430,7 @@ public class RentItSignupFragment extends Fragment {
                         edtUsername.setText("");
                         edtPassword.setText("");
                         edtPhone.setText("");
-                        edtCity.setText("");
+                        btnCity.setText("");
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                         ((RentItLoginActivity) getActivity()).selectFragment(0);
                     } else if (responseCode == 204) {
@@ -648,6 +733,47 @@ public class RentItSignupFragment extends Fragment {
         }
 
         return true;
+    }
+
+    /***** Adapter class extends with ArrayAdapter ******/
+    public class CustomCityAdapter extends BaseAdapter {
+
+        LayoutInflater inflater;
+        private ArrayList<String> mCityData;
+
+        /*************  CustomAdapter Constructor *****************/
+        public CustomCityAdapter(Context applicationContext, ArrayList<String> mCatData) {
+
+            this.mCityData = mCatData;
+            inflater = (LayoutInflater.from(applicationContext));
+            /***********  Layout inflator to call external xml layout () **********************/
+
+        }
+
+        @Override
+        public int getCount() {
+            return mCityData.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = inflater.inflate(R.layout.spinner_rows, null);
+            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            names.setText(mCityData.get(i));
+
+            return view;
+        }
+
     }
 
 //    public void check(String host, String storeType, String user,

@@ -485,6 +485,7 @@ public class MainActivity extends AppCompatActivity
 
                     Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
                     startActivity(loginIntent2);
+                    finish();
                 }
             });
             pDialogVisit.setCancelable(true);

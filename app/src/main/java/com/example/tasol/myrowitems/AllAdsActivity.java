@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -84,6 +85,8 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
     private ArrayList<ContentValues> cvSubCatData;
     private ArrayList<String> subCityData;
     private String CITYNAME;
+    private LinearLayoutManager linearLayoutManager;
+
     private DialogPlus dialogPlusSubCat;
     private CustomCityAdapter customSubCatAdapter;
     private FilterAdapter recyclerViewFilterAdapter;
@@ -101,10 +104,11 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
         edtSearch = (EditText) findViewById(R.id.edtSearchName);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
-        gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rvAllAds = (RecyclerView) findViewById(R.id.rvAllAds);
         rvAllAds.setHasFixedSize(true);
-        rvAllAds.setLayoutManager(gridLayoutManager);
+        rvAllAds.setLayoutManager(linearLayoutManager);
         rvAllAds.setNestedScrollingEnabled(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

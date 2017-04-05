@@ -64,14 +64,17 @@
             android:padding="@dimen/_15sdp"
             android:singleLine="true" />
 
-        <EditText
-            android:id="@+id/edtCity"
+        <Button
+            android:id="@+id/btnCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FAFAFA"
-            android:hint="City"
+            android:drawableRight="@drawable/ic_chevron_down_grey600_24dp"
+            android:gravity="left"
             android:padding="@dimen/_15sdp"
-            android:singleLine="true" />
+            android:text="Select City"
+            android:textAllCaps="false"
+            android:textColor="@color/grey" />
 
         <Button
             android:id="@+id/btnSignUp"
