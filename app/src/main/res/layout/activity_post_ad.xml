@@ -81,7 +81,7 @@
                             android:layout_weight="1"
                             android:gravity="center|left"
                             android:padding="10dp"
-                            android:text="Photos For Your Ad"
+                            android:text="Upload some photos (Max. 6)"
                             android:textSize="15dp" />
 
                         <android.support.design.widget.FloatingActionButton
@@ -176,44 +176,88 @@
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
 
-                    <EditText
-                        android:id="@+id/edtPrice"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@drawable/post_box_back_design"
-                        android:hint="Rent Price"
-                        android:inputType="number"
-                        android:maxLength="5"
-                        android:padding="12dp"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_15sdp" />
+                        android:layout_marginTop="@dimen/_3sdp">
 
-                    <EditText
-                        android:id="@+id/edtDeposit"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/lightGrey"
+                            android:padding="@dimen/_10sdp"
+                            android:text="@string/rs"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <EditText
+                            android:id="@+id/edtPrice"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/post_box_back_design"
+                            android:hint="Rent Price"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="12dp"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_15sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@drawable/post_box_back_design"
-                        android:hint="Security Deposit (if any)"
-                        android:inputType="number"
-                        android:maxLength="5"
-                        android:padding="12dp"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_15sdp" />
+                        android:layout_marginTop="@dimen/_3sdp">
 
-                    <EditText
-                        android:id="@+id/edtDays"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/lightGrey"
+                            android:padding="@dimen/_10sdp"
+                            android:text="@string/rs"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <EditText
+                            android:id="@+id/edtDeposit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/post_box_back_design"
+                            android:hint="Security Deposit (if any)"
+                            android:inputType="number"
+                            android:maxLength="5"
+                            android:padding="12dp"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_15sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@drawable/post_box_back_design"
-                        android:hint="No. of Days to keep on Rent"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_15sdp" />
+                        android:layout_marginTop="@dimen/_3sdp">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/lightGrey"
+                            android:padding="@dimen/_10sdp"
+                            android:text="Days"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <EditText
+                            android:id="@+id/edtDays"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/post_box_back_design"
+                            android:hint="No. of Days to keep on Rent"
+                            android:inputType="number"
+                            android:padding="12dp"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/_15sdp" />
+                    </LinearLayout>
 
                     <Button
                         android:id="@+id/spinnerCondition"
@@ -227,7 +271,6 @@
                         android:text="Choose Category"
                         android:textAllCaps="false"
                         android:textColor="@color/grey" />
-
 
                 </LinearLayout>
 

@@ -70,7 +70,7 @@ import static smart.framework.Constants.TASKDATA;
 public class RentItSignupFragment extends Fragment {
 
     CircleImageView imgProPic;
-    Button button;
+    Button btnSignup;
     EditText edtUsername, edtPassword, edtEmail, edtPhone;
     Button btnCity;
     TextView txtWrongCode;
@@ -86,9 +86,10 @@ public class RentItSignupFragment extends Fragment {
     private DialogPlus dialogPlusSubCat;
     private ArrayList<String> subCityData;
     private ArrayList<ContentValues> cvSubCatData;
-    private String CITYNAME;
+    private String CITYNAME = "null";
     private smart.caching.SmartCaching smartCaching;
     private CustomCityAdapter customSubCatAdapter;
+    private boolean isValid = false;
 
 
     public RentItSignupFragment() {
@@ -101,7 +102,7 @@ public class RentItSignupFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_rent_it_signup, container, false);
         smartCaching = new SmartCaching(getActivity());
 
-        button = (Button) v.findViewById(R.id.btnSignUp);
+        btnSignup = (Button) v.findViewById(R.id.btnSignUp);
         edtUsername = (EditText) v.findViewById(R.id.edtUsername);
         edtPassword = (EditText) v.findViewById(R.id.edtPassword);
         edtEmail = (EditText) v.findViewById(R.id.edtEmail);
@@ -127,18 +128,45 @@ public class RentItSignupFragment extends Fragment {
             }
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        btnSignup.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
             public void onClick(View v) {
 
+                if (edtUsername.getText().toString().length() > 0) {
+                    if (edtPassword.getText().toString().length() >= 8) {
+                        if (edtEmail.getText().toString().length() > 0) {
+                            if (SmartUtils.emailValidator(edtEmail.getText().toString())) {
+                                if (edtPhone.getText().toString().length() == 10) {
 
-                CODE = "" + ((int) (Math.random() * 9000) + 1000);//Generating 4-digit Code
+                                    if (!CITYNAME.equalsIgnoreCase("null")) {
+                                        isValid = true;
+                                        btnCity.setError("");
+                                    } else {
+                                        btnCity.setError("Select City");
+                                    }
 
-                verifyMsg = "Your 4-digit Verification Code is " + CODE;//Making Verification Message
+                                } else {
+                                    edtPhone.setError("Invalid Mobile number");
+                                }
+                            } else {
+                                edtEmail.setError("Invalid email address");
+                            }
+                        } else {
+                            edtEmail.setError("Enter email address");
+                        }
+                    } else {
+                        edtPassword.setError("Enter Password (Min. 8 letters)");
+                    }
+                } else {
+                    edtUsername.setError("Enter username");
+                }
 
-                sendMailAndVerify(false);
+                if (isValid) {
+                    sendMailAndVerify(false);
+                }
+
 
             }
         });
@@ -209,6 +237,10 @@ public class RentItSignupFragment extends Fragment {
     }
 
     private void sendMailAndVerify(boolean isShow) {
+        CODE = "" + ((int) (Math.random() * 9000) + 1000);//Generating 4-digit Code
+
+        verifyMsg = "Your 4-digit Verification Code is " + CODE;//Making Verification Message
+
         pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
         if (isShow) {
@@ -216,7 +248,7 @@ public class RentItSignupFragment extends Fragment {
         } else {
             pDialog.setTitleText("Sending Details...");
         }
-        pDialog.setCancelable(true);
+        pDialog.setCancelable(false);
         pDialog.show();
 
         BackgroundMail.newBuilder(getActivity())
@@ -383,7 +415,7 @@ public class RentItSignupFragment extends Fragment {
         pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
         pDialog.setTitleText("Creating Account...");
-        pDialog.setCancelable(true);
+        pDialog.setCancelable(false);
         pDialog.show();
 
 

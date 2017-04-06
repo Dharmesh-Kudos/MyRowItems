@@ -30,6 +30,7 @@ public class AddFeedbackActivity extends AppCompatActivity {
     Button btnSend;
     private SweetAlertDialog pDialogVisit;
     private SweetAlertDialog pDialog;
+    private boolean isValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,38 @@ public class AddFeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                addFeedback();
+                if (edtName.getText().toString().length() > 0) {
+                    if (edtEmail.getText().toString().length() > 0) {
+
+                        if (SmartUtils.emailValidator(edtEmail.getText().toString())) {
+
+                            if (edtPhone.getText().toString().length() == 10) {
+
+                                if (edtMsg.getText().toString().length() > 0) {
+                                    isValid = true;
+                                } else {
+                                    edtMsg.setError("Write some feedback");
+                                }
+
+                            } else {
+                                edtPhone.setError("Invalid Mobile number");
+                            }
+                        } else {
+                            edtEmail.setError("Invalid email address");
+                        }
+
+                    } else {
+                        edtEmail.setError("Enter email address");
+                    }
+                } else {
+                    edtName.setError("Enter username");
+                }
+
+                if (isValid) {
+
+                    addFeedback();
+                }
+
             }
         });
     }

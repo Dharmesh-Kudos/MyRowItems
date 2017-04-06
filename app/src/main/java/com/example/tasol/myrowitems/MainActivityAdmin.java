@@ -2,6 +2,7 @@ package com.example.tasol.myrowitems;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -11,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import org.json.JSONObject;
 
@@ -42,10 +45,11 @@ public class MainActivityAdmin extends AppCompatActivity {
             R.drawable.account,
             R.drawable.logout};
     String[] NAMESOFCATS = {"My Profile", "All Users", "All Ads", "View Reports", "Add FAQ", "View Feedback", "Settings", "Logout"};
+    boolean doubleBackToExitPressedOnce = false;
     private JSONObject loginParams = null;
     private SmartCaching smartCaching;
     private SweetAlertDialog pDialogVisit;
-
+    private FloatingActionMenu fmenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,8 @@ public class MainActivityAdmin extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Rent It Admin Dashboard");
         }
-
+        fmenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fmenu.setClosedOnTouchOutside(true);
         FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +131,26 @@ public class MainActivityAdmin extends AppCompatActivity {
 //        } else {
 //            super.onBackPressed();
 //        }
+        if (fmenu.isOpened()) {
+            fmenu.close(true);
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+//            super.onBackPressed();
+        }
     }
 
     private class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

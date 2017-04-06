@@ -79,7 +79,7 @@ public class PostAdActivity extends AppCompatActivity {
     Button btnCategory, btnSubCategory, btnCondition;
     String AVAILABLE = "1";
     String TIME, CREATED_AT, UPDATED_AT;
-    String CATID, SUBCATID, CONDITION;
+    String CATID = "0", SUBCATID = "0", CONDITION = "0";
     String[] arrConditions;
     ProgressBar spnProBar;
     CustomCatAdapter customCatAdapter;
@@ -104,6 +104,7 @@ public class PostAdActivity extends AppCompatActivity {
     private boolean ISNEAR = false;
     private boolean ISUPDATE = false;
     private String UPDCATID;
+    private boolean isValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,150 +173,48 @@ public class PostAdActivity extends AppCompatActivity {
         btnPostAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("HELLO", "1");
-                pDialog = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                if (ISUPDATE) {
-                    pDialog.setTitleText("Updating Your Ad...");
-                } else {
-                    pDialog.setTitleText("Posting Your Ad...");
-                }
-                pDialog.setCancelable(true);
-                pDialog.show();
 
-                HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                final JSONObject jsonObject = new JSONObject();
-                try {
-                    if (ISUPDATE) {
-                        jsonObject.put(TASK, "updateAds");
-                    } else {
-                        jsonObject.put(TASK, "submitPostAd");
-                    }
-                    JSONObject taskData = new JSONObject();
-                    try {
-                        loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-                                .getString(SP_LOGGED_IN_USER_DATA, ""));
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentDateandTime = sdf.format(new Date());
+                if (!CATID.equals("0")) {
+                    if (!SUBCATID.equals("0")) {
 
-                        if (ISUPDATE) {
-                            taskData.put("product_id", ROW.getAsString("product_id"));
-                            taskData.put("title", edtTitle.getText().toString());
-                            taskData.put("desc", edtDesc.getText().toString());
-                            taskData.put("price", edtPrice.getText().toString());
-                            taskData.put("deposit", edtDeposit.getText().toString());
-                            taskData.put("days", edtDays.getText().toString());
-                            taskData.put("condition", CONDITION);
-                            taskData.put("updated_at", currentDateandTime);
-                            int oldPhotosSize = 0;
-                            StringBuilder oldPhotos = new StringBuilder();
-                            for (int i = 0; i < selectedPhotos.size(); i++) {
-                                if (selectedPhotos.get(i).contains("/rentimgs/")) {
-                                    oldPhotosSize++;
-                                    oldPhotos.append(selectedPhotos.get(i) + ",");
-                                }
-                            }
-                            taskData.put("total_image", oldPhotosSize);
-                            taskData.put("oldPhotos", oldPhotos.toString());
+                        if (edtTitle.getText().toString().length() > 0) {
+                            if (edtDesc.getText().toString().length() > 0) {
+                                if (edtPrice.getText().toString().length() > 0) {
+                                    if (edtDeposit.getText().toString().length() > 0) {
 
-                        } else {
-                            taskData.put("user_id", loginParams.getString("id"));
-                            taskData.put("cat_id", CATID);
-                            taskData.put("subCat_id", SUBCATID);
-                            taskData.put("title", edtTitle.getText().toString());
-                            taskData.put("desc", edtDesc.getText().toString());
-                            taskData.put("price", edtPrice.getText().toString());
-                            taskData.put("deposit", edtDeposit.getText().toString());
-                            taskData.put("days", edtDays.getText().toString());
-                            taskData.put("condition", CONDITION);
-                            taskData.put("time", currentDateandTime);
-                            taskData.put("available", "1");
-                            taskData.put("created_at", currentDateandTime);
-                            taskData.put("updated_at", currentDateandTime);
-                            taskData.put("total_image", selectedPhotos.size());
+                                        if (edtDays.getText().toString().length() > 0) {
+                                            if (!CONDITION.equals("0")) {
+                                                isValid = true;
+                                            } else {
+                                                btnCondition.setError("Select Condition");
+                                            }
+                                        } else {
+                                            edtDays.setError("Enter days");
+                                        }
 
-                        }
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                    }
-                    jsonObject.put(TASKDATA, taskData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+                                    } else {
+                                        edtDeposit.setError("Enter Deposit or write 0");
+                                    }
 
-                    @Override
-                    public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                        pDialog.dismiss();
-                        if (responseCode == 200) {
-                            try {
-                                Log.d("RESULT = ", String.valueOf(response));
-                                pDialogVisit = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-
-                                if (ISUPDATE) {
-                                    pDialogVisit.setTitleText("Ad Updated Successfully");
-                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
-                                    pDialogVisit.setCancelText("Back");
                                 } else {
-
-                                    pDialogVisit.setTitleText("Ad Posted Successfully");
-                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
-                                    pDialogVisit.setCancelText("Home");
+                                    edtPrice.setError("Enter Price");
                                 }
-
-                                pDialogVisit.setConfirmText("SEE MY AD");
-                                pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        supportFinishAfterTransition();
-                                    }
-                                });
-                                pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        startActivity(new Intent(PostAdActivity.this, RentItCatItemsActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
-                                        finish();
-                                    }
-                                });
-                                pDialogVisit.setCancelable(true);
-                                pDialogVisit.show();
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                            } else {
+                                edtDesc.setError("Enter Ad description");
                             }
                         } else {
-                            Toast.makeText(PostAdActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                            edtTitle.setError("Enter Title");
                         }
-
+                    } else {
+                        btnSubCategory.setError("Select sub-category");
                     }
-
-                    @Override
-                    public void onResponseError() {
-
-                        SmartUtils.hideProgressDialog();
-                    }
-                });
-
-                if (selectedPhotos != null && selectedPhotos.size() > 0) {
-                    ArrayList<String> sendPics = new ArrayList<String>();
-                    for (int i = 0; i < selectedPhotos.size(); i++) {
-                        if (!selectedPhotos.get(i).contains("/rentimgs/")) {
-                            sendPics.add(selectedPhotos.get(i));
-                        }
-                    }
-                    String[] images = new String[sendPics.size()];
-                    images = sendPics.toArray(images);
-                    SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipartUpload(requestParams, images, "", false);
                 } else {
+                    btnCategory.setError("Select Category");
+                }
 
-                    SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+
+                if (isValid) {
+                    postAd();
                 }
             }
         });
@@ -400,6 +299,153 @@ public class PostAdActivity extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+
+    void postAd() {
+        pDialog = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        if (ISUPDATE) {
+            pDialog.setTitleText("Updating Your Ad...");
+        } else {
+            pDialog.setTitleText("Posting Your Ad...");
+        }
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, PostAdActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            if (ISUPDATE) {
+                jsonObject.put(TASK, "updateAds");
+            } else {
+                jsonObject.put(TASK, "submitPostAd");
+            }
+            JSONObject taskData = new JSONObject();
+            try {
+                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                        .getString(SP_LOGGED_IN_USER_DATA, ""));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+
+                if (ISUPDATE) {
+                    taskData.put("product_id", ROW.getAsString("product_id"));
+                    taskData.put("title", edtTitle.getText().toString());
+                    taskData.put("desc", edtDesc.getText().toString());
+                    taskData.put("price", edtPrice.getText().toString());
+                    taskData.put("deposit", edtDeposit.getText().toString());
+                    taskData.put("days", edtDays.getText().toString());
+                    taskData.put("condition", CONDITION);
+                    taskData.put("updated_at", currentDateandTime);
+                    int oldPhotosSize = 0;
+                    StringBuilder oldPhotos = new StringBuilder();
+                    for (int i = 0; i < selectedPhotos.size(); i++) {
+                        if (selectedPhotos.get(i).contains("/rentimgs/")) {
+                            oldPhotosSize++;
+                            oldPhotos.append(selectedPhotos.get(i) + ",");
+                        }
+                    }
+                    taskData.put("total_image", oldPhotosSize);
+                    taskData.put("oldPhotos", oldPhotos.toString());
+
+                } else {
+                    taskData.put("user_id", loginParams.getString("id"));
+                    taskData.put("cat_id", CATID);
+                    taskData.put("subCat_id", SUBCATID);
+                    taskData.put("title", edtTitle.getText().toString());
+                    taskData.put("desc", edtDesc.getText().toString());
+                    taskData.put("price", edtPrice.getText().toString());
+                    taskData.put("deposit", edtDeposit.getText().toString());
+                    taskData.put("days", edtDays.getText().toString());
+                    taskData.put("condition", CONDITION);
+                    taskData.put("time", currentDateandTime);
+                    taskData.put("available", "1");
+                    taskData.put("created_at", currentDateandTime);
+                    taskData.put("updated_at", currentDateandTime);
+                    taskData.put("total_image", selectedPhotos.size());
+
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                pDialog.dismiss();
+                if (responseCode == 200) {
+                    try {
+                        Log.d("RESULT = ", String.valueOf(response));
+                        pDialogVisit = new SweetAlertDialog(PostAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+
+                        if (ISUPDATE) {
+                            pDialogVisit.setTitleText("Ad Updated Successfully");
+                            pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                            pDialogVisit.setCancelText("Back");
+                        } else {
+
+                            pDialogVisit.setTitleText("Ad Posted Successfully");
+                            pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                            pDialogVisit.setCancelText("Home");
+                        }
+
+                        pDialogVisit.setConfirmText("SEE MY AD");
+                        pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                supportFinishAfterTransition();
+                            }
+                        });
+                        pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                startActivity(new Intent(PostAdActivity.this, RentItCatItemsActivity.class).putExtra("IN_POS", Integer.valueOf(CATID)).putExtra("TITLE", CATNAME));
+                                finish();
+                            }
+                        });
+                        pDialogVisit.setCancelable(true);
+                        pDialogVisit.show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(PostAdActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+
+        if (selectedPhotos != null && selectedPhotos.size() > 0) {
+            ArrayList<String> sendPics = new ArrayList<String>();
+            for (int i = 0; i < selectedPhotos.size(); i++) {
+                if (!selectedPhotos.get(i).contains("/rentimgs/")) {
+                    sendPics.add(selectedPhotos.get(i));
+                }
+            }
+            String[] images = new String[sendPics.size()];
+            images = sendPics.toArray(images);
+            SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipartUpload(requestParams, images, "", false);
+        } else {
+
+            SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+        }
     }
 
     private void fillConditions() {

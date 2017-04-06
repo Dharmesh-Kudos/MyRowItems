@@ -74,6 +74,7 @@ public class EditProfileActivity extends AppCompatActivity {
     SweetAlertDialog pDialog, pDialogVisit;
     CircleImageView imgProfilePicture;
     CustomCityAdapter customCondAdapter;
+    boolean isValid = false;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
     private int SELECT_PICTURE = 1;
     private String imgPath;
@@ -90,7 +91,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private String UPDCATID;
     private String selectedImagePath;
     private ArrayList<String> subCityData;
-    private String CITYNAME;
+    private String CITYNAME = "null";
     private Toolbar toolbar;
 
     @Override
@@ -132,10 +133,36 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-                            .getString(SP_LOGGED_IN_USER_DATA, ""));
 
-                    updateUserInfo(loginParams.getString("id"));
+                    if (edtUsername.getText().toString().length() > 0) {
+                        if (edtPassword.getText().toString().length() >= 8) {
+
+                            if (edtPhone.getText().toString().length() == 10) {
+
+                                if (!CITYNAME.equalsIgnoreCase("null")) {
+                                    isValid = true;
+                                    txtCity.setError("");
+                                } else {
+                                    txtCity.setError("Select City");
+                                }
+
+                            } else {
+                                edtPhone.setError("Invalid Mobile number");
+                            }
+
+                        } else {
+                            edtPassword.setError("Enter Password (Min. 8 letters)");
+                        }
+                    } else {
+                        edtUsername.setError("Enter username");
+                    }
+
+                    if (isValid) {
+                        loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                                .getString(SP_LOGGED_IN_USER_DATA, ""));
+
+                        updateUserInfo(loginParams.getString("id"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

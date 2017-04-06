@@ -152,8 +152,8 @@ public class ReqProdsListActivity extends AppCompatActivity {
             holder.btnManager.setVisibility(View.GONE);
             final ContentValues row = categoryData.get(position);
             holder.txtTitle.setText(row.getAsString("title"));
-            holder.txtFrom.setText("From " + getString(R.string.rs) + row.getAsString("budget_from"));
-            holder.txtTo.setText("To " + getString(R.string.rs) + row.getAsString("budget_to"));
+            holder.txtFrom.setText(getString(R.string.rs) + row.getAsString("budget_from"));
+            holder.txtTo.setText(getString(R.string.rs) + row.getAsString("budget_to"));
             holder.txtdays.setText("(For " + row.getAsString("days") + " days)");
 
             try {

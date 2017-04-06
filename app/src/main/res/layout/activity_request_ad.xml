@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
-                        android:hint="Ad Title..."
+                        android:hint="Request Ad Title..."
                         android:padding="12dp"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/_15sdp" />
@@ -102,7 +102,7 @@
                         android:layout_marginTop="@dimen/_3sdp"
                         android:background="@drawable/post_box_back_design"
                         android:gravity="left|top"
-                        android:hint="Write few lines about your product..."
+                        android:hint="Write few lines describing the product..."
                         android:lines="5"
                         android:padding="12dp"
                         android:textColor="@color/grey"
@@ -112,46 +112,89 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
-                            android:id="@+id/edtBudgetFrom"
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@color/lightGrey"
+                                android:padding="@dimen/_10sdp"
+                                android:text="@string/rs"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15sdp" />
+
+                            <EditText
+                                android:id="@+id/edtBudgetFrom"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/post_box_back_design"
+                                android:hint="Budget From"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:padding="@dimen/_10sdp"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_weight="1"
-                            android:background="@drawable/post_box_back_design"
-                            android:hint="Budget From"
-                            android:inputType="number"
-                            android:maxLength="5"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@color/lightGrey"
+                                android:padding="@dimen/_10sdp"
+                                android:text="@string/rs"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15sdp" />
+
+                            <EditText
+                                android:id="@+id/edtBudgetTo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/post_box_back_design"
+                                android:hint="Budget To"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:padding="@dimen/_10sdp"
+                                android:textColor="@color/grey"
+                                android:textSize="@dimen/_15sdp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/lightGrey"
                             android:padding="@dimen/_10sdp"
+                            android:text="Days"
                             android:textColor="@color/grey"
-                            android:textSize="@dimen/_15sdp" />
+                            android:textSize="@dimen/_12sdp" />
 
                         <EditText
-                            android:id="@+id/edtBudgetTo"
-                            android:layout_width="0dp"
+                            android:id="@+id/edtDays"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_weight="1"
                             android:background="@drawable/post_box_back_design"
-                            android:hint="Budget To"
+                            android:hint="Number of days"
                             android:inputType="number"
-                            android:maxLength="5"
-                            android:padding="@dimen/_10sdp"
+                            android:padding="12dp"
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_15sdp" />
                     </LinearLayout>
-
-                    <EditText
-                        android:id="@+id/edtDays"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@drawable/post_box_back_design"
-                        android:hint="Number of Days"
-                        android:inputType="number"
-                        android:padding="12dp"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/_15sdp" />
 
                     <Button
                         android:id="@+id/btnPostAd"

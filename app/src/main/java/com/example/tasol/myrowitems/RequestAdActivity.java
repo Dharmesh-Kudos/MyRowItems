@@ -63,6 +63,7 @@ public class RequestAdActivity extends AppCompatActivity {
     private boolean ISUPDATE = false;
     private JSONObject loginParams;
     private ContentValues ROW;
+    private boolean isValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class RequestAdActivity extends AppCompatActivity {
         edtDays = (EditText) findViewById(R.id.edtDays);
         btnCategory = (Button) findViewById(R.id.spinnerCategory);
         btnCategory.setEnabled(false);
+
         btnCategory = (Button) findViewById(R.id.spinnerCategory);
         btnPostAd = (Button) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
@@ -108,130 +110,168 @@ public class RequestAdActivity extends AppCompatActivity {
         btnPostAd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pDialog = new SweetAlertDialog(RequestAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                if (ISUPDATE) {
-                    pDialog.setTitleText("Updating Your Ad...");
-                } else {
-                    pDialog.setTitleText("Posting Your Ad...");
-                }
-                pDialog.setCancelable(true);
-                pDialog.show();
+                if (!btnCategory.getText().equals("Choose Category")) {
+                    if (edtTitle.getText().toString().length() > 0) {
+                        if (edtDesc.getText().toString().length() > 0) {
+                            if (edtBudgetFrom.getText().toString().length() > 0) {
+                                if (edtBudgetTo.getText().toString().length() > 0) {
 
+                                    if (edtDays.getText().toString().length() > 0) {
+                                        isValid = true;
+                                    } else {
+                                        edtDays.setError("Enter days");
+                                    }
 
-                HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RequestAdActivity.this);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                final JSONObject jsonObject = new JSONObject();
-                try {
-                    if (ISUPDATE) {
-                        jsonObject.put(TASK, "updateReqAds");
-                    } else {
-                        jsonObject.put(TASK, "submitRequestAd");
-                    }
-
-                    JSONObject taskData = new JSONObject();
-                    try {
-                        loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-                                .getString(SP_LOGGED_IN_USER_DATA, ""));
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String currentDateandTime = sdf.format(new Date());
-                        SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
-                        String currentTime = sdfTime.format(new Date());
-
-                        if (ISUPDATE) {
-                            taskData.put("product_id", ROW.getAsString("product_id"));
-                            taskData.put("cat", btnCategory.getText().toString().trim());
-                            taskData.put("title", edtTitle.getText().toString().trim());
-                            taskData.put("desc", edtDesc.getText().toString().trim());
-                            taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
-                            taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
-                            taskData.put("days", edtDays.getText().toString().trim());
-                            taskData.put("updated_at", currentDateandTime);
-                        } else {
-
-                            taskData.put("user_id", loginParams.getString("id"));
-                            taskData.put("cat", btnCategory.getText().toString().trim());
-                            taskData.put("title", edtTitle.getText().toString().trim());
-                            taskData.put("desc", edtDesc.getText().toString().trim());
-                            taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
-                            taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
-                            taskData.put("days", edtDays.getText().toString().trim());
-                            taskData.put("time", currentTime);
-                            taskData.put("created_at", currentDateandTime);
-                            taskData.put("updated_at", currentDateandTime);
-                        }
-
-
-                    } catch (Throwable e) {
-                    }
-                    jsonObject.put(TASKDATA, taskData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
-                requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-                    @Override
-                    public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                        Log.d("RESULT = ", String.valueOf(response));
-                        pDialog.dismiss();
-                        try {
-                            if (responseCode == 200) {
-                                pDialogVisit = new SweetAlertDialog(RequestAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-
-                                if (ISUPDATE) {
-                                    pDialogVisit.setTitleText("Ad Updated Successfully");
-                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
-                                    pDialogVisit.setCancelText("Back");
                                 } else {
-
-                                    pDialogVisit.setTitleText("Ad Posted Successfully");
-                                    pDialogVisit.setContentText("Lets have a look at your Ad!!!");
-                                    pDialogVisit.setCancelText("Home");
+                                    edtBudgetTo.setError("Enter budget to");
                                 }
 
-                                pDialogVisit.setConfirmText("SEE MY AD");
-                                pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        supportFinishAfterTransition();
-                                    }
-                                });
-                                pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismiss();
-                                        startActivity(new Intent(RequestAdActivity.this, ReqProdsListActivity.class));
-                                        finish();
-                                    }
-                                });
-                                pDialogVisit.setCancelable(true);
-                                pDialogVisit.show();
-                                Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
-                            } else if (responseCode == 204) {
-                                Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
-                            } else if (responseCode == 205) {
-                                Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                edtBudgetFrom.setError("Enter budget from");
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        } else {
+                            edtDesc.setError("Enter Ad description");
                         }
-
+                    } else {
+                        edtTitle.setError("Enter Title");
                     }
+                } else {
+                    btnCategory.setError("Select Category");
+                }
 
-                    @Override
-                    public void onResponseError() {
 
-                        SmartUtils.hideProgressDialog();
-                    }
-                });
-                SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
+                if (isValid) {
+                    requestAd();
+                }
+
+
             }
         });
+    }
+
+    void requestAd() {
+        pDialog = new SweetAlertDialog(RequestAdActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        if (ISUPDATE) {
+            pDialog.setTitleText("Updating Your Ad...");
+        } else {
+            pDialog.setTitleText("Posting Your Ad...");
+        }
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RequestAdActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, Constants.WEB_PERFORM_LOGIN);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            if (ISUPDATE) {
+                jsonObject.put(TASK, "updateReqAds");
+            } else {
+                jsonObject.put(TASK, "submitRequestAd");
+            }
+
+            JSONObject taskData = new JSONObject();
+            try {
+                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                        .getString(SP_LOGGED_IN_USER_DATA, ""));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+                SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
+                String currentTime = sdfTime.format(new Date());
+
+                if (ISUPDATE) {
+                    taskData.put("product_id", ROW.getAsString("product_id"));
+                    taskData.put("cat", btnCategory.getText().toString().trim());
+                    taskData.put("title", edtTitle.getText().toString().trim());
+                    taskData.put("desc", edtDesc.getText().toString().trim());
+                    taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
+                    taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
+                    taskData.put("days", edtDays.getText().toString().trim());
+                    taskData.put("updated_at", currentDateandTime);
+                } else {
+
+                    taskData.put("user_id", loginParams.getString("id"));
+                    taskData.put("cat", btnCategory.getText().toString().trim());
+                    taskData.put("title", edtTitle.getText().toString().trim());
+                    taskData.put("desc", edtDesc.getText().toString().trim());
+                    taskData.put("budget_from", edtBudgetFrom.getText().toString().trim());
+                    taskData.put("budget_to", edtBudgetTo.getText().toString().trim());
+                    taskData.put("days", edtDays.getText().toString().trim());
+                    taskData.put("time", currentTime);
+                    taskData.put("created_at", currentDateandTime);
+                    taskData.put("updated_at", currentDateandTime);
+                }
+
+
+            } catch (Throwable e) {
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                Log.d("RESULT = ", String.valueOf(response));
+                pDialog.dismiss();
+                try {
+                    if (responseCode == 200) {
+                        pDialogVisit = new SweetAlertDialog(RequestAdActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+
+                        if (ISUPDATE) {
+                            pDialogVisit.setTitleText("Ad Updated Successfully");
+                            pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                            pDialogVisit.setCancelText("Back");
+                        } else {
+
+                            pDialogVisit.setTitleText("Ad Posted Successfully");
+                            pDialogVisit.setContentText("Lets have a look at your Ad!!!");
+                            pDialogVisit.setCancelText("Home");
+                        }
+
+                        pDialogVisit.setConfirmText("SEE MY AD");
+                        pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                supportFinishAfterTransition();
+                            }
+                        });
+                        pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismiss();
+                                startActivity(new Intent(RequestAdActivity.this, ReqProdsListActivity.class));
+                                finish();
+                            }
+                        });
+                        pDialogVisit.setCancelable(true);
+                        pDialogVisit.show();
+                        Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 204) {
+                        Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    } else if (responseCode == 205) {
+                        Toast.makeText(RequestAdActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
     }
 
     private void fillCategory() {

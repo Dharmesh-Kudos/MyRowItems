@@ -40,6 +40,7 @@ public class ForgotPasswordFragment extends Fragment {
     Button btnSendEmail;
     private SweetAlertDialog pDialog;
     private SweetAlertDialog pDialogVisit;
+    private boolean isValid = false;
 
     @Nullable
     @Override
@@ -50,7 +51,21 @@ public class ForgotPasswordFragment extends Fragment {
         btnSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMail(edtEmail.getText().toString());
+
+                if (edtEmail.getText().toString().length() > 0) {
+
+                    if (SmartUtils.emailValidator(edtEmail.getText().toString())) {
+                        isValid = true;
+                    } else {
+                        edtEmail.setError("Invalid email address");
+                    }
+                } else {
+                    edtEmail.setError("Enter email address");
+                }
+
+                if (isValid) {
+                    sendMail(edtEmail.getText().toString());
+                }
             }
         });
         return v;

@@ -35,6 +35,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.twotoasters.jazzylistview.JazzyHelper;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity
     TextView txtUserName, txtUserAge;
     NavigationView navigationView;
     Button btnViewReqProds;
+    FloatingActionMenu fmenu;
+    boolean doubleBackToExitPressedOnce = false;
     private SliderLayout mDemoSlider;
     private StaggeredGridLayoutManager gridLayoutManager;
     private RecyclerViewCategoryGridAdapter recyclerViewCategoryGridAdapter;
@@ -142,6 +145,8 @@ public class MainActivity extends AppCompatActivity
         }
         //   collapsingToolbarLayout.setTitle("Categories");
 
+        fmenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fmenu.setClosedOnTouchOutside(true);
         FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fabPostAd);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,13 +239,13 @@ public class MainActivity extends AppCompatActivity
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
 
-//        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
-//        rvAllAds.setOnScrollListener(jazzyScrollListener);
-//
-//        if (savedInstanceState != null) {
-//            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
-//            setupJazziness(mCurrentTransitionEffect);
-//        }
+        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
+        rvCategories.setOnScrollListener(jazzyScrollListener);
+
+        if (savedInstanceState != null) {
+            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
+            setupJazziness(mCurrentTransitionEffect);
+        }
 
 //        ghumao();
 //        try {
@@ -331,7 +336,6 @@ public class MainActivity extends AppCompatActivity
                                 textSliderView.getBundle()
                                         .putString("extra", trendingData.get(j).getAsString("title"));
                                 textSliderView.getBundle().putString("pos", String.valueOf(pos++));
-
                                 mDemoSlider.addSlider(textSliderView);
                             }
 
@@ -354,8 +358,8 @@ public class MainActivity extends AppCompatActivity
 //
 //                                mDemoSlider.addSlider(textSliderView);
 //                            }
-                            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Tablet);
-                            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                            mDemoSlider.setPresetTransformer(SliderLayout.Transformer.ZoomOutSlide);
+                            mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
                             mDemoSlider.setCustomAnimation(new DescriptionAnimation());
                             mDemoSlider.setDuration(3000);
                             mDemoSlider.addOnPageChangeListener(MainActivity.this);
@@ -413,7 +417,26 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (fmenu.isOpened()) {
+                fmenu.close(true);
+            } else {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+//                super.onBackPressed();
+            }
         }
     }
 
@@ -427,7 +450,7 @@ public class MainActivity extends AppCompatActivity
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
+//        // automatically handle clicks on the Home/Up btnSignup, so long
 //        // as you specify a parent activity in AndroidManifest.xml.
 //        int id = item.getItemId();
 //
