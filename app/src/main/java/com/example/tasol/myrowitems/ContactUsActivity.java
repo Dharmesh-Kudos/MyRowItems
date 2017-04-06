@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import smart.framework.SmartUtils;
 
 public class ContactUsActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class ContactUsActivity extends AppCompatActivity {
     Button btnSend;
     private SweetAlertDialog pDialogVisit;
     private boolean isSend;
+    private boolean isValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +47,43 @@ public class ContactUsActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                messagestr = new StringBuffer();
-                messagestr.append("The information is as follows " + "\n" +
-                        " Name =  " + edtName.getText().toString() + "\n" +
-                        " Email =  " + edtEmail.getText().toString() + "\n" +
-                        " Phone =  " + edtPhone.getText().toString() + "\n" +
-                        " Message =  " + edtMsg.getText().toString());
-                sendEmail(messagestr.toString());
+                if (edtName.getText().toString().length() > 0) {
+                    if (edtEmail.getText().toString().length() > 0) {
 
+                        if (SmartUtils.emailValidator(edtEmail.getText().toString())) {
+
+                            if (edtPhone.getText().toString().length() == 10) {
+
+                                if (edtMsg.getText().toString().length() > 0) {
+                                    isValid = true;
+                                } else {
+                                    edtMsg.setError("Write some feedback");
+                                }
+
+                            } else {
+                                edtPhone.setError("Invalid Mobile number");
+                            }
+                        } else {
+                            edtEmail.setError("Invalid email address");
+                        }
+
+                    } else {
+                        edtEmail.setError("Enter email address");
+                    }
+                } else {
+                    edtName.setError("Enter username");
+                }
+
+                if (isValid) {
+
+                    messagestr = new StringBuffer();
+                    messagestr.append("The information is as follows " + "\n" +
+                            " Name =  " + edtName.getText().toString() + "\n" +
+                            " Email =  " + edtEmail.getText().toString() + "\n" +
+                            " Phone =  " + edtPhone.getText().toString() + "\n" +
+                            " Message =  " + edtMsg.getText().toString());
+                    sendEmail(messagestr.toString());
+                }
 
             }
         });

@@ -32,6 +32,7 @@ public class AddFAQActivity extends AppCompatActivity {
     Button btnPostFAQ;
     private SweetAlertDialog pDialogVisit;
     private SweetAlertDialog pDialog;
+    private boolean isValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,19 @@ public class AddFAQActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                addFAQ();
+                if (edtQue.getText().toString().length() > 0) {
+                    if (edtAns.getText().toString().length() > 0) {
+                        isValid = true;
+                    } else {
+                        edtAns.setError("Enter Answer");
+                    }
+                } else {
+                    edtQue.setError("Enter Question");
+                }
+                if (isValid) {
+                    addFAQ();
+                }
+
             }
         });
     }

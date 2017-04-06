@@ -36,28 +36,37 @@ public class SplashActivity extends AppCompatActivity {
 
         SmartUtils.setNetworkStateAvailability(this);
 
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (SmartUtils.getLoginParams() != null
-                        && !TextUtils.isEmpty(SmartUtils.getLoginParams().toString())) {
-                    if (!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(SP_ISLOGOUT, true)) {
-                        if (SmartUtils.isNetworkAvailable()) {
-                            authentication();
+
+                if (SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean("IS_FIRST", true)) {
+                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences("IS_FIRST", false);
+                    startActivity(new Intent(SplashActivity.this, RentItAppIntro2.class).putExtra("FROM", "SPLASH"));
+                    finish();
+                } else {
+                    if (SmartUtils.getLoginParams() != null
+                            && !TextUtils.isEmpty(SmartUtils.getLoginParams().toString())) {
+                        if (!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(SP_ISLOGOUT, true)) {
+                            if (SmartUtils.isNetworkAvailable()) {
+                                authentication();
+                            } else {
+                                Toast.makeText(SplashActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(SplashActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            finish();
                         }
                     } else {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        startActivity(new Intent(SplashActivity.this, RentItLoginActivity.class));
                         finish();
                     }
-                } else {
-                    startActivity(new Intent(SplashActivity.this, RentItLoginActivity.class));
-                    finish();
                 }
             }
         }, 2000);
     }
+
 
     private void authentication() {
 

@@ -135,7 +135,7 @@ public class RentItSignupFragment extends Fragment {
             public void onClick(View v) {
 
                 if (edtUsername.getText().toString().length() > 0) {
-                    if (edtPassword.getText().toString().length() >= 8) {
+                    if (edtPassword.getText().toString().length() >= 6) {
                         if (edtEmail.getText().toString().length() > 0) {
                             if (SmartUtils.emailValidator(edtEmail.getText().toString())) {
                                 if (edtPhone.getText().toString().length() == 10) {
@@ -157,7 +157,7 @@ public class RentItSignupFragment extends Fragment {
                             edtEmail.setError("Enter email address");
                         }
                     } else {
-                        edtPassword.setError("Enter Password (Min. 8 letters)");
+                        edtPassword.setError("Enter Password (Min. 6 letters)");
                     }
                 } else {
                     edtUsername.setError("Enter username");
@@ -372,10 +372,6 @@ public class RentItSignupFragment extends Fragment {
                                         }
                                     }, 2000);
 
-                                    //IS_VERIFIED = false;
-                                    /*dialog.dismiss();
-                                    */
-//                                    Toast.makeText(getActivity(), "Wrong Verification Code...Try Again", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -53,6 +54,8 @@
         <activity android:name=".ReqProdsDetailActivity" />
         <activity android:name=".AllReportsActivity" />
         <activity android:name=".AddFAQActivity" />
+        <activity android:name=".RentItAppIntro" />
+        <activity android:name=".RentItAppIntro2" />
         <activity android:name=".ViewFeedbackActivity" />
         <activity android:name=".SettingsActivity"></activity>
     </application>

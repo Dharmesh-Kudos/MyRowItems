@@ -487,6 +487,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
             Intent contactusIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(contactusIntent);
+        } else if (id == R.id.nav_demo) {
+            startActivity(new Intent(MainActivity.this, RentItAppIntro2.class).putExtra("FROM", "MAIN"));
         } else if (id == R.id.nav_send) {
             pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
             pDialogVisit.setTitleText("Rent It");

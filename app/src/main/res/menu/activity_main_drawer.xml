@@ -22,10 +22,17 @@
 
     <item android:title="Preferences">
         <menu>
+
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Account Settings" />
+
+            <item
+                android:id="@+id/nav_demo"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Watch Demo" />
+
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

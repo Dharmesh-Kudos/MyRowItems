@@ -135,7 +135,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 try {
 
                     if (edtUsername.getText().toString().length() > 0) {
-                        if (edtPassword.getText().toString().length() >= 8) {
+                        if (edtPassword.getText().toString().length() >= 6) {
 
                             if (edtPhone.getText().toString().length() == 10) {
 
@@ -151,7 +151,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             }
 
                         } else {
-                            edtPassword.setError("Enter Password (Min. 8 letters)");
+                            edtPassword.setError("Enter Password (Min. 6 letters)");
                         }
                     } else {
                         edtUsername.setError("Enter username");
