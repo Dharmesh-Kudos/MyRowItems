@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -199,15 +198,15 @@ public class ReqProdsListActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView imgProfilePicture;
-            TextView txtTitle, txtFrom, txtTo, txtdays;
+            KudosTextView txtTitle, txtFrom, txtTo, txtdays;
             LinearLayout btnManager;
             public ViewHolder(View itemView) {
                 super(itemView);
                 btnManager = (LinearLayout) itemView.findViewById(R.id.btnManager);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtFrom = (TextView) itemView.findViewById(R.id.txtFrom);
-                txtTo = (TextView) itemView.findViewById(R.id.txtTo);
-                txtdays = (TextView) itemView.findViewById(R.id.txtDays);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtFrom = (KudosTextView) itemView.findViewById(R.id.txtFrom);
+                txtTo = (KudosTextView) itemView.findViewById(R.id.txtTo);
+                txtdays = (KudosTextView) itemView.findViewById(R.id.txtDays);
                 imgProfilePicture = (ImageView) itemView.findViewById(R.id.imgProfilePicture);
             }
         }

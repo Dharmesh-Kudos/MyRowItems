@@ -11,10 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
@@ -43,13 +40,13 @@ public class RequestAdActivity extends AppCompatActivity {
 
 
     private SmartCaching smartCaching;
-    private EditText edtTitle;
-    private EditText edtDesc;
-    private EditText edtBudgetFrom;
-    private EditText edtBudgetTo;
-    private EditText edtDays;
-    private Button btnCategory;
-    private Button btnPostAd;
+    private KudosEditText edtTitle;
+    private KudosEditText edtDesc;
+    private KudosEditText edtBudgetFrom;
+    private KudosEditText edtBudgetTo;
+    private KudosEditText edtDays;
+    private KudosButton btnCategory;
+    private KudosButton btnPostAd;
     private ImageView closeIV;
     private ArrayList<ContentValues> cvCatData;
     private ArrayList<String> subCatData;
@@ -70,16 +67,16 @@ public class RequestAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_ad);
         smartCaching = new SmartCaching(RequestAdActivity.this);
-        edtTitle = (EditText) findViewById(R.id.edtTitle);
-        edtDesc = (EditText) findViewById(R.id.edtDesc);
-        edtBudgetFrom = (EditText) findViewById(R.id.edtBudgetFrom);
-        edtBudgetTo = (EditText) findViewById(R.id.edtBudgetTo);
-        edtDays = (EditText) findViewById(R.id.edtDays);
-        btnCategory = (Button) findViewById(R.id.spinnerCategory);
+        edtTitle = (KudosEditText) findViewById(R.id.edtTitle);
+        edtDesc = (KudosEditText) findViewById(R.id.edtDesc);
+        edtBudgetFrom = (KudosEditText) findViewById(R.id.edtBudgetFrom);
+        edtBudgetTo = (KudosEditText) findViewById(R.id.edtBudgetTo);
+        edtDays = (KudosEditText) findViewById(R.id.edtDays);
+        btnCategory = (KudosButton) findViewById(R.id.spinnerCategory);
         btnCategory.setEnabled(false);
 
-        btnCategory = (Button) findViewById(R.id.spinnerCategory);
-        btnPostAd = (Button) findViewById(R.id.btnPostAd);
+        btnCategory = (KudosButton) findViewById(R.id.spinnerCategory);
+        btnPostAd = (KudosButton) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         fillCategory();
         closeIV.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +377,7 @@ public class RequestAdActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(catData.get(i));
             return view;
         }

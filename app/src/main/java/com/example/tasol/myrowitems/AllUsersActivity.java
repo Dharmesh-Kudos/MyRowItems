@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -41,7 +40,7 @@ public class AllUsersActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewAllUserAdapter recyclerViewAllUserAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> allUsersData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -54,7 +53,7 @@ public class AllUsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_users);
         smartCaching = new SmartCaching(AllUsersActivity.this);
         aQuery = new AQuery(AllUsersActivity.this);
-        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) findViewById(R.id.txtNotYet);
         rvAllUsers = (RecyclerView) findViewById(R.id.rvAllUsers);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -275,18 +274,18 @@ public class AllUsersActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public CircleImageView imgProPic;
-            TextView txtVerify;
-            TextView txtName, txtEmail, txtPhone, txtCity;
-            TextView btnBlock;
+            KudosTextView txtVerify;
+            KudosTextView txtName, txtEmail, txtPhone, txtCity;
+            KudosTextView btnBlock;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                txtVerify = (TextView) itemView.findViewById(R.id.txtVerify);
-                btnBlock = (TextView) itemView.findViewById(R.id.btnBlockUser);
-                txtName = (TextView) itemView.findViewById(R.id.txtName);
-                txtEmail = (TextView) itemView.findViewById(R.id.txtEmail);
-                txtPhone = (TextView) itemView.findViewById(R.id.txtPhone);
-                txtCity = (TextView) itemView.findViewById(R.id.txtCity);
+                txtVerify = (KudosTextView) itemView.findViewById(R.id.txtVerify);
+                btnBlock = (KudosTextView) itemView.findViewById(R.id.btnBlockUser);
+                txtName = (KudosTextView) itemView.findViewById(R.id.txtName);
+                txtEmail = (KudosTextView) itemView.findViewById(R.id.txtEmail);
+                txtPhone = (KudosTextView) itemView.findViewById(R.id.txtPhone);
+                txtCity = (KudosTextView) itemView.findViewById(R.id.txtCity);
                 imgProPic = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
             }
         }

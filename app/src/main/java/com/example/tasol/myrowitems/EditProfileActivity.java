@@ -25,9 +25,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -66,9 +63,9 @@ import static smart.framework.Constants.TASKDATA;
 public class EditProfileActivity extends AppCompatActivity {
 
 
-    EditText edtUsername, edtPassword, edtEmail, edtPhone;
-    TextView txtCity;
-    Button btnUpdate;
+    KudosEditText edtUsername, edtPassword, edtEmail, edtPhone;
+    KudosTextView txtCity;
+    KudosButton btnUpdate;
 
     DialogPlus dialogPlusCat, dialogPlusSubCat, dialogPlusCond;
     SweetAlertDialog pDialog, pDialogVisit;
@@ -100,12 +97,12 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rent_it_edit_profile);
         smartCaching = new SmartCaching(EditProfileActivity.this);
         imgProfilePicture = (CircleImageView) findViewById(R.id.imgProfilePicture);
-        edtUsername = (EditText) findViewById(R.id.edtUsername);
-        edtPassword = (EditText) findViewById(R.id.edtPassword);
-        edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtPhone = (EditText) findViewById(R.id.edtPhone);
-        txtCity = (TextView) findViewById(R.id.spnCity);
-        btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        edtUsername = (KudosEditText) findViewById(R.id.edtUsername);
+        edtPassword = (KudosEditText) findViewById(R.id.edtPassword);
+        edtEmail = (KudosEditText) findViewById(R.id.edtEmail);
+        edtPhone = (KudosEditText) findViewById(R.id.edtPhone);
+        txtCity = (KudosTextView) findViewById(R.id.spnCity);
+        btnUpdate = (KudosButton) findViewById(R.id.btnUpdate);
         edtEmail.setEnabled(false);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -800,7 +797,7 @@ public class EditProfileActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(mCityData.get(i));
 
             return view;

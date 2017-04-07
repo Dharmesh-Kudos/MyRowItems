@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,8 +26,8 @@ import static smart.framework.Constants.TASKDATA;
 public class AddFAQActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-    EditText edtQue, edtAns;
-    Button btnPostFAQ;
+    KudosEditText edtQue, edtAns;
+    KudosButton btnPostFAQ;
     private SweetAlertDialog pDialogVisit;
     private SweetAlertDialog pDialog;
     private boolean isValid = false;
@@ -38,9 +36,9 @@ public class AddFAQActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_faq);
-        edtQue = (EditText) findViewById(R.id.edtQue);
-        edtAns = (EditText) findViewById(R.id.edtAns);
-        btnPostFAQ = (Button) findViewById(R.id.btnPostFAQ);
+        edtQue = (KudosEditText) findViewById(R.id.edtQue);
+        edtAns = (KudosEditText) findViewById(R.id.edtAns);
+        btnPostFAQ = (KudosButton) findViewById(R.id.btnPostFAQ);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

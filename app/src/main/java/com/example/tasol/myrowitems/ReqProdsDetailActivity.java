@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.androidquery.AQuery;
 
@@ -19,10 +17,10 @@ import smart.caching.SmartCaching;
 public class ReqProdsDetailActivity extends AppCompatActivity {
 
     CircleImageView imgProPic;
-    TextView txtByUser, txtTitle, txtDesc, txtFrom, txtTo, txtDays, txtByPhone;
+    KudosTextView txtByUser, txtTitle, txtDesc, txtFrom, txtTo, txtDays, txtByPhone;
     ContentValues ROW;
     Toolbar toolbar;
-    Button btnComment, btnReport;
+    KudosButton btnComment, btnReport;
     SmartCaching smartCaching;
     private AQuery aQuery;
 
@@ -47,16 +45,16 @@ public class ReqProdsDetailActivity extends AppCompatActivity {
             }
         });
 
-        btnComment = (Button) findViewById(R.id.btnComment);
-        btnReport = (Button) findViewById(R.id.btnReport);
+        btnComment = (KudosButton) findViewById(R.id.btnComment);
+        btnReport = (KudosButton) findViewById(R.id.btnReport);
         imgProPic = (CircleImageView) findViewById(R.id.imgProfilePicture);
-        txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtByUser = (TextView) findViewById(R.id.txtByUser);
-        txtDesc = (TextView) findViewById(R.id.txtDesc);
-        txtFrom = (TextView) findViewById(R.id.txtFrom);
-        txtTo = (TextView) findViewById(R.id.txtTo);
-        txtDays = (TextView) findViewById(R.id.txtDays);
-        txtByPhone = (TextView) findViewById(R.id.txtByPhone);
+        txtTitle = (KudosTextView) findViewById(R.id.txtTitle);
+        txtByUser = (KudosTextView) findViewById(R.id.txtByUser);
+        txtDesc = (KudosTextView) findViewById(R.id.txtDesc);
+        txtFrom = (KudosTextView) findViewById(R.id.txtFrom);
+        txtTo = (KudosTextView) findViewById(R.id.txtTo);
+        txtDays = (KudosTextView) findViewById(R.id.txtDays);
+        txtByPhone = (KudosTextView) findViewById(R.id.txtByPhone);
 
         txtTitle.setText(ROW.getAsString("title"));
         txtDesc.setText(ROW.getAsString("description"));

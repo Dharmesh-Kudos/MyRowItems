@@ -27,15 +27,24 @@ import static smart.framework.Constants.TASKDATA;
 
 public class SplashActivity extends AppCompatActivity {
 
+    KudosTextView txtRent, txtIt, txtDesc;
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         SmartUtils.setNetworkStateAvailability(this);
 
+        txtRent = (KudosTextView) findViewById(R.id.txtRent);
+        txtIt = (KudosTextView) findViewById(R.id.txtIt);
+        txtDesc = (KudosTextView) findViewById(R.id.txtDesc);
+
+//        Typeface font=Typeface.createFromAsset(getAssets(),"fonts/Ubuntu-L.ttf");
+//
+//        txtRent.setTypeface(font);
+//        txtIt.setTypeface(font);
+//        txtDesc.setTypeface(font);
 
         new Handler().postDelayed(new Runnable() {
             @Override

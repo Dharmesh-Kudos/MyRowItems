@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -41,7 +40,7 @@ public class ViewFAQFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewUserAdsAdapter recyclerViewUserAdsAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> userAdsData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -54,7 +53,7 @@ public class ViewFAQFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_view_faq, container, false);
         smartCaching = new SmartCaching(getActivity());
         aQuery = new AQuery(getActivity());
-        txtNotYet = (TextView) v.findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) v.findViewById(R.id.txtNotYet);
         rvFAQ = (RecyclerView) v.findViewById(R.id.rvFAQ);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -143,13 +142,13 @@ public class ViewFAQFragment extends Fragment {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView txtQue, txtAns;
+            KudosTextView txtQue, txtAns;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                txtQue = (TextView) itemView.findViewById(R.id.txtQue);
-                txtAns = (TextView) itemView.findViewById(R.id.txtAns);
+                txtQue = (KudosTextView) itemView.findViewById(R.id.txtQue);
+                txtAns = (KudosTextView) itemView.findViewById(R.id.txtAns);
 
             }
         }

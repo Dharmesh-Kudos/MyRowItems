@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -33,7 +32,7 @@ public class MainActivityAdmin extends AppCompatActivity {
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     DashboardAdapter dashboardAdapter;
     int i = 0;
-    TextView txtUsername, txtEmail;
+    KudosTextView txtUsername, txtEmail;
     ImageView imgProfilePicture;
     AQuery aQuery;
     int[] IMAGESOFCATS = {R.drawable.profile,
@@ -96,8 +95,8 @@ public class MainActivityAdmin extends AppCompatActivity {
 //        View v = navigationView.getHeaderView(0);
 //        //imgBack=(ImageView) v.findViewById(R.id.imgBack);
 //        imgProfilePicture = (ImageView) v.findViewById(R.id.imgProfilePicture);
-//        txtUsername = (TextView) v.findViewById(R.id.txtUsername);
-//        txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+//        txtUsername = (KudosTextView) v.findViewById(R.id.txtUsername);
+//        txtEmail = (KudosTextView) v.findViewById(R.id.txtEmail);
 
 
 //        try {
@@ -246,12 +245,12 @@ public class MainActivityAdmin extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView ivCatName;
-            public TextView txtCatName;
+            public KudosTextView txtCatName;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                txtCatName = (TextView) itemView.findViewById(R.id.txtCatName);
+                txtCatName = (KudosTextView) itemView.findViewById(R.id.txtCatName);
                 ivCatName = (ImageView) itemView.findViewById(R.id.ivCatName);
             }
         }

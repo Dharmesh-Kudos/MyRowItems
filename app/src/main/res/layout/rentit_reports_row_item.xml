@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
@@ -39,7 +39,7 @@
             android:layout_marginRight="@dimen/_15sdp"
             android:background="@color/lightGrey" />
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtReport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,14 +60,14 @@
             android:layout_height="wrap_content"
             android:gravity="left">
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/_5sdp"
                 android:text="about"
                 android:textSize="@dimen/_12sdp" />
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtPID"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.example.tasol.myrowitems.KudosButton
                 android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone">
 
-            <Button
+            <com.example.tasol.myrowitems.KudosButton
                 android:id="@+id/btnViewAd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                 android:layout_width="@dimen/_1sdp"
                 android:layout_height="match_parent" />
 
-            <Button
+            <com.example.tasol.myrowitems.KudosButton
                 android:id="@+id/btnDeleteAd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

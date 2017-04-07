@@ -20,7 +20,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/mobile" />
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/ivClose"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

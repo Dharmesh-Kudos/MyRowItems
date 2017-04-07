@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -32,9 +33,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
@@ -70,10 +68,10 @@ import static smart.framework.Constants.TASKDATA;
 public class RentItSignupFragment extends Fragment {
 
     CircleImageView imgProPic;
-    Button btnSignup;
-    EditText edtUsername, edtPassword, edtEmail, edtPhone;
-    Button btnCity;
-    TextView txtWrongCode;
+    KudosButton btnSignup;
+    KudosEditText edtUsername, edtPassword, edtEmail, edtPhone;
+    KudosButton btnCity;
+    KudosTextView txtWrongCode;
     private ProgressDialog progressDialog;
     private String imgPath;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
@@ -90,6 +88,7 @@ public class RentItSignupFragment extends Fragment {
     private smart.caching.SmartCaching smartCaching;
     private CustomCityAdapter customSubCatAdapter;
     private boolean isValid = false;
+    private Typeface font;
 
 
     public RentItSignupFragment() {
@@ -102,13 +101,23 @@ public class RentItSignupFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_rent_it_signup, container, false);
         smartCaching = new SmartCaching(getActivity());
 
-        btnSignup = (Button) v.findViewById(R.id.btnSignUp);
-        edtUsername = (EditText) v.findViewById(R.id.edtUsername);
-        edtPassword = (EditText) v.findViewById(R.id.edtPassword);
-        edtEmail = (EditText) v.findViewById(R.id.edtEmail);
-        edtPhone = (EditText) v.findViewById(R.id.edtPhone);
-        btnCity = (Button) v.findViewById(R.id.btnCity);
+        btnSignup = (KudosButton) v.findViewById(R.id.btnSignUp);
+        edtUsername = (KudosEditText) v.findViewById(R.id.edtUsername);
+        edtPassword = (KudosEditText) v.findViewById(R.id.edtPassword);
+        edtEmail = (KudosEditText) v.findViewById(R.id.edtEmail);
+        edtPhone = (KudosEditText) v.findViewById(R.id.edtPhone);
+        btnCity = (KudosButton) v.findViewById(R.id.btnCity);
         imgProPic = (CircleImageView) v.findViewById(R.id.imgProfilePicture);
+
+        font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Ubuntu-L.ttf");
+
+        edtEmail.setTypeface(font);
+        edtPassword.setTypeface(font);
+        edtUsername.setTypeface(font);
+        edtPhone.setTypeface(font);
+        btnCity.setTypeface(font);
+        btnSignup.setTypeface(font);
+
         fetchCity();
         imgProPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,16 +283,16 @@ public class RentItSignupFragment extends Fragment {
                         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                         dialog.getWindow().setAttributes(lp);
 
-                        final EditText edtCode1, edtCode2, edtCode3, edtCode4;
-                        TextView btnResendCode, btnSignNow;
-                        txtWrongCode = (TextView) dialog.findViewById(R.id.txtWrongCode);
-                        edtCode1 = (EditText) dialog.findViewById(R.id.edtCode1);
-                        edtCode2 = (EditText) dialog.findViewById(R.id.edtCode2);
-                        edtCode3 = (EditText) dialog.findViewById(R.id.edtCode3);
-                        edtCode4 = (EditText) dialog.findViewById(R.id.edtCode4);
+                        final KudosEditText edtCode1, edtCode2, edtCode3, edtCode4;
+                        KudosTextView btnResendCode, btnSignNow;
+                        txtWrongCode = (KudosTextView) dialog.findViewById(R.id.txtWrongCode);
+                        edtCode1 = (KudosEditText) dialog.findViewById(R.id.edtCode1);
+                        edtCode2 = (KudosEditText) dialog.findViewById(R.id.edtCode2);
+                        edtCode3 = (KudosEditText) dialog.findViewById(R.id.edtCode3);
+                        edtCode4 = (KudosEditText) dialog.findViewById(R.id.edtCode4);
 
-                        btnResendCode = (TextView) dialog.findViewById(R.id.btnResendCode);
-                        btnSignNow = (TextView) dialog.findViewById(R.id.btnSignNow);
+                        btnResendCode = (KudosTextView) dialog.findViewById(R.id.btnResendCode);
+                        btnSignNow = (KudosTextView) dialog.findViewById(R.id.btnSignNow);
 
 
                         edtCode1.addTextChangedListener(new TextWatcher() {
@@ -796,7 +805,9 @@ public class RentItSignupFragment extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
+            names.setTypeface(font);
             names.setText(mCityData.get(i));
 
             return view;

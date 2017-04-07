@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -49,7 +48,7 @@ public class RentItUserProfileActivity extends AppCompatActivity {
     String USERID = "";
     SmartCaching smartCaching;
     AQuery aQuery;
-    TextView txtName, txtLoc, txtEmail, txtMob, txtMessage;
+    KudosTextView txtName, txtLoc, txtEmail, txtMob, txtMessage;
     ArrayList<ContentValues> allData = new ArrayList<>();
     JSONObject usersData = null;
     RecyclerViewUserAdsGridAdapter recyclerViewUserAdsGridAdapter;
@@ -71,11 +70,11 @@ public class RentItUserProfileActivity extends AppCompatActivity {
         rvImages.setLayoutManager(linearLayoutManager);
         rvImages.setNestedScrollingEnabled(false);
 
-        txtEmail = (TextView) findViewById(R.id.txtEmail);
-        txtMob = (TextView) findViewById(R.id.txtMob);
-        txtName = (TextView) findViewById(R.id.txtName);
-        txtLoc = (TextView) findViewById(R.id.txtLoc);
-        txtMessage = (TextView) findViewById(R.id.txtMessage);
+        txtEmail = (KudosTextView) findViewById(R.id.txtEmail);
+        txtMob = (KudosTextView) findViewById(R.id.txtMob);
+        txtName = (KudosTextView) findViewById(R.id.txtName);
+        txtLoc = (KudosTextView) findViewById(R.id.txtLoc);
+        txtMessage = (KudosTextView) findViewById(R.id.txtMessage);
         toolbarData = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbarData);
         if (getSupportActionBar() != null) {

@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtTitle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -59,10 +59,9 @@
                             android:shadowRadius="3"
                             android:text="Moto G4 Plus"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp"
-                            android:typeface="normal" />
+                            android:textSize="@dimen/_15sdp" />
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -75,8 +74,7 @@
                             android:text="Rs. 5000"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_20sdp"
-                            android:textStyle="bold"
-                            android:typeface="sans" />
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -85,7 +83,7 @@
                         android:gravity="center"
                         android:padding="@dimen/_1sdp">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtUsername"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -98,7 +96,7 @@
                             android:textSize="@dimen/_13sdp"
                             android:textStyle="bold" />
 
-                        <Button
+                        <com.example.tasol.myrowitems.KudosButton
                             android:id="@+id/btnDelete"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -119,7 +117,7 @@
 
         </FrameLayout>
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

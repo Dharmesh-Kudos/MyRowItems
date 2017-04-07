@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 
@@ -16,8 +14,8 @@ public class ContactUsActivity extends AppCompatActivity {
 
     StringBuffer messagestr = new StringBuffer();
     Toolbar toolbar;
-    EditText edtName, edtEmail, edtPhone, edtMsg;
-    Button btnSend;
+    KudosEditText edtName, edtEmail, edtPhone, edtMsg;
+    KudosButton btnSend;
     private SweetAlertDialog pDialogVisit;
     private boolean isSend;
     private boolean isValid = false;
@@ -26,11 +24,11 @@ public class ContactUsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_us);
-        edtName = (EditText) findViewById(R.id.edtName);
-        edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtPhone = (EditText) findViewById(R.id.edtPhone);
-        edtMsg = (EditText) findViewById(R.id.edtMsg);
-        btnSend = (Button) findViewById(R.id.btnSend);
+        edtName = (KudosEditText) findViewById(R.id.edtName);
+        edtEmail = (KudosEditText) findViewById(R.id.edtEmail);
+        edtPhone = (KudosEditText) findViewById(R.id.edtPhone);
+        edtMsg = (KudosEditText) findViewById(R.id.edtMsg);
+        btnSend = (KudosButton) findViewById(R.id.btnSend);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {

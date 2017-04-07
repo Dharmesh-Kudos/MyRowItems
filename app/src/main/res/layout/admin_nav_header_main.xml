@@ -26,7 +26,7 @@
             android:gravity="bottom"
             android:orientation="vertical">
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

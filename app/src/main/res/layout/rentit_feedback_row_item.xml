@@ -23,14 +23,14 @@
                 android:layout_weight="1"
                 android:gravity="left|start">
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_5sdp"
                     android:text="On"
                     android:textSize="@dimen/_12sdp" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,14 +46,14 @@
                 android:layout_weight="1"
                 android:gravity="right|end">
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_5sdp"
                     android:text="By"
                     android:textSize="@dimen/_12sdp" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtByUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         </LinearLayout>
 
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtFeedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

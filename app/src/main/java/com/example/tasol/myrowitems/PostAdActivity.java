@@ -28,12 +28,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
@@ -68,15 +65,15 @@ import static smart.framework.Constants.TASKDATA;
 
 public class PostAdActivity extends AppCompatActivity {
 
-    Button btnPostAd;
+    KudosButton btnPostAd;
     ImageView closeIV;
     LinearLayout greyLayout;
     RecyclerView rvImages;
     GridLayoutManager gridLayoutManager;
     FloatingActionButton btnUpload;
     RecyclerViewUploadedImagesGridAdapter recyclerViewUploadedImagesGridAdapter;
-    EditText edtTitle, edtDesc, edtPrice, edtDeposit, edtDays;
-    Button btnCategory, btnSubCategory, btnCondition;
+    KudosEditText edtTitle, edtDesc, edtPrice, edtDeposit, edtDays;
+    KudosButton btnCategory, btnSubCategory, btnCondition;
     String AVAILABLE = "1";
     String TIME, CREATED_AT, UPDATED_AT;
     String CATID = "0", SUBCATID = "0", CONDITION = "0";
@@ -112,21 +109,21 @@ public class PostAdActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_ad);
         smartCaching = new SmartCaching(PostAdActivity.this);
         spnProBar = (ProgressBar) findViewById(R.id.spnProgress);
-        edtTitle = (EditText) findViewById(R.id.edtTitle);
-        edtDesc = (EditText) findViewById(R.id.edtDesc);
-        edtPrice = (EditText) findViewById(R.id.edtPrice);
-        edtDeposit = (EditText) findViewById(R.id.edtDeposit);
-        edtDays = (EditText) findViewById(R.id.edtDays);
+        edtTitle = (KudosEditText) findViewById(R.id.edtTitle);
+        edtDesc = (KudosEditText) findViewById(R.id.edtDesc);
+        edtPrice = (KudosEditText) findViewById(R.id.edtPrice);
+        edtDeposit = (KudosEditText) findViewById(R.id.edtDeposit);
+        edtDays = (KudosEditText) findViewById(R.id.edtDays);
 
 
-        btnCategory = (Button) findViewById(R.id.spinnerCategory);
-        btnSubCategory = (Button) findViewById(R.id.spinnerSubCategory);
-        btnCondition = (Button) findViewById(R.id.spinnerCondition);
+        btnCategory = (KudosButton) findViewById(R.id.spinnerCategory);
+        btnSubCategory = (KudosButton) findViewById(R.id.spinnerSubCategory);
+        btnCondition = (KudosButton) findViewById(R.id.spinnerCondition);
         btnSubCategory.setEnabled(false);
         btnCategory.setEnabled(false);
 
 
-        btnPostAd = (Button) findViewById(R.id.btnPostAd);
+        btnPostAd = (KudosButton) findViewById(R.id.btnPostAd);
         closeIV = (ImageView) findViewById(R.id.closeIV);
         greyLayout = (LinearLayout) findViewById(R.id.greyLayout);
         rvImages = (RecyclerView) findViewById(R.id.rvImages);
@@ -942,13 +939,13 @@ public class PostAdActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView ivImages;
-            public TextView ivClose;
+            public KudosTextView ivClose;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ivImages = (ImageView) itemView.findViewById(R.id.ivImages);
-                ivClose = (TextView) itemView.findViewById(R.id.ivClose);
+                ivClose = (KudosTextView) itemView.findViewById(R.id.ivClose);
             }
         }
     }
@@ -987,7 +984,7 @@ public class PostAdActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(catData.get(i));
             return view;
         }
@@ -1027,7 +1024,7 @@ public class PostAdActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(mSubCatData.get(i));
             return view;
         }
@@ -1067,7 +1064,7 @@ public class PostAdActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(condData[i]);
             return view;
         }

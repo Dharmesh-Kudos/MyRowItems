@@ -12,9 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -46,7 +44,7 @@ public class MyReqAdsFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewUserAdsAdapter recyclerViewUserAdsAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> userAdsData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -59,7 +57,7 @@ public class MyReqAdsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_posted_ads, container, false);
         smartCaching = new SmartCaching(getActivity());
         aQuery = new AQuery(getActivity());
-        txtNotYet = (TextView) v.findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) v.findViewById(R.id.txtNotYet);
         rvUserAds = (RecyclerView) v.findViewById(R.id.rvUserAds);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -271,17 +269,17 @@ public class MyReqAdsFragment extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             ImageView imgProfilePicture;
-            TextView txtTitle, txtFrom, txtTo, txtdays;
-            Button btnEdit, btnDelete;
+            KudosTextView txtTitle, txtFrom, txtTo, txtdays;
+            KudosButton btnEdit, btnDelete;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
-                btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtFrom = (TextView) itemView.findViewById(R.id.txtFrom);
-                txtTo = (TextView) itemView.findViewById(R.id.txtTo);
-                txtdays = (TextView) itemView.findViewById(R.id.txtDays);
+                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDelete);
+                btnEdit = (KudosButton) itemView.findViewById(R.id.btnEdit);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtFrom = (KudosTextView) itemView.findViewById(R.id.txtFrom);
+                txtTo = (KudosTextView) itemView.findViewById(R.id.txtTo);
+                txtdays = (KudosTextView) itemView.findViewById(R.id.txtDays);
                 imgProfilePicture = (ImageView) itemView.findViewById(R.id.imgProfilePicture);
             }
         }

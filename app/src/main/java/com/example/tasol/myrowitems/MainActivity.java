@@ -3,6 +3,7 @@ package com.example.tasol.myrowitems;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -18,13 +19,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -63,7 +61,7 @@ import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+        implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     //, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener
 
@@ -91,13 +89,13 @@ public class MainActivity extends AppCompatActivity
     String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Jobs", "Furniture", "Books", "Fashion", "Sports", "Services", "Real Estate", "Pets"};
     int i = 0;
     int pos = 0;
-    TextView txtUsername, txtEmail;
+    KudosTextView txtUsername, txtEmail;
     ImageView imgProfilePicture;
     AQuery aQuery;
     CircleImageView imgProPic;
-    TextView txtUserName, txtUserAge;
+    KudosTextView txtUserName, txtUserAge;
     NavigationView navigationView;
-    Button btnViewReqProds;
+    KudosButton btnViewReqProds;
     FloatingActionMenu fmenu;
     boolean doubleBackToExitPressedOnce = false;
     private SliderLayout mDemoSlider;
@@ -113,6 +111,8 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<ContentValues> trendingData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
     private SweetAlertDialog pDialogVisit;
+    private Typeface font;
+    private KudosTextView txtCategory, txtMenu1, txtMenu2, txtMenu3, txtMenu4, txtMenu5, txtMenu6, txtMenu7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity
         smartCaching = new SmartCaching(MainActivity.this);
         aQuery = new AQuery(MainActivity.this);
 
+        font = Typeface.createFromAsset(getAssets(), "fonts/Ubuntu-L.ttf");
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            Window w = getWindow(); // in Activity's onCreate() for instance
 //            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -128,18 +129,20 @@ public class MainActivity extends AppCompatActivity
 
 
 //        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        txtCategory = (KudosTextView) findViewById(R.id.txtCategory);
+        txtCategory.setTypeface(font);
         gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
+
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManager);
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-        btnViewReqProds = (Button) findViewById(R.id.btnViewReqProds);
+        btnViewReqProds = (KudosButton) findViewById(R.id.btnViewReqProds);
         getTrendingAds();
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Rent It Home");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Rent It Home");
         }
@@ -161,7 +164,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, RequestAdActivity.class).putExtra("FROM", "MAIN"));
             }
         });
-
+        btnViewReqProds.setTypeface(font);
         btnViewReqProds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -180,9 +183,104 @@ public class MainActivity extends AppCompatActivity
         View v = navigationView.getHeaderView(0);
         //imgBack=(ImageView) v.findViewById(R.id.imgBack);
         imgProfilePicture = (ImageView) v.findViewById(R.id.imgProfilePicture);
-        txtUsername = (TextView) v.findViewById(R.id.txtUsername);
-        txtEmail = (TextView) v.findViewById(R.id.txtEmail);
+        txtUsername = (KudosTextView) v.findViewById(R.id.txtUsername);
+        txtEmail = (KudosTextView) v.findViewById(R.id.txtEmail);
 
+        txtMenu1 = (KudosTextView) v.findViewById(R.id.txtMenu1);
+        txtMenu2 = (KudosTextView) v.findViewById(R.id.txtMenu2);
+        txtMenu3 = (KudosTextView) v.findViewById(R.id.txtMenu3);
+        txtMenu4 = (KudosTextView) v.findViewById(R.id.txtMenu4);
+        txtMenu5 = (KudosTextView) v.findViewById(R.id.txtMenu5);
+        txtMenu6 = (KudosTextView) v.findViewById(R.id.txtMenu6);
+        txtMenu7 = (KudosTextView) v.findViewById(R.id.txtMenu7);
+
+        txtMenu1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+
+                Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+        txtMenu2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                Intent loginIntent = new Intent(MainActivity.this, RentItManageAdsActivity.class);
+                startActivity(loginIntent);
+            }
+        });
+        txtMenu3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                Intent feedbackIntent = new Intent(MainActivity.this, AddFeedbackActivity.class);
+                startActivity(feedbackIntent);
+            }
+        });
+        txtMenu4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                Intent contactusIntent = new Intent(MainActivity.this, ContactUsActivity.class);
+                startActivity(contactusIntent);
+            }
+        });
+        txtMenu5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                Intent contactusIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(contactusIntent);
+            }
+        });
+        txtMenu6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                startActivity(new Intent(MainActivity.this, RentItAppIntro2.class).putExtra("FROM", "MAIN"));
+
+            }
+        });
+        txtMenu7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                pDialogVisit.setTitleText("Rent It");
+                pDialogVisit.setContentText("Are You Sure to Logout?");
+                pDialogVisit.setCancelText("Not Really");
+                pDialogVisit.setConfirmText("Of course");
+                pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismiss();
+                    }
+                });
+                pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismiss();
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
+
+                        Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
+                        startActivity(loginIntent2);
+                        finish();
+                    }
+                });
+                pDialogVisit.setCancelable(true);
+                pDialogVisit.show();
+            }
+        });
 
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
@@ -223,18 +321,18 @@ public class MainActivity extends AppCompatActivity
 //                }
 //            }
 //        });
-        navigationView.setNavigationItemSelectedListener(this);
-//        imageRv= (RecyclerView) findViewById(R.id.imageRV);
-//        viewPager = (ViewPager) findViewById(R.id.imageRV);
-//        linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-//        imageRv.setHasFixedSize(true);
-//        imageRv.setLayoutManager(linearLayoutManager);
-
-//        mCustomPagerAdapter = new CustomPagerAdapter(this);
+//        navigationView.setNavigationItemSelectedListener(this);
+////        imageRv= (RecyclerView) findViewById(R.id.imageRV);
+////        viewPager = (ViewPager) findViewById(R.id.imageRV);
+////        linearLayoutManager = new LinearLayoutManager(this);
+////        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+////        imageRv.setHasFixedSize(true);
+////        imageRv.setLayoutManager(linearLayoutManager);
 //
-//        viewPager.setAdapter(mCustomPagerAdapter);
-//        viewPager.setPageTransformer(true, new TabletTransformer());
+////        mCustomPagerAdapter = new CustomPagerAdapter(this);
+////
+////        viewPager.setAdapter(mCustomPagerAdapter);
+////        viewPager.setPageTransformer(true, new TabletTransformer());
         recyclerViewCategoryGridAdapter = new RecyclerViewCategoryGridAdapter();
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
@@ -327,6 +425,7 @@ public class MainActivity extends AppCompatActivity
                                 textSliderView
                                         .description(trendingData.get(j).getAsString("title"))
                                         .image(imageStr)
+
                                         .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                                         .setOnSliderClickListener(MainActivity.this);
 
@@ -462,66 +561,66 @@ public class MainActivity extends AppCompatActivity
 //        return super.onOptionsItemSelected(item);
 //    }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item)
-
-    {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_gallery) {
-            Intent loginIntent = new Intent(MainActivity.this, RentItManageAdsActivity.class);
-            startActivity(loginIntent);
-        } else if (id == R.id.nav_slideshow) {
-            Intent feedbackIntent = new Intent(MainActivity.this, AddFeedbackActivity.class);
-            startActivity(feedbackIntent);
-        } else if (id == R.id.nav_manage) {
-            Intent contactusIntent = new Intent(MainActivity.this, ContactUsActivity.class);
-            startActivity(contactusIntent);
-        } else if (id == R.id.nav_share) {
-            Intent contactusIntent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(contactusIntent);
-        } else if (id == R.id.nav_demo) {
-            startActivity(new Intent(MainActivity.this, RentItAppIntro2.class).putExtra("FROM", "MAIN"));
-        } else if (id == R.id.nav_send) {
-            pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-            pDialogVisit.setTitleText("Rent It");
-            pDialogVisit.setContentText("Are You Sure to Logout?");
-            pDialogVisit.setCancelText("Not Really");
-            pDialogVisit.setConfirmText("Of course");
-            pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismiss();
-                }
-            });
-            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismiss();
-                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
-                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
-
-                    Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
-                    startActivity(loginIntent2);
-                    finish();
-                }
-            });
-            pDialogVisit.setCancelable(true);
-            pDialogVisit.show();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.
-                id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//    @SuppressWarnings("StatementWithEmptyBody")
+//    @Override
+//    public boolean onNavigationItemSelected(MenuItem item)
+//
+//    {
+//        // Handle navigation view item clicks here.
+//        int id = item.getItemId();
+//
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+//            startActivity(intent);
+//
+//        } else if (id == R.id.nav_gallery) {
+//            Intent loginIntent = new Intent(MainActivity.this, RentItManageAdsActivity.class);
+//            startActivity(loginIntent);
+//        } else if (id == R.id.nav_slideshow) {
+//            Intent feedbackIntent = new Intent(MainActivity.this, AddFeedbackActivity.class);
+//            startActivity(feedbackIntent);
+//        } else if (id == R.id.nav_manage) {
+//            Intent contactusIntent = new Intent(MainActivity.this, ContactUsActivity.class);
+//            startActivity(contactusIntent);
+//        } else if (id == R.id.nav_share) {
+//            Intent contactusIntent = new Intent(MainActivity.this, SettingsActivity.class);
+//            startActivity(contactusIntent);
+//        } else if (id == R.id.nav_demo) {
+//            startActivity(new Intent(MainActivity.this, RentItAppIntro2.class).putExtra("FROM", "MAIN"));
+//        } else if (id == R.id.nav_send) {
+//            pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+//            pDialogVisit.setTitleText("Rent It");
+//            pDialogVisit.setContentText("Are You Sure to Logout?");
+//            pDialogVisit.setCancelText("Not Really");
+//            pDialogVisit.setConfirmText("Of course");
+//            pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                @Override
+//                public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                    sweetAlertDialog.dismiss();
+//                }
+//            });
+//            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                @Override
+//                public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                    sweetAlertDialog.dismiss();
+//                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
+//                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
+//
+//                    Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
+//                    startActivity(loginIntent2);
+//                    finish();
+//                }
+//            });
+//            pDialogVisit.setCancelable(true);
+//            pDialogVisit.show();
+//        }
+//
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.
+//                id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 
 
     @Override
@@ -602,6 +701,8 @@ public class MainActivity extends AppCompatActivity
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
             ViewHolder holder = (ViewHolder) viewHolder;
 
+            holder.txtCatName.setTypeface(font);
+
             holder.txtCatName.setText(NAMESOFCATS[position]);
             holder.ivCatName.setImageResource(IMAGESOFCATS[position]);
 
@@ -625,12 +726,12 @@ public class MainActivity extends AppCompatActivity
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView ivCatName;
-            public TextView txtCatName;
+            public KudosTextView txtCatName;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                txtCatName = (TextView) itemView.findViewById(R.id.txtCatName);
+                txtCatName = (KudosTextView) itemView.findViewById(R.id.txtCatName);
                 ivCatName = (ImageView) itemView.findViewById(R.id.ivCatName);
             }
         }

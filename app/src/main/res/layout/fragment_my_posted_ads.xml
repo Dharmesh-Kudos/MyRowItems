@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/_1sdp">
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtNotYet"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

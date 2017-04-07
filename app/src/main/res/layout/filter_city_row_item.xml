@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="@dimen/_2sdp">
 
-    <Button
+    <com.example.tasol.myrowitems.KudosButton
         android:id="@+id/btnCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

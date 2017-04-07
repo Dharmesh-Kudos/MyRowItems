@@ -12,10 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -51,7 +49,7 @@ public class MyPostedAdsFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewUserAdsAdapter recyclerViewUserAdsAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> userAdsData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -64,7 +62,7 @@ public class MyPostedAdsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_posted_ads, container, false);
         smartCaching = new SmartCaching(getActivity());
         aQuery = new AQuery(getActivity());
-        txtNotYet = (TextView) v.findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) v.findViewById(R.id.txtNotYet);
         rvUserAds = (RecyclerView) v.findViewById(R.id.rvUserAds);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -387,19 +385,19 @@ public class MyPostedAdsFragment extends Fragment {
 
             public ImageView imageCat;
             LinearLayout dataLayout;
-            TextView txtTitle, txtPrice, txtUsername;
+            KudosTextView txtTitle, txtPrice, txtUsername;
             LinearLayout lilo;
-            Button btnEdit, btnDelete, btnMakeable;
+            KudosButton btnEdit, btnDelete, btnMakeable;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
-                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
-                btnMakeable = (Button) itemView.findViewById(R.id.btnMakeable);
+                btnEdit = (KudosButton) itemView.findViewById(R.id.btnEdit);
+                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDelete);
+                btnMakeable = (KudosButton) itemView.findViewById(R.id.btnMakeable);
                 lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
                 dataLayout = (LinearLayout) itemView.findViewById(R.id.dataLayout);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
             }

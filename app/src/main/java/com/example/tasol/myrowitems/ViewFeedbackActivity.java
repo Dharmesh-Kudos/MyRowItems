@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -39,7 +38,7 @@ public class ViewFeedbackActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewAllUserAdapter recyclerViewAllUserAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> allUsersData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -53,7 +52,7 @@ public class ViewFeedbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_feedback);
         smartCaching = new SmartCaching(ViewFeedbackActivity.this);
         aQuery = new AQuery(ViewFeedbackActivity.this);
-        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) findViewById(R.id.txtNotYet);
         rvFeedback = (RecyclerView) findViewById(R.id.rvFeedback);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -165,13 +164,13 @@ public class ViewFeedbackActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            TextView txtDate, txtFeedback, txtByUser;
+            KudosTextView txtDate, txtFeedback, txtByUser;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                txtDate = (TextView) itemView.findViewById(R.id.txtDate);
-                txtFeedback = (TextView) itemView.findViewById(R.id.txtFeedback);
-                txtByUser = (TextView) itemView.findViewById(R.id.txtByUser);
+                txtDate = (KudosTextView) itemView.findViewById(R.id.txtDate);
+                txtFeedback = (KudosTextView) itemView.findViewById(R.id.txtFeedback);
+                txtByUser = (KudosTextView) itemView.findViewById(R.id.txtByUser);
 
 
             }

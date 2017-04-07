@@ -13,9 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -43,7 +41,7 @@ public class AllReportsActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewAllUserAdapter recyclerViewAllUserAdapter;
     private smart.caching.SmartCaching smartCaching;
-    private TextView txtNotYet;
+    private KudosTextView txtNotYet;
     private int IN_POS;
     private ArrayList<ContentValues> allUsersData = new ArrayList<>();
     private JSONObject loginParams = null;
@@ -57,7 +55,7 @@ public class AllReportsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_reports);
         smartCaching = new SmartCaching(AllReportsActivity.this);
         aQuery = new AQuery(AllReportsActivity.this);
-        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) findViewById(R.id.txtNotYet);
         rvAllReports = (RecyclerView) findViewById(R.id.rvAllReports);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -351,18 +349,18 @@ public class AllReportsActivity extends AppCompatActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             LinearLayout layoutMgr;
-            TextView txtName, txtReport, txtPID;
-            Button btnEdit, btnDelete, btnView;
+            KudosTextView txtName, txtReport, txtPID;
+            KudosButton btnEdit, btnDelete, btnView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnDelete = (Button) itemView.findViewById(R.id.btnDeleteAd);
-                btnView = (Button) itemView.findViewById(R.id.btnViewAd);
+                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDeleteAd);
+                btnView = (KudosButton) itemView.findViewById(R.id.btnViewAd);
                 layoutMgr = (LinearLayout) itemView.findViewById(R.id.layoutManager);
-                btnEdit = (Button) itemView.findViewById(R.id.btnEdit);
-                txtName = (TextView) itemView.findViewById(R.id.txtName);
-                txtReport = (TextView) itemView.findViewById(R.id.txtReport);
-                txtPID = (TextView) itemView.findViewById(R.id.txtPID);
+                btnEdit = (KudosButton) itemView.findViewById(R.id.btnEdit);
+                txtName = (KudosTextView) itemView.findViewById(R.id.txtName);
+                txtReport = (KudosTextView) itemView.findViewById(R.id.txtReport);
+                txtPID = (KudosTextView) itemView.findViewById(R.id.txtPID);
 
             }
         }

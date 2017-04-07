@@ -28,38 +28,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/txtTitleRent"
+                <com.example.tasol.myrowitems.KudosTextView
+                    android:id="@+id/txtRent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:shadowColor="@color/black"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:text="R E N T  I T"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_40sdp"
-                    android:textStyle="bold"
-                    android:typeface="serif" />
+                    android:shadowDx="3"
+                    android:shadowDy="3"
+                    android:shadowRadius="3"
+                    android:text="Rent"
+                    android:textColor="@color/colorYellow"
+                    android:textSize="@dimen/_50sdp"
+                    android:textStyle="bold" />
 
+                <com.example.tasol.myrowitems.KudosTextView
+                    android:id="@+id/txtIt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="3"
+                    android:shadowDy="3"
+                    android:shadowRadius="3"
+                    android:text=" It"
+                    android:textColor="@color/lightGreen"
+                    android:textSize="@dimen/_50sdp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtSlogan"
-                android:layout_width="match_parent"
+
+            <com.example.tasol.myrowitems.KudosTextView
+                android:id="@+id/txtDesc"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
+                android:layout_gravity="center"
                 android:shadowColor="@color/black"
-                android:shadowDx="5"
-                android:shadowDy="5"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="3"
                 android:text="Rent Anything Online"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_20sdp"
-                android:typeface="monospace" />
+                android:textSize="@dimen/_20sdp" />
 
         </LinearLayout>
 
@@ -74,6 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#44000000"
+
                 app:layout_collapseMode="pin"
                 app:tabGravity="fill"
                 app:tabIndicatorColor="@color/white"

@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
+    <com.example.tasol.myrowitems.KudosTextView
         android:id="@+id/txtItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

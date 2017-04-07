@@ -46,7 +46,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -65,7 +65,7 @@
                         app:border_width="@dimen/_1sdp"
                         app:elevation="@dimen/_5sdp" />
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtByUser"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     android:layout_margin="@dimen/_5sdp"
                     android:background="@color/lightGrey" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                     android:layout_margin="@dimen/_5sdp"
                     android:background="@color/lightGrey" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                     android:layout_margin="@dimen/_5sdp"
                     android:background="@color/lightGrey" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtFrom"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -143,7 +143,7 @@
                         android:layout_height="@dimen/_2sdp"
                         android:background="@color/grey" />
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtTo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtDays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/textView15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,8 +197,7 @@
                     android:text="Interested in this Ad?"
                     android:textColor="@color/white"
                     android:textSize="20dp"
-                    android:textStyle="bold"
-                    android:typeface="sans" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -207,7 +206,7 @@
                     android:orientation="horizontal">
 
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/textView25"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -218,10 +217,9 @@
                         android:shadowDy="3"
                         android:text="Contact the Seller!"
                         android:textColor="@color/white"
-                        android:textSize="15dp"
-                        android:typeface="sans" />
+                        android:textSize="15dp" />
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtByPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -233,8 +231,7 @@
                         android:text="+91 96014 82687"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_15sdp"
-                        android:textStyle="italic|bold"
-                        android:typeface="sans" />
+                        android:textStyle="italic|bold" />
 
                 </LinearLayout>
             </LinearLayout>

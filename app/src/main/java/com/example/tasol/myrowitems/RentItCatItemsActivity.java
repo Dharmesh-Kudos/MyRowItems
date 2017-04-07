@@ -27,8 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,14 +70,14 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
     int[] IMAGESRRAY = {R.drawable.cat_fashion, R.drawable.cat_electronic, R.drawable.mobile1, R.drawable.cat_furniture, R.drawable.cat_cars, R.drawable.mobile3, R.drawable.mobile, R.drawable.mobile2};
 
     int IN_POS;
-    TextView txtNotYet;
-    Button btnByCity;
+    KudosTextView txtNotYet;
+    KudosButton btnByCity;
     LinearLayoutManager linearLayoutManagerHori;
     LinearLayout layoutCity;
     ContextMenuDialogFragment mMenuDialogFragment;
     AQuery aQuery;
     LinearLayout liloSearch;
-    EditText edtSearch;
+    KudosEditText edtSearch;
     ImageView ivSearch;
     int[] IMAGESOFCATS = {R.drawable.mobiles,
             R.drawable.electronics,
@@ -113,7 +111,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         setContentView(R.layout.rentit_cat_items_activity);
         fragmentManager = getSupportFragmentManager();
         // setupWindowAnimations();
-        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) findViewById(R.id.txtNotYet);
         smartCaching = new SmartCaching(RentItCatItemsActivity.this);
         aQuery = new AQuery(RentItCatItemsActivity.this);
         IN_POS = getIntent().getIntExtra("IN_POS", 1);
@@ -135,7 +133,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         });
 
         liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
-        edtSearch = (EditText) findViewById(R.id.edtSearchName);
+        edtSearch = (KudosEditText) findViewById(R.id.edtSearchName);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
         rvCatDetail = (RecyclerView) findViewById(R.id.rvCatDetail);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -186,7 +184,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
 
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView kudosTextView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     if (edtSearch.getText().length() > 0) {
                         pDialog = new SweetAlertDialog(RentItCatItemsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
@@ -675,19 +673,19 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
-            Button btnAvailable;
+            KudosButton btnAvailable;
             CircleImageView imgProfilePicture;
             LinearLayout dataLayout;
-            TextView txtTitle, txtPrice, txtUsername;
+            KudosTextView txtTitle, txtPrice, txtUsername;
             LinearLayout lilo;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnAvailable = (Button) itemView.findViewById(R.id.btnAvailable);
+                btnAvailable = (KudosButton) itemView.findViewById(R.id.btnAvailable);
                 lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
                 dataLayout = (LinearLayout) itemView.findViewById(R.id.dataLayout);
                 imgProfilePicture = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
@@ -787,20 +785,20 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
             public ImageView imageCat;
             CircleImageView imgProfilePicture;
             LinearLayout dataLayout;
-            Button btnAvailable;
+            KudosButton btnAvailable;
 
-            TextView txtTitle, txtPrice, txtUsername;
+            KudosTextView txtTitle, txtPrice, txtUsername;
             LinearLayout lilo;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 Log.d("CHECKER =", "4");
-                btnAvailable = (Button) itemView.findViewById(R.id.btnAvailable);
+                btnAvailable = (KudosButton) itemView.findViewById(R.id.btnAvailable);
 
                 lilo = (LinearLayout) itemView.findViewById(R.id.lilo);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
                 dataLayout = (LinearLayout) itemView.findViewById(R.id.dataLayout);
                 imgProfilePicture = (CircleImageView) itemView.findViewById(R.id.imgProfilePicture);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
@@ -841,7 +839,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(mCityData.get(i));
 
             return view;

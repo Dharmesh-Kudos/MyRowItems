@@ -33,7 +33,7 @@
             android:padding="@dimen/_5sdp">
 
 
-            <EditText
+            <com.example.tasol.myrowitems.KudosEditText
                 android:id="@+id/edtQue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:textColor="@color/grey"
                 android:textColorHint="@color/grey" />
 
-            <EditText
+            <com.example.tasol.myrowitems.KudosEditText
                 android:id="@+id/edtAns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:textColor="@color/grey"
                 android:textColorHint="@color/grey" />
 
-            <Button
+            <com.example.tasol.myrowitems.KudosButton
                 android:id="@+id/btnPostFAQ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

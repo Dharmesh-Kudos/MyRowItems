@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_window_close_white_24dp" />
 
-                <TextView
+                <com.example.tasol.myrowitems.KudosTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -75,7 +75,7 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -111,7 +111,7 @@
                             android:layout_margin="@dimen/_5sdp" />
                     </LinearLayout>
 
-                    <Button
+                    <com.example.tasol.myrowitems.KudosButton
                         android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <Button
+                        <com.example.tasol.myrowitems.KudosButton
                             android:id="@+id/spinnerSubCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                             android:visibility="gone" />
                     </FrameLayout>
 
-                    <EditText
+                    <com.example.tasol.myrowitems.KudosEditText
                         android:id="@+id/edtTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -163,7 +163,7 @@
                         android:textSize="@dimen/_15sdp" />
 
 
-                    <EditText
+                    <com.example.tasol.myrowitems.KudosEditText
                         android:id="@+id/edtDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/lightGrey"
@@ -190,7 +190,7 @@
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_15sdp" />
 
-                        <EditText
+                        <com.example.tasol.myrowitems.KudosEditText
                             android:id="@+id/edtPrice"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/lightGrey"
@@ -218,7 +218,7 @@
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_15sdp" />
 
-                        <EditText
+                        <com.example.tasol.myrowitems.KudosEditText
                             android:id="@+id/edtDeposit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_3sdp">
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:background="@color/lightGrey"
@@ -246,7 +246,7 @@
                             android:textColor="@color/grey"
                             android:textSize="@dimen/_12sdp" />
 
-                        <EditText
+                        <com.example.tasol.myrowitems.KudosEditText
                             android:id="@+id/edtDays"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
                             android:textSize="@dimen/_15sdp" />
                     </LinearLayout>
 
-                    <Button
+                    <com.example.tasol.myrowitems.KudosButton
                         android:id="@+id/spinnerCondition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
-        <Button
+        <com.example.tasol.myrowitems.KudosButton
             android:id="@+id/btnPostAd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

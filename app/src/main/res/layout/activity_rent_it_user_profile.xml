@@ -61,7 +61,7 @@
                         app:border_width="@dimen/_1sdp"
                         app:elevation="@dimen/_5sdp" />
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <com.example.tasol.myrowitems.KudosTextView
                         android:id="@+id/txtLoc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                         android:padding="@dimen/_3sdp">
 
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtEmail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                             android:layout_height="match_parent" />
 
 
-                        <TextView
+                        <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtMob"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
 
             </FrameLayout>
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

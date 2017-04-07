@@ -6,7 +6,7 @@
     android:padding="@dimen/_10sdp">
 
 
-    <TextView
+    <com.example.tasol.myrowitems.KudosTextView
         android:id="@+id/txtLabelComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         android:gravity="center"
         android:padding="@dimen/_5sdp">
 
-        <EditText
+        <com.example.tasol.myrowitems.KudosEditText
             android:id="@+id/edtCode1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold" />
 
-        <EditText
+        <com.example.tasol.myrowitems.KudosEditText
             android:id="@+id/edtCode2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold" />
 
-        <EditText
+        <com.example.tasol.myrowitems.KudosEditText
             android:id="@+id/edtCode3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold" />
 
-        <EditText
+        <com.example.tasol.myrowitems.KudosEditText
             android:id="@+id/edtCode4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <TextView
+    <com.example.tasol.myrowitems.KudosTextView
         android:id="@+id/txtWrongCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
         android:gravity="right|end"
         android:padding="@dimen/_5sdp">
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/btnResendCode"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
             android:textColor="@color/colorGreen"
             android:textSize="@dimen/_15sdp" />
 
-        <TextView
+        <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/btnSignNow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

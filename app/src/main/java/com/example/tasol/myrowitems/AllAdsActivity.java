@@ -27,8 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -66,14 +64,14 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
 
     RecyclerView rvAllAds;
     int i = 0;
-    TextView txtUsername, txtEmail;
+    KudosTextView txtUsername, txtEmail;
     ImageView imgProfilePicture;
     AQuery aQuery;
     ContextMenuDialogFragment mMenuDialogFragment;
     LinearLayout liloSearch;
-    EditText edtSearch;
+    KudosEditText edtSearch;
     ImageView ivSearch;
-    TextView txtNotYet;
+    KudosTextView txtNotYet;
     private StaggeredGridLayoutManager gridLayoutManager;
     private RecyclerViewAllAdsAdapter recyclerViewAllAdsAdapter;
     private JSONObject loginParams = null;
@@ -96,13 +94,13 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_ads);
 
-        txtNotYet = (TextView) findViewById(R.id.txtNotYet);
+        txtNotYet = (KudosTextView) findViewById(R.id.txtNotYet);
 
         smartCaching = new SmartCaching(AllAdsActivity.this);
         aQuery = new AQuery(AllAdsActivity.this);
         fragmentManager = getSupportFragmentManager();
         liloSearch = (LinearLayout) findViewById(R.id.liloSearch);
-        edtSearch = (EditText) findViewById(R.id.edtSearchName);
+        edtSearch = (KudosEditText) findViewById(R.id.edtSearchName);
         ivSearch = (ImageView) findViewById(R.id.ivSearch);
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -145,7 +143,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
 
         edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView kudosTextView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     if (edtSearch.getText().length() > 0) {
                         pDialog = new SweetAlertDialog(AllAdsActivity.this, SweetAlertDialog.PROGRESS_TYPE);
@@ -693,18 +691,18 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
-            TextView txtTitle, txtPrice, txtUsername;
-            Button btnDelete;
-            TextView btnAvailable;
+            KudosTextView txtTitle, txtPrice, txtUsername;
+            KudosButton btnDelete;
+            KudosTextView btnAvailable;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
-                btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDelete);
+                btnAvailable = (KudosTextView) itemView.findViewById(R.id.txtAvailable);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
             }
         }
@@ -806,18 +804,18 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView imageCat;
-            TextView txtTitle, txtPrice, txtUsername;
-            Button btnDelete;
-            TextView btnAvailable;
+            KudosTextView txtTitle, txtPrice, txtUsername;
+            KudosButton btnDelete;
+            KudosTextView btnAvailable;
 
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
-                btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
-                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDelete);
+                btnAvailable = (KudosTextView) itemView.findViewById(R.id.txtAvailable);
+                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
                 imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
             }
         }
@@ -925,19 +923,19 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
 //        public class adminViewHolder extends RecyclerView.ViewHolder {
 //
 //            public ImageView imageCat;
-//            TextView txtTitle, txtPrice, txtUsername;
-//            Button btnDelete;
-//            TextView btnAvailable;
+//            KudosTextView txtTitle, txtPrice, txtUsername;
+//            KudosButton btnDelete;
+//            KudosTextView btnAvailable;
 //
 //
 //            public adminViewHolder(View itemView) {
 //                super(itemView);
 //                Log.d("CHECKER =", "4");
-//                btnDelete = (Button) itemView.findViewById(R.id.btnDelete);
-//                btnAvailable = (TextView) itemView.findViewById(R.id.txtAvailable);
-//                txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-//                txtPrice = (TextView) itemView.findViewById(R.id.txtPrice);
-//                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+//                btnDelete = (KudosButton) itemView.findViewById(R.id.btnDelete);
+//                btnAvailable = (KudosTextView) itemView.findViewById(R.id.txtAvailable);
+//                txtTitle = (KudosTextView) itemView.findViewById(R.id.txtTitle);
+//                txtPrice = (KudosTextView) itemView.findViewById(R.id.txtPrice);
+//                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
 //                imageCat = (ImageView) itemView.findViewById(R.id.imageCat);
 //            }
 //        }
@@ -976,7 +974,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = inflater.inflate(R.layout.spinner_rows, null);
-            TextView names = (TextView) view.findViewById(R.id.txtItem);
+            KudosTextView names = (KudosTextView) view.findViewById(R.id.txtItem);
             names.setText(mCityData.get(i));
 
             return view;

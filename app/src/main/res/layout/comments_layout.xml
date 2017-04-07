@@ -17,7 +17,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtLabelComment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -29,7 +29,7 @@
                 android:textSize="@dimen/_12sdp"
                 android:textStyle="bold" />
 
-            <Button
+            <com.example.tasol.myrowitems.KudosButton
                 android:id="@+id/btnCloseComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:visibility="gone" />
 
-            <TextView
+            <com.example.tasol.myrowitems.KudosTextView
                 android:id="@+id/txtNCY"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <EditText
+        <com.example.tasol.myrowitems.KudosEditText
             android:id="@+id/edtComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:textColor="@color/grey"
             android:textSize="@dimen/_12sdp" />
 
-        <Button
+        <com.example.tasol.myrowitems.KudosButton
             android:id="@+id/btnSubmitComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

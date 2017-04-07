@@ -1,5 +1,6 @@
 package com.example.tasol.myrowitems;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,13 +17,22 @@ public class RentItLoginActivity extends AppCompatActivity {
 
     public ViewPager viewPager;
     TabLayout tabLayout;
+    KudosTextView txtRent, txtIt, txtDesc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rent_it_login);
 
+        txtRent = (KudosTextView) findViewById(R.id.txtRent);
+        txtIt = (KudosTextView) findViewById(R.id.txtIt);
+        txtDesc = (KudosTextView) findViewById(R.id.txtDesc);
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Ubuntu-L.ttf");
+
+        txtRent.setTypeface(font);
+        txtIt.setTypeface(font);
+        txtDesc.setTypeface(font);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager();

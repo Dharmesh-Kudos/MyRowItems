@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
@@ -36,8 +34,8 @@ import static smart.framework.Constants.TASKDATA;
 
 public class ForgotPasswordFragment extends Fragment {
 
-    EditText edtEmail;
-    Button btnSendEmail;
+    KudosEditText edtEmail;
+    KudosButton btnSendEmail;
     private SweetAlertDialog pDialog;
     private SweetAlertDialog pDialogVisit;
     private boolean isValid = false;
@@ -46,8 +44,8 @@ public class ForgotPasswordFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_forgot_password, container, false);
-        edtEmail = (EditText) v.findViewById(R.id.edtEmail);
-        btnSendEmail = (Button) v.findViewById(R.id.btnSendEmail);
+        edtEmail = (KudosEditText) v.findViewById(R.id.edtEmail);
+        btnSendEmail = (KudosButton) v.findViewById(R.id.btnSendEmail);
         btnSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

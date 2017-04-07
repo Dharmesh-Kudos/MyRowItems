@@ -28,10 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -85,16 +82,16 @@ public class RentItAdDetailActivity extends AppCompatActivity {
     RecyclerViewCommentsAdapter recyclerViewCommentsAdapter;
     Animation slide_down, slide_up;
     ContentValues ROW;
-    TextView txtByUsername, txtByPhone, txtTitle, txtDesc, txtPrice, txtDeposit, txtCondition, txtTime;
+    KudosTextView txtByUsername, txtByPhone, txtTitle, txtDesc, txtPrice, txtDeposit, txtCondition, txtTime;
     JSONObject userData = null;
     List<String> elephantList;
-    Button btnComment, btnReport;
+    KudosButton btnComment, btnReport;
     LinearLayoutManager linearLayoutManager;
     RecyclerView rvComments;
-    TextView txtLabelComment, txtNCY;
+    KudosTextView txtLabelComment, txtNCY;
     private int POS = 0;
     private AQuery aQuery;
-    private TextView txtDays;
+    private KudosTextView txtDays;
     private DialogPlus dialogPlusReport;
     private JSONObject loginParams = null;
     private SweetAlertDialog pDialog;
@@ -148,16 +145,16 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                 }
             }
         });
-        btnComment = (Button) findViewById(R.id.btnComment);
-        btnReport = (Button) findViewById(R.id.btnReport);
-        txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtDesc = (TextView) findViewById(R.id.txtDesc);
-        txtPrice = (TextView) findViewById(R.id.txtPrice);
-        txtDeposit = (TextView) findViewById(R.id.txtDeposit);
-        txtCondition = (TextView) findViewById(R.id.txtCondition);
-        txtTime = (TextView) findViewById(R.id.txtTime);
-        txtDays = (TextView) findViewById(R.id.txtDays);
-        txtByPhone = (TextView) findViewById(R.id.txtByPhone);
+        btnComment = (KudosButton) findViewById(R.id.btnComment);
+        btnReport = (KudosButton) findViewById(R.id.btnReport);
+        txtTitle = (KudosTextView) findViewById(R.id.txtTitle);
+        txtDesc = (KudosTextView) findViewById(R.id.txtDesc);
+        txtPrice = (KudosTextView) findViewById(R.id.txtPrice);
+        txtDeposit = (KudosTextView) findViewById(R.id.txtDeposit);
+        txtCondition = (KudosTextView) findViewById(R.id.txtCondition);
+        txtTime = (KudosTextView) findViewById(R.id.txtTime);
+        txtDays = (KudosTextView) findViewById(R.id.txtDays);
+        txtByPhone = (KudosTextView) findViewById(R.id.txtByPhone);
         rvOtherImages = (RecyclerView) findViewById(R.id.rvOtherImages);
         linearLayoutManager = new LinearLayoutManager(this);
         rvOtherImages.setHasFixedSize(true);
@@ -321,19 +318,19 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                 dialog.getWindow().setAttributes(lp);
 
 
-                final EditText edtComments;
+                final KudosEditText edtComments;
 
-                Button btnSubmitComments, btnCloseComments;
+                KudosButton btnSubmitComments, btnCloseComments;
                 rvComments = (RecyclerView) dialog.findViewById(R.id.rvComments);
                 linearLayoutManager = new LinearLayoutManager(RentItAdDetailActivity.this);
                 linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
                 rvComments.setHasFixedSize(true);
                 rvComments.setLayoutManager(linearLayoutManager);
-                txtNCY = (TextView) dialog.findViewById(R.id.txtNCY);
-                txtLabelComment = (TextView) dialog.findViewById(R.id.txtLabelComment);
-                btnCloseComments = (Button) dialog.findViewById(R.id.btnCloseComments);
-                edtComments = (EditText) dialog.findViewById(R.id.edtComment);
-                btnSubmitComments = (Button) dialog.findViewById(R.id.btnSubmitComment);
+                txtNCY = (KudosTextView) dialog.findViewById(R.id.txtNCY);
+                txtLabelComment = (KudosTextView) dialog.findViewById(R.id.txtLabelComment);
+                btnCloseComments = (KudosButton) dialog.findViewById(R.id.btnCloseComments);
+                edtComments = (KudosEditText) dialog.findViewById(R.id.edtComment);
+                btnSubmitComments = (KudosButton) dialog.findViewById(R.id.btnSubmitComment);
                 getAllComments(ROW.getAsString("product_id"));
                 dialog.show();
 
@@ -433,11 +430,11 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                         .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
                         .create();
                 dialogPlusReport.show();
-                final EditText edtReport;
-                Button btnSubmit;
+                final KudosEditText edtReport;
+                KudosButton btnSubmit;
                 View v = dialogPlusReport.getHolderView();
-                edtReport = (EditText) v.findViewById(R.id.edtReport);
-                btnSubmit = (Button) v.findViewById(R.id.btnSubmit);
+                edtReport = (KudosEditText) v.findViewById(R.id.edtReport);
+                btnSubmit = (KudosButton) v.findViewById(R.id.btnSubmit);
                 btnSubmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -634,14 +631,14 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
-            public TextView txtUsername, txtDate, txtComment;
+            public KudosTextView txtUsername, txtDate, txtComment;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                txtComment = (TextView) itemView.findViewById(R.id.txtComment);
-                txtUsername = (TextView) itemView.findViewById(R.id.txtUsername);
+                txtComment = (KudosTextView) itemView.findViewById(R.id.txtComment);
+                txtUsername = (KudosTextView) itemView.findViewById(R.id.txtUsername);
 
-                txtDate = (TextView) itemView.findViewById(R.id.txtDate);
+                txtDate = (KudosTextView) itemView.findViewById(R.id.txtDate);
             }
         }
     }

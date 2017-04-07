@@ -3,6 +3,7 @@ package com.example.tasol.myrowitems;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -37,13 +35,15 @@ import static smart.framework.Constants.TASKDATA;
 public class RentItLoginFragment extends Fragment {
 
 
-    Button button;
-    EditText edtEmail, edtPassword;
-    TextView btnForgetPassword;
+    KudosButton button;
+    KudosEditText edtEmail, edtPassword;
+    KudosTextView btnForgetPassword;
     ImageView imgShowHide;
     boolean isValid = false;
     private ProgressDialog progressDialog;
     private SweetAlertDialog pDialog;
+    private SweetAlertDialog pDialogVisit;
+    private Typeface font;
 
     public RentItLoginFragment() {
 
@@ -53,11 +53,17 @@ public class RentItLoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_it_login, container, false);
-        edtEmail = (EditText) v.findViewById(R.id.edtEmail);
-        edtPassword = (EditText) v.findViewById(R.id.edtPassword);
-        btnForgetPassword = (TextView) v.findViewById(R.id.btnForgetPassword);
-        button = (Button) v.findViewById(R.id.btnLogin);
+        edtEmail = (KudosEditText) v.findViewById(R.id.edtEmail);
+        edtPassword = (KudosEditText) v.findViewById(R.id.edtPassword);
+        btnForgetPassword = (KudosTextView) v.findViewById(R.id.btnForgetPassword);
+        button = (KudosButton) v.findViewById(R.id.btnLogin);
 
+//        font=Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-L.ttf");
+//
+//        edtEmail.setTypeface(font);
+//        edtPassword.setTypeface(font);
+//        btnForgetPassword.setTypeface(font);
+//        button.setTypeface(font);
 
         btnForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +153,30 @@ public class RentItLoginFragment extends Fragment {
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
 
                         if (userData.getString("is_blocked").equals("1")) {
-                            Toast.makeText(getActivity(), "Your Account is blocked. Please Contact the Admin.", Toast.LENGTH_SHORT).show();
+                            pDialogVisit = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
+                            pDialogVisit.setTitleText("Account Blocked!!!");
+                            pDialogVisit.setContentText("Please contact Admin for further inquiry.");
+                            pDialogVisit.setConfirmText("Contact Admin");
+                            pDialogVisit.setCancelText("Not Now");
+                            pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            });
+                            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                    Intent loginIntent2 = new Intent(getActivity(), ContactUsActivity.class);
+                                    startActivity(loginIntent2);
+                                    getActivity().finish();
+                                }
+                            });
+                            pDialogVisit.setCancelable(true);
+                            pDialogVisit.show();
+
+                            // Toast.makeText(getActivity(), "Your Account is blocked. Please Contact the Admin.", Toast.LENGTH_SHORT).show();
                         } else {
                             if (userData.getString("is_admin").equals("1")) {
                                 startActivity(new Intent(getActivity(), MainActivityAdmin.class));
