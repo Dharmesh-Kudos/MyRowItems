@@ -56,8 +56,7 @@
                             android:shadowRadius="3"
                             android:text="Moto G4 Plus"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/_15sdp"
-                            android:typeface="normal" />
+                            android:textSize="@dimen/_15sdp" />
 
                         <com.example.tasol.myrowitems.KudosTextView
                             android:id="@+id/txtPrice"
