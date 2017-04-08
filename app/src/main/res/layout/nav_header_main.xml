@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -8,16 +9,10 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_210sdp"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/imgProfilePicture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@drawable/demopic" />
+        android:layout_height="@dimen/_200sdp"
+        android:background="@drawable/rentsplash"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,10 +29,6 @@
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
-                android:shadowColor="@color/black"
-                android:shadowDx="3"
-                android:shadowDy="3"
-                android:shadowRadius="3"
                 android:text="Dharmesh Basapati"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_15sdp"
@@ -50,16 +41,27 @@
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
-                android:shadowColor="@color/black"
-                android:shadowDx="3"
-                android:shadowDy="3"
-                android:shadowRadius="3"
                 android:text="sksunny93@gmail.com"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfilePicture"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/demopic"
+            app:border_color="@color/lightGrey"
+            app:border_width="@dimen/_1sdp" />
     </FrameLayout>
+
+    <!--<View-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/_1sdp"-->
+    <!--android:layout_margin="@dimen/_5sdp"-->
+    <!--android:background="@color/lightGrey" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +72,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_camera" />
+            android:src="@drawable/icn_edit_prodile" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu1"
@@ -78,7 +80,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Edit Profile"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -92,7 +94,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_heart_black_24dp" />
+            android:src="@drawable/icn_manage_ads" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu2"
@@ -100,7 +102,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Manage Ads"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -114,7 +116,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_calendar" />
+            android:src="@drawable/icn_feedback" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu3"
@@ -122,7 +124,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Feedback"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -136,7 +138,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_skyline" />
+            android:src="@drawable/icn_contact_us" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu4"
@@ -144,7 +146,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Contact Us"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -158,7 +160,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_gallery" />
+            android:src="@drawable/icn_settings" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu5"
@@ -166,7 +168,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Settings"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -180,7 +182,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_manage" />
+            android:src="@drawable/icn_demo" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu6"
@@ -188,7 +190,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="How to use?"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>
@@ -202,7 +204,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_slideshow" />
+            android:src="@drawable/icon_logout" />
 
         <com.example.tasol.myrowitems.KudosTextView
             android:id="@+id/txtMenu7"
@@ -210,7 +212,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/_15sdp"
             android:text="Sign Out"
-            android:textColor="@color/grey"
+            android:textColor="@color/menu_grey"
             android:textSize="@dimen/_15sdp" />
 
     </LinearLayout>

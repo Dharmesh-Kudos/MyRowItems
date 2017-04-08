@@ -30,6 +30,7 @@ public class SplashActivity extends AppCompatActivity {
     KudosTextView txtRent, txtIt, txtDesc;
     private ProgressDialog progressDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

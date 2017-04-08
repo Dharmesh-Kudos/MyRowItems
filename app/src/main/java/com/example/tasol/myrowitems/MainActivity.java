@@ -26,14 +26,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.squareup.picasso.Picasso;
 import com.twotoasters.jazzylistview.JazzyHelper;
 import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
@@ -271,7 +272,7 @@ public class MainActivity extends AppCompatActivity
                         sweetAlertDialog.dismiss();
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, true);
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, null);
-
+                        LoginManager.getInstance().logOut();
                         Intent loginIntent2 = new Intent(MainActivity.this, RentItLoginActivity.class);
                         startActivity(loginIntent2);
                         finish();
@@ -285,8 +286,9 @@ public class MainActivity extends AppCompatActivity
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                     .getString(SP_LOGGED_IN_USER_DATA, ""));
-            Glide.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
-                    .into((ImageView) v.findViewById(R.id.imgProfilePicture));
+            Picasso.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.no_image).into(imgProfilePicture);
+//            Glide.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
+//                    .into((ImageView) v.findViewById(R.id.imgProfilePicture));
 //            if (loginParams.getString("user_pic").equals("")) {
 //                imgProfilePicture.setImageResource(R.drawable.man);
 //            } else {

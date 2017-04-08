@@ -81,10 +81,62 @@
             android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
             android:background="@drawable/backof_edt_down2"
             android:padding="@dimen/_15sdp"
             android:text="CREATE"
             android:textColor="@color/white" />
+
+
+        <!--<com.facebook.login.widget.LoginButton-->
+        <!--android:id="@+id/login_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="@dimen/_10sdp" />-->
+
+
+        <FrameLayout
+            android:id="@+id/FrameLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <com.example.tasol.myrowitems.KudosButton
+                android:id="@+id/fb"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#416BC1"
+                android:drawableLeft="@drawable/indo_facebook"
+                android:paddingBottom="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:text="Sign up with Facebook"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!--<com.example.tasol.myrowitems.KudosTextView-->
+        <!--android:id="@+id/txtFbLogin"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="@dimen/_10sdp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#4e6aa3"-->
+        <!--android:drawableLeft="@drawable/indo_facebook"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingBottom="@dimen/_10sdp"-->
+        <!--android:paddingLeft="@dimen/_10sdp"-->
+        <!--android:paddingTop="@dimen/_10sdp"-->
+        <!--android:text="Sign up with Facebook"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="@dimen/_16sdp" />-->
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

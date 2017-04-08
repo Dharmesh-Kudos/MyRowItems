@@ -36,8 +36,18 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +82,8 @@ public class RentItSignupFragment extends Fragment {
     KudosEditText edtUsername, edtPassword, edtEmail, edtPhone;
     KudosButton btnCity;
     KudosTextView txtWrongCode;
+    LoginButton txtFbLogin;
+    LoginManager loginManager;
     private ProgressDialog progressDialog;
     private String imgPath;
     private int PERMISSIONS_REQUEST_CODE_WRITE_EXTERNAL_STORAGE = 601;
@@ -89,7 +101,13 @@ public class RentItSignupFragment extends Fragment {
     private CustomCityAdapter customSubCatAdapter;
     private boolean isValid = false;
     private Typeface font;
-
+    private AccessToken mAccessToken;
+    private String email;
+    private String name;
+    private String password;
+    private CallbackManager callbackManager;
+    private boolean isFacebook = false;
+    private KudosButton actButton;
 
     public RentItSignupFragment() {
     }
@@ -99,6 +117,35 @@ public class RentItSignupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rent_it_signup, container, false);
+
+        callbackManager = CallbackManager.Factory.create();
+
+//        loginManager=LoginManager.getInstance();
+//
+//        loginManager.registerCallback(callbackManager,
+//                new FacebookCallback<LoginResult>() {
+//                    @Override
+//                    public void onSuccess(LoginResult loginResult) {
+//                        mAccessToken = loginResult.getAccessToken();
+//                        getUserProfile(mAccessToken);
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        // App code
+//                        Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+////                        SmartUtils.showSnackBar(getActivity(), getString(R.string.indo_facebook_login_failure_message), Snackbar.LENGTH_LONG);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException exception) {
+//                        // App code
+//                        Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+//
+////                        SmartUtils.showSnackBar(getActivity(), getString(R.string.indo_facebook_login_failure_message), Snackbar.LENGTH_LONG);
+//                    }
+//                });
         smartCaching = new SmartCaching(getActivity());
 
         btnSignup = (KudosButton) v.findViewById(R.id.btnSignUp);
@@ -107,6 +154,10 @@ public class RentItSignupFragment extends Fragment {
         edtEmail = (KudosEditText) v.findViewById(R.id.edtEmail);
         edtPhone = (KudosEditText) v.findViewById(R.id.edtPhone);
         btnCity = (KudosButton) v.findViewById(R.id.btnCity);
+        // txtFbLogin=(LoginButton)v.findViewById(R.id.txtFbLogin);
+        actButton = (KudosButton) v.findViewById(R.id.fb);
+        txtFbLogin = (LoginButton) v.findViewById(R.id.login_button);
+        txtFbLogin.setFragment(this);
         imgProPic = (CircleImageView) v.findViewById(R.id.imgProfilePicture);
 
         font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Ubuntu-L.ttf");
@@ -117,6 +168,45 @@ public class RentItSignupFragment extends Fragment {
         edtPhone.setTypeface(font);
         btnCity.setTypeface(font);
         btnSignup.setTypeface(font);
+
+        actButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtFbLogin.performClick();
+            }
+        });
+
+        txtFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                mAccessToken = loginResult.getAccessToken();
+                getUserProfile(mAccessToken);
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+//
+//        txtFbLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mAccessToken = AccessToken.getCurrentAccessToken();
+//                if (mAccessToken != null) {
+//
+//                    getUserProfile(mAccessToken);
+//                } else {
+//                    loginManager.logInWithReadPermissions(getActivity(), Arrays.asList("public_profile", "email"));
+//                }
+//            }
+//        });
 
         fetchCity();
         imgProPic.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +241,6 @@ public class RentItSignupFragment extends Fragment {
 
                                     if (!CITYNAME.equalsIgnoreCase("null")) {
                                         isValid = true;
-                                        btnCity.setError("");
                                     } else {
                                         btnCity.setError("Select City");
                                     }
@@ -181,6 +270,40 @@ public class RentItSignupFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void getUserProfile(AccessToken currentAccessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                currentAccessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+                            edtUsername.setText(object.getString("name"));
+                            edtEmail.setText(object.getString("email"));
+                            edtPassword.setText(object.getString("id"));
+                            email = object.getString("email");
+                            name = object.getString("name");
+                            password = object.getString("id");
+
+                            selectedImagePath = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            isFacebook = true;
+                            Picasso.with(getActivity()).load(selectedImagePath).placeholder(R.drawable.no_image).into(imgProPic);
+//                            Glide.with(getActivity()).load(selectedImagePath).placeholder(R.drawable.man).error(R.drawable.no_image)
+//                                    .into(imgProPic);
+                            Log.d("OPATH =", selectedImagePath);
+                            //sendMailAndVerify(true);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //  doSignup();
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.width(200)");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void fetchCity() {
@@ -447,6 +570,11 @@ public class RentItSignupFragment extends Fragment {
                 String currentDateandTime = sdf.format(new Date());
                 taskData.put("created_at", currentDateandTime);
                 taskData.put("updated_at", currentDateandTime);
+                if (isFacebook) {
+                    taskData.put("user_img", selectedImagePath);
+                } else {
+                    taskData.put("user_img", "normal");
+                }
 
             } catch (Throwable e) {
             }
@@ -487,12 +615,18 @@ public class RentItSignupFragment extends Fragment {
                 SmartUtils.hideProgressDialog();
             }
         });
-        SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, selectedImagePath, null, true);
+        if (isFacebook) {
+            SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
+        } else {
+            SmartWebManager.getInstance(getActivity().getApplicationContext()).addToRequestQueueMultipart(requestParams, selectedImagePath, null, true);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
                 final boolean isCamera;

@@ -14,6 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,10 +49,16 @@ public class RentItLoginFragment extends Fragment {
     KudosTextView btnForgetPassword;
     ImageView imgShowHide;
     boolean isValid = false;
+    LoginButton txtFbLogin;
     private ProgressDialog progressDialog;
     private SweetAlertDialog pDialog;
     private SweetAlertDialog pDialogVisit;
     private Typeface font;
+    private CallbackManager callbackManager;
+    private AccessToken mAccessToken;
+    private KudosButton actButton;
+    private boolean isFacebook = false;
+    private ImageView pwd;
 
     public RentItLoginFragment() {
 
@@ -57,7 +72,10 @@ public class RentItLoginFragment extends Fragment {
         edtPassword = (KudosEditText) v.findViewById(R.id.edtPassword);
         btnForgetPassword = (KudosTextView) v.findViewById(R.id.btnForgetPassword);
         button = (KudosButton) v.findViewById(R.id.btnLogin);
-
+        callbackManager = CallbackManager.Factory.create();
+        txtFbLogin = (LoginButton) v.findViewById(R.id.login_button);
+        actButton = (KudosButton) v.findViewById(R.id.fb);
+        txtFbLogin.setFragment(this);
 //        font=Typeface.createFromAsset(getActivity().getAssets(),"fonts/Ubuntu-L.ttf");
 //
 //        edtEmail.setTypeface(font);
@@ -65,6 +83,31 @@ public class RentItLoginFragment extends Fragment {
 //        btnForgetPassword.setTypeface(font);
 //        button.setTypeface(font);
 
+
+        actButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFacebook = true;
+                txtFbLogin.performClick();
+            }
+        });
+        txtFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                mAccessToken = loginResult.getAccessToken();
+                getUserProfile(mAccessToken);
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getActivity(), getString(R.string.indo_facebook_login_failure_message), Toast.LENGTH_SHORT).show();
+            }
+        });
         btnForgetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +140,39 @@ public class RentItLoginFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void getUserProfile(AccessToken currentAccessToken) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                currentAccessToken,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        try {
+
+                            edtEmail.setText(object.getString("email"));
+                            edtPassword.setText(object.getString("id"));
+                            doLogin();
+
+
+                            //sendMailAndVerify(true);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        //  doSignup();
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.width(200)");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     void doLogin() {
@@ -189,7 +265,12 @@ public class RentItLoginFragment extends Fragment {
 
 
                     } else if (responseCode == 204) {
-                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                        if (isFacebook) {
+//                            ((RentItLoginActivity) getActivity()).selectFragment(1);
+                            Toast.makeText(getActivity(), "Your Facebook account is not yet linked with our App.", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(getActivity(), "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                     }

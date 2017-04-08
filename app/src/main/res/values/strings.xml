@@ -23,6 +23,8 @@
     <string name="title_activity_rentt_login">Sign in</string>
 
     <!-- Strings related to login -->
+    <string name="facebook_app_id">617945365075216</string>
+
     <string name="rs">\u20B9</string>
     <string name="RS">\u20A8</string>
     <string name="prompt_email">Email</string>
@@ -47,6 +49,7 @@
     <string name="msg_sending_email">Sending email...</string>
     <string name="msg_email_sent_successfully">Your message was sent successfully.</string>
     <string name="msg_error_sending_email">Error sending email, check your connection</string>
+    <string name="indo_facebook_login_failure_message">Some error occurred while signing in with facebook</string>
 
 
 </resources>

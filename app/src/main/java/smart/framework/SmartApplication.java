@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
+import com.facebook.FacebookSdk;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class SmartApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         android.webkit.CookieSyncManager.createInstance(this);
         // unrelated, just make sure cookies are generally allowed
         android.webkit.CookieManager.getInstance().setAcceptCookie(true);

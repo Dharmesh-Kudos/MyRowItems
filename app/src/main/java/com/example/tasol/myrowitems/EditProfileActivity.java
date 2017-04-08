@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +138,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
                                 if (!CITYNAME.equalsIgnoreCase("null")) {
                                     isValid = true;
-                                    txtCity.setError("");
                                 } else {
                                     txtCity.setError("Select City");
                                 }
@@ -465,8 +464,10 @@ public class EditProfileActivity extends AppCompatActivity {
 //        }
 
         try {
-            Glide.with(EditProfileActivity.this).load(userDataObj.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
-                    .into(imgProfilePicture);
+            Picasso.with(EditProfileActivity.this).load(userDataObj.getString("user_pic")).placeholder(R.drawable.man).into(imgProfilePicture);
+
+//            Glide.with(EditProfileActivity.this).load(userDataObj.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
+//                    .into(imgProfilePicture);
             selectedImagePath = userDataObj.getString("user_pic");
             edtUsername.setText(userDataObj.getString("name"));
             edtEmail.setText(userDataObj.getString("email"));
