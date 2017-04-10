@@ -16,7 +16,12 @@ import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.util.HashMap;
+
+import javax.crypto.Cipher;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import smart.framework.SmartApplication;
@@ -69,6 +74,81 @@ public class ForgotPasswordFragment extends Fragment {
         return v;
     }
 
+    String decrypter(String password, String pkey) {
+
+        // Generate key pair for 1024-bit RSA encryption and decryption
+        Key publicKey = null;
+        Key privateKey = null;
+        try {
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+            kpg.initialize(2048);
+            KeyPair kp = kpg.genKeyPair();
+            publicKey = kp.getPublic();
+            privateKey = kp.getPrivate();
+        } catch (Exception e) {
+            Log.e("TAG", "RSA key pair error");
+        }
+        // Encode the original data with RSA private key
+//        byte[] encodedBytes = null;
+//        try {
+//            Cipher c = Cipher.getInstance("RSA");
+//            c.init(Cipher.ENCRYPT_MODE, privateKey);
+//            encodedBytes = c.doFinal(password.getBytes());
+//        } catch (Exception e) {
+//            Log.e("TAG", "RSA encryption error");
+//        }
+//        Log.d("TAG", Base64.encodeToString(encodedBytes, Base64.DEFAULT));
+        //  return Base64.encodeToString(encodedBytes, Base64.DEFAULT);\
+        // Decode the encoded data with RSA public key
+        byte[] decodedBytes = null;
+        try {
+            Cipher c = Cipher.getInstance("RSA");
+            c.init(Cipher.DECRYPT_MODE, publicKey);
+            decodedBytes = c.doFinal(password.getBytes());
+        } catch (Exception e) {
+            Log.e("TAG", "RSA decryption error");
+        }
+
+        return new String(decodedBytes);
+//        String key = "RENTIT";
+//        String salt = "LARAVEL";
+//        byte[] iv = new byte[16];
+//
+//        Encryption encryption = null;
+//        // we also can generate an entire new Builder
+//        String encrypted = "";
+//        try {
+//            encryption = new Encryption.Builder()
+//                    .setKeyLength(128)
+//                    .setKeyAlgorithm("AES")
+//                    .setCharsetName("UTF8")
+//                    .setIterationCount(65536)
+//                    .setKey("mor€Z€cr€tKYss")
+//                    .setDigestAlgorithm("SHA1")
+//                    .setSalt("A beautiful salt")
+//                    .setBase64Mode(Base64.DEFAULT)
+//                    .setAlgorithm("AES/CBC/PKCS5Padding")
+//                    .setSecureRandomAlgorithm("SHA1PRNG")
+//                    .setSecretKeyType("PBKDF2WithHmacSHA1")
+//                    .setIv(new byte[]{29, 88, -79, -101, -108, -38, -126, 90, 52, 101, -35, 114, 12, -48, -66, -30})
+//                    .build();
+//            encrypted = encryption.decrypt(password);
+//
+////            Log.d("ENC = ",""+encrypted);
+////            String decrypted = encryption.decrypt(encrypted);
+////            Log.d("DEC = ",""+decrypted);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//
+////        Encryption encryption = Encryption.getDefault(key, salt, iv);
+//
+//        return encrypted;
+
+
+    }
+
     private void sendMail(final String email) {
 
         pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
@@ -112,7 +192,7 @@ public class ForgotPasswordFragment extends Fragment {
                                 .withPassword("rentanything")
                                 .withMailto(email)
                                 .withSubject("Rent It Forgot Password!!!")
-                                .withBody("Hello " + email + ",\n\n" + "Here is your password that you forgot - " + response.getJSONObject("userData").getString("password") + "\n\n Regards,\n KUDOS INC.")
+                                .withBody("Hello " + email + ",\n\n" + "Here is your password that you forgot - " + decrypter(response.getJSONObject("userData").getString("password"), "") + "\n\n Regards,\n KUDOS INC.")
                                 .withProcessVisibility(true)
                                 .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                                     @Override

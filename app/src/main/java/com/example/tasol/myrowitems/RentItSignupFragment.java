@@ -57,19 +57,26 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.crypto.Cipher;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
+import se.simbio.encryption.Encryption;
 import smart.caching.SmartCaching;
 import smart.framework.Constants;
 import smart.framework.SmartApplication;
 import smart.framework.SmartUtils;
 import smart.weservice.SmartWebManager;
+import third.part.android.util.Base64;
 
 import static android.app.Activity.RESULT_OK;
 import static smart.framework.Constants.TASK;
@@ -108,6 +115,8 @@ public class RentItSignupFragment extends Fragment {
     private CallbackManager callbackManager;
     private boolean isFacebook = false;
     private KudosButton actButton;
+    private boolean isData = false;
+    private Key publicKey;
 
     public RentItSignupFragment() {
     }
@@ -222,8 +231,10 @@ public class RentItSignupFragment extends Fragment {
         btnCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isData) {
+                    dialogPlusSubCat.show();
 
-                dialogPlusSubCat.show();
+                }
             }
         });
 
@@ -232,6 +243,8 @@ public class RentItSignupFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+//                encrypter(edtPassword.getText().toString());
 
                 if (edtUsername.getText().toString().length() > 0) {
                     if (edtPassword.getText().toString().length() >= 6) {
@@ -269,7 +282,75 @@ public class RentItSignupFragment extends Fragment {
             }
         });
 
+
         return v;
+    }
+
+
+    String encrypt(String password) {
+        String key = "RENTIT";
+        String salt = "LARAVEL";
+        byte[] iv = new byte[16];
+
+        Encryption encryption = null;
+        // we also can generate an entire new Builder
+        String encrypted = "";
+        try {
+            encryption = new Encryption.Builder()
+                    .setKeyLength(128)
+                    .setKeyAlgorithm("AES")
+                    .setCharsetName("UTF8")
+                    .setIterationCount(65536)
+                    .setKey("mor€Z€cr€tKYss")
+                    .setDigestAlgorithm("SHA1")
+                    .setSalt("A beautiful salt")
+                    .setBase64Mode(Base64.DEFAULT)
+                    .setAlgorithm("AES/CBC/PKCS5Padding")
+                    .setSecureRandomAlgorithm("SHA1PRNG")
+                    .setSecretKeyType("PBKDF2WithHmacSHA1")
+                    .setIv(new byte[]{29, 88, -79, -101, -108, -38, -126, 90, 52, 101, -35, 114, 12, -48, -66, -30})
+                    .build();
+            encrypted = encryption.encrypt(password);
+
+//            Log.d("ENC = ",""+encrypted);
+//            String decrypted = encryption.decrypt(encrypted);
+//            Log.d("DEC = ",""+decrypted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+//        Encryption encryption = Encryption.getDefault(key, salt, iv);
+
+        return encrypted;
+
+    }
+
+    String encrypter(String theTestText) {
+        // Generate key pair for 1024-bit RSA encryption and decryption
+        publicKey = null;
+        Key privateKey = null;
+        try {
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
+            kpg.initialize(1024);
+            KeyPair kp = kpg.genKeyPair();
+            publicKey = kp.getPublic();
+            privateKey = kp.getPrivate();
+        } catch (Exception e) {
+            Log.e("TAG", "RSA key pair error");
+        }
+        // Encode the original data with RSA private key
+        byte[] encodedBytes = null;
+        try {
+            Cipher c = Cipher.getInstance("RSA");
+            c.init(Cipher.ENCRYPT_MODE, privateKey);
+            encodedBytes = c.doFinal(theTestText.getBytes());
+        } catch (Exception e) {
+            Log.e("TAG", "RSA encryption error");
+        }
+        Log.d("TAG", Base64.encodeToString(encodedBytes, Base64.DEFAULT));
+        return Base64.encodeToString(encodedBytes, Base64.DEFAULT);
+//        tvdecoded.setText("[DECODED]:\n" + new String(decodedBytes) + "\n");
     }
 
     private void getUserProfile(AccessToken currentAccessToken) {
@@ -349,6 +430,7 @@ public class RentItSignupFragment extends Fragment {
                                 })
                                 .setExpanded(false)  // This will enable the expand feature, (similar to android L share dialog)
                                 .create();
+                        isData = true;
 
                     } else if (responseCode == 204) {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
@@ -559,13 +641,13 @@ public class RentItSignupFragment extends Fragment {
             try {
 
                 taskData.put("name", edtUsername.getText().toString().trim());
-                taskData.put("password", edtPassword.getText().toString().trim());
+                taskData.put("password", encrypter(edtPassword.getText().toString()));
                 taskData.put("email", edtEmail.getText().toString().trim());
                 taskData.put("phone", edtPhone.getText().toString().trim());
                 taskData.put("city", btnCity.getText().toString().trim());
                 taskData.put("is_admin", "0");
                 taskData.put("varified", "1");
-                taskData.put("remember_token", CODE);
+                taskData.put("remember_token", publicKey);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentDateandTime = sdf.format(new Date());
                 taskData.put("created_at", currentDateandTime);
