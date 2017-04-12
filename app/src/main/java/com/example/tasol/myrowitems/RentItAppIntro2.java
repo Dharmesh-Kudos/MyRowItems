@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntro2Fragment;
@@ -16,8 +18,12 @@ import com.github.paolorotolo.appintro.AppIntro2Fragment;
 public class RentItAppIntro2 extends AppIntro2 {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         // Note here that we DO NOT use setContentView();
+        super.onCreate(savedInstanceState);
         // Add your slide fragments here.
         // AppIntro will automatically generate the dots indicator and buttons.
 //        addSlide(new RentItLoginFragment());
@@ -31,7 +37,7 @@ public class RentItAppIntro2 extends AppIntro2 {
         addSlide(AppIntro2Fragment.newInstance("Take a Pic", "And Fill Up the Form", R.drawable.photocam, getResources().getColor(R.color.colorYellow)));
         addSlide(AppIntro2Fragment.newInstance("Upload on our App", "And Get Instant Renters!!!", R.drawable.sports, getResources().getColor(R.color.colorGreen)));
 //        addSlide(AppIntro2Fragment.newInstance("Upload on our App", "And Get Instant Renters!!!", R.drawable.listout, getResources().getColor(R.color.blue)));
-        addSlide(AppIntro2Fragment.newInstance("Rent It", "Rent Anything Online", R.drawable.demopic, getResources().getColor(R.color.blue)));
+        addSlide(AppIntro2Fragment.newInstance("Rent It", "Rent Anything Online", R.drawable.rent_it_web, getResources().getColor(R.color.blue)));
 
         // OPTIONAL METHODS
         // Override bar/separator color.

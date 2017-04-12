@@ -2,7 +2,6 @@ package smart.framework;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.tasol.myrowitems.R;
 
@@ -172,11 +171,11 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public void onInstalling(SmartApplication smartApplication) {
-        Toast.makeText(smartApplication, "Success", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(smartApplication, "Success", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpgrading(int oldVersion, int newVersion, SmartApplication smartApplication) {
-        Toast.makeText(smartApplication, "Old Version = " + oldVersion + ", New version = " + newVersion, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(smartApplication, "Old Version = " + oldVersion + ", New version = " + newVersion, Toast.LENGTH_SHORT).show();
     }
 }

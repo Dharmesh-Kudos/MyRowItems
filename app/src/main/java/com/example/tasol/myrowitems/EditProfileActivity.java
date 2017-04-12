@@ -209,7 +209,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String currentDateandTime = sdf.format(new Date());
                 taskData.put("updated_at", currentDateandTime);
-                if (selectedImagePath.contains("/rentimgs/")) {
+                if (selectedImagePath.contains("/rentimgs/") || selectedImagePath.contains("fbcdn.net")) {
                     taskData.put("isNewImage", "0");//0 if old and 1 if new
                 } else {
                     taskData.put("isNewImage", "1");//0 if old and 1 if new
@@ -249,10 +249,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 SmartUtils.hideProgressDialog();
             }
         });
-        if (selectedImagePath.contains("/rentimgs/")) {
+        if (selectedImagePath.contains("/rentimgs/") || selectedImagePath.contains("fbcdn.net")) {
             SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, "", null, true);
         } else {
-
             SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, selectedImagePath, null, true);
         }
     }

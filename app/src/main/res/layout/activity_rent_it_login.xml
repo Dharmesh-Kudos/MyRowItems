@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rent_splash_new"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
@@ -41,8 +42,7 @@
                     android:shadowRadius="3"
                     android:text="Rent"
                     android:textColor="@color/colorYellow"
-                    android:textSize="@dimen/_50sdp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_50sdp" />
 
                 <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtIt"
@@ -55,8 +55,7 @@
                     android:shadowRadius="3"
                     android:text=" It"
                     android:textColor="@color/lightGreen"
-                    android:textSize="@dimen/_50sdp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_50sdp" />
             </LinearLayout>
 
 

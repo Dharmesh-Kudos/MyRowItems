@@ -35,8 +35,6 @@ import com.facebook.login.LoginManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Picasso;
-import com.twotoasters.jazzylistview.JazzyHelper;
-import com.twotoasters.jazzylistview.recyclerview.JazzyRecyclerViewScrollListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -106,8 +104,6 @@ public class MainActivity extends AppCompatActivity
     private int NUM_PAGES = 4;
     private int currentPage = 0;
     private JSONObject loginParams = null;
-    private JazzyRecyclerViewScrollListener jazzyScrollListener;
-    private int mCurrentTransitionEffect = JazzyHelper.SLIDE_IN;
     private ImageView imgBack;
     private ArrayList<ContentValues> trendingData = new ArrayList<>();
     private smart.caching.SmartCaching smartCaching;
@@ -130,8 +126,6 @@ public class MainActivity extends AppCompatActivity
 
 
 //        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        txtCategory = (KudosTextView) findViewById(R.id.txtCategory);
-        txtCategory.setTypeface(font);
         gridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
 
         rvCategories = (RecyclerView) findViewById(R.id.rvCategories);
@@ -286,6 +280,8 @@ public class MainActivity extends AppCompatActivity
         try {
             loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
                     .getString(SP_LOGGED_IN_USER_DATA, ""));
+
+
             Picasso.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.no_image).into(imgProfilePicture);
 //            Glide.with(MainActivity.this).load(loginParams.getString("user_pic")).placeholder(R.drawable.man).error(R.drawable.no_image)
 //                    .into((ImageView) v.findViewById(R.id.imgProfilePicture));
@@ -339,14 +335,30 @@ public class MainActivity extends AppCompatActivity
         rvCategories.setAdapter(recyclerViewCategoryGridAdapter);
         rvCategories.setNestedScrollingEnabled(false);
 
-        jazzyScrollListener = new JazzyRecyclerViewScrollListener();
-        rvCategories.setOnScrollListener(jazzyScrollListener);
 
-        if (savedInstanceState != null) {
-            mCurrentTransitionEffect = savedInstanceState.getInt(KEY_TRANSITION_EFFECT, JazzyHelper.SLIDE_IN);
-            setupJazziness(mCurrentTransitionEffect);
+        try {
+            if (loginParams.getString("city").equals("Not Selected Yet") && loginParams.getString("phone").equals("0")) {
+
+                pDialogVisit = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                pDialogVisit.setTitleText("Update Your Profile!!!");
+                pDialogVisit.setContentText("Please update your Mobile and City...");
+                pDialogVisit.setConfirmText("Okay");
+
+                pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismiss();
+                        Intent loginIntent2 = new Intent(MainActivity.this, EditProfileActivity.class);
+                        startActivity(loginIntent2);
+
+                    }
+                });
+                pDialogVisit.setCancelable(false);
+                pDialogVisit.show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
 //        ghumao();
 //        try {
 //            JSONObject userData = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(SP_LOGGED_IN_USER_DATA, ""));
@@ -485,10 +497,6 @@ public class MainActivity extends AppCompatActivity
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", true);
     }
 
-    private void setupJazziness(int effect) {
-        mCurrentTransitionEffect = effect;
-        jazzyScrollListener.setTransitionEffect(mCurrentTransitionEffect);
-    }
 
     private void ghumao() {
         final Handler handler = new Handler();

@@ -79,6 +79,10 @@ import smart.weservice.SmartWebManager;
 import third.part.android.util.Base64;
 
 import static android.app.Activity.RESULT_OK;
+import static smart.framework.Constants.SP_ISLOGOUT;
+import static smart.framework.Constants.SP_LOGGED_IN_USER_DATA;
+import static smart.framework.Constants.SP_LOGIN_REQ_OBJECT;
+import static smart.framework.Constants.SP_USERNAME;
 import static smart.framework.Constants.TASK;
 import static smart.framework.Constants.TASKDATA;
 
@@ -117,6 +121,8 @@ public class RentItSignupFragment extends Fragment {
     private KudosButton actButton;
     private boolean isData = false;
     private Key publicKey;
+    private JSONObject userData;
+    private SweetAlertDialog pDialogVisit;
 
     public RentItSignupFragment() {
     }
@@ -184,6 +190,7 @@ public class RentItSignupFragment extends Fragment {
                 txtFbLogin.performClick();
             }
         });
+        LoginManager.getInstance().logOut();
 
         txtFbLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -487,6 +494,7 @@ public class RentItSignupFragment extends Fragment {
                         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
                         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
                         dialog.getWindow().setAttributes(lp);
+                        dialog.setCanceledOnTouchOutside(false);
 
                         final KudosEditText edtCode1, edtCode2, edtCode3, edtCode4;
                         KudosTextView btnResendCode, btnSignNow;
@@ -641,7 +649,7 @@ public class RentItSignupFragment extends Fragment {
             try {
 
                 taskData.put("name", edtUsername.getText().toString().trim());
-                taskData.put("password", encrypter(edtPassword.getText().toString()));
+                taskData.put("password", edtPassword.getText().toString());
                 taskData.put("email", edtEmail.getText().toString().trim());
                 taskData.put("phone", edtPhone.getText().toString().trim());
                 taskData.put("city", btnCity.getText().toString().trim());
@@ -673,13 +681,57 @@ public class RentItSignupFragment extends Fragment {
                 pDialog.dismiss();
                 try {
                     if (responseCode == 200) {
+                        LoginManager.getInstance().logOut();
                         edtEmail.setText("");
-                        edtUsername.setText("");
                         edtPassword.setText("");
-                        edtPhone.setText("");
-                        btnCity.setText("");
-                        Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
-                        ((RentItLoginActivity) getActivity()).selectFragment(0);
+                        // Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
+                        //this will store logged user information
+                        try {
+                            userData = response.getJSONObject("userData");
+                            Log.d("userData = ", userData.toString());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGGED_IN_USER_DATA, userData.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_LOGIN_REQ_OBJECT, jsonObject.toString());
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_USERNAME, userData.getString("name"));
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(SP_ISLOGOUT, false);
+
+                        if (userData.getString("is_blocked").equals("1")) {
+                            pDialogVisit = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
+                            pDialogVisit.setTitleText("Account Blocked!!!");
+                            pDialogVisit.setContentText("Please contact Admin for further inquiry.");
+                            pDialogVisit.setConfirmText("Contact Admin");
+                            pDialogVisit.setCancelText("Not Now");
+                            pDialogVisit.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                }
+                            });
+                            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismiss();
+                                    Intent loginIntent2 = new Intent(getActivity(), ContactUsActivity.class);
+                                    startActivity(loginIntent2);
+                                    getActivity().finish();
+                                }
+                            });
+                            pDialogVisit.setCancelable(true);
+                            pDialogVisit.show();
+
+                            // Toast.makeText(getActivity(), "Your Account is blocked. Please Contact the Admin.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (userData.getString("is_admin").equals("1")) {
+                                startActivity(new Intent(getActivity(), MainActivityAdmin.class));
+                                getActivity().finish();
+                            } else {
+                                startActivity(new Intent(getActivity(), MainActivity.class));
+                                getActivity().finish();
+                            }
+                            LoginManager.getInstance().logOut();
+                        }
                     } else if (responseCode == 204) {
                         Toast.makeText(getActivity(), response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else if (responseCode == 205) {

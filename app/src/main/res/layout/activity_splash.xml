@@ -14,13 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/rentsplash" />
+            android:src="@drawable/rent_splash_new" />
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#99000000"
+            android:background="#66000000"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -28,7 +29,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:background="#33FFFFFF"
+                android:gravity="center"
+                android:padding="@dimen/_5sdp">
 
                 <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtRent"
@@ -41,8 +44,7 @@
                     android:shadowRadius="3"
                     android:text="Rent"
                     android:textColor="@color/colorYellow"
-                    android:textSize="@dimen/_50sdp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_50sdp" />
 
                 <com.example.tasol.myrowitems.KudosTextView
                     android:id="@+id/txtIt"
@@ -55,8 +57,7 @@
                     android:shadowRadius="3"
                     android:text=" It"
                     android:textColor="@color/lightGreen"
-                    android:textSize="@dimen/_50sdp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/_50sdp" />
             </LinearLayout>
 
 

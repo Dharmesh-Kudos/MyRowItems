@@ -82,6 +82,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@color/lightGreen"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/_8sdp"
@@ -100,15 +102,10 @@
                     android:padding="@dimen/_5sdp"
                     android:text="Forget Password"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/_15sdp" />
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
 
-                <View
-                    android:id="@+id/btnForgetUserName"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_1sdp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:gravity="center_vertical|left" />
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
