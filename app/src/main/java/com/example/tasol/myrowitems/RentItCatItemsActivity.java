@@ -90,7 +90,7 @@ public class RentItCatItemsActivity extends AppCompatActivity implements OnMenuI
             R.drawable.sports,
             R.drawable.services,
             R.drawable.estate,
-            R.drawable.pets};
+            R.drawable.icn_decor};
     private LinearLayoutManager linearLayoutManager;
     private RecyclerViewImagesAdapter recyclerViewImagesAdapter;
     private ArrayList<ContentValues> categoryData = new ArrayList<>();

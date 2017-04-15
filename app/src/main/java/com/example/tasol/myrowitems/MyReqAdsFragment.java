@@ -93,6 +93,7 @@ public class MyReqAdsFragment extends Fragment {
 
                 try {
                     if (responseCode == 200) {
+                        txtNotYet.setVisibility(View.GONE);
                         rvUserAds.setVisibility(View.VISIBLE);
                         Log.d("RESULT = ", String.valueOf(response));
                         userAdsData = smartCaching.parseResponse(response.getJSONArray("reqProdData"), "REQPRODDATA", "userData").get("REQPRODDATA");
@@ -101,6 +102,8 @@ public class MyReqAdsFragment extends Fragment {
                             rvUserAds.setAdapter(recyclerViewUserAdsAdapter);
                         }
                     } else if (responseCode == 204) {
+                        txtNotYet.setText("You Have No Requested Ads till now !!!");
+                        txtNotYet.setVisibility(View.VISIBLE);
                         rvUserAds.setVisibility(View.GONE);
                         //Toast.makeText(RentItCatItemsActivity.this, response.getString("message"), Toast.LENGTH_SHORT).show();
                     } else {

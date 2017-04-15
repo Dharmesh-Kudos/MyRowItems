@@ -24,7 +24,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="You Have No Requested Ads till now !!!"
+                android:text="You Have No Posted Ads till now !!!"
                 android:textColor="#929292"
                 android:textSize="@dimen/_20sdp"
                 android:textStyle="bold"

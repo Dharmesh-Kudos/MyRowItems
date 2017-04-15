@@ -4,9 +4,8 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
     useLibrary 'org.apache.http.legacy'
-
     defaultConfig {
-        applicationId "com.example.tasol.myrowitems"
+        applicationId 'com.kudos.apps.rentit'
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -14,7 +13,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
-
     packagingOptions {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
@@ -26,7 +24,6 @@ android {
         exclude 'META-INF/MANIFEST.MF'
         exclude 'META-INF/DEPENDENCIES.txt'
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -34,6 +31,8 @@ android {
         }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
+    productFlavors {
+    }
 }
 
 dependencies {

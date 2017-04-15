@@ -35,9 +35,9 @@ public class RentItAppIntro2 extends AppIntro2 {
         // Just set a title, description, background and image. AppIntro will do the rest.
         addSlide(AppIntro2Fragment.newInstance("How to Earn...", "From your Unused Products??", R.drawable.thinking, getResources().getColor(R.color.maroon)));
         addSlide(AppIntro2Fragment.newInstance("Take a Pic", "And Fill Up the Form", R.drawable.photocam, getResources().getColor(R.color.colorYellow)));
-        addSlide(AppIntro2Fragment.newInstance("Upload on our App", "And Get Instant Renters!!!", R.drawable.sports, getResources().getColor(R.color.colorGreen)));
+        addSlide(AppIntro2Fragment.newInstance("Upload on our App", "And Get Instant Buyers!!!", R.drawable.sports, getResources().getColor(R.color.colorGreen)));
 //        addSlide(AppIntro2Fragment.newInstance("Upload on our App", "And Get Instant Renters!!!", R.drawable.listout, getResources().getColor(R.color.blue)));
-        addSlide(AppIntro2Fragment.newInstance("Rent It", "Rent Anything Online", R.drawable.rent_it_web, getResources().getColor(R.color.blue)));
+        addSlide(AppIntro2Fragment.newInstance("Rent It", "Rent Anything Online", R.drawable.rent_it_web, getResources().getColor(R.color.lightGreen)));
 
         // OPTIONAL METHODS
         // Override bar/separator color.

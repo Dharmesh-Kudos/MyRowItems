@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.tasol.myrowitems.SplashActivity">
 
 
@@ -75,5 +76,16 @@
                 android:textSize="@dimen/_20sdp" />
 
         </LinearLayout>
+
+        <com.example.tasol.myrowitems.KudosTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:text="Powered By KUDOS INC."
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp" />
     </FrameLayout>
+
+
 </LinearLayout>

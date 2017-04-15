@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.squareup.picasso.Picasso;
@@ -73,6 +74,7 @@ public class RentItAdDetailActivity extends AppCompatActivity {
             R.drawable.services,
             R.drawable.estate,
             R.drawable.pets};
+    KudosEditText edtComments;
     int[] IMAGESRRAY = {R.drawable.cat_fashion, R.drawable.cat_electronic, R.drawable.mobile1, R.drawable.cat_furniture, R.drawable.cat_cars, R.drawable.mobile3, R.drawable.mobile, R.drawable.mobile2};
     CircleImageView imgProfilePicture;
     Toolbar toolbarData;
@@ -318,8 +320,6 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                 dialog.getWindow().setAttributes(lp);
 
 
-                final KudosEditText edtComments;
-
                 KudosButton btnSubmitComments, btnCloseComments;
                 rvComments = (RecyclerView) dialog.findViewById(R.id.rvComments);
                 linearLayoutManager = new LinearLayoutManager(RentItAdDetailActivity.this);
@@ -346,71 +346,9 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
                         if (edtComments.getText().toString().length() > 0) {
 
-
-                            pDialog = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                            pDialog.setTitleText("Adding Comments...");
-                            pDialog.setCancelable(true);
-                            pDialog.show();
-
-                            HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItAdDetailActivity.this);
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Fetch Comments");
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                            final JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put(TASK, "submitComment");
-                                JSONObject taskData = new JSONObject();
-                                try {
-                                    loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-                                            .getString(SP_LOGGED_IN_USER_DATA, ""));
-                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    String currentDateandTime = sdf.format(new Date());
-                                    SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
-                                    String currentTime = sdfTime.format(new Date());
-                                    taskData.put("product_id", ROW.getAsString("product_id"));
-                                    taskData.put("user_id", loginParams.getString("id"));
-                                    taskData.put("comment", edtComments.getText().toString());
-                                    taskData.put("user_name", loginParams.getString("name"));
-                                    taskData.put("time", currentTime);
-                                    taskData.put("created_at", currentDateandTime);
-                                    taskData.put("updated_at", currentDateandTime);
-                                } catch (Throwable e) {
-                                    e.printStackTrace();
-                                }
-                                jsonObject.put(TASKDATA, taskData);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
-                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-                                @Override
-                                public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                                    pDialog.dismiss();
-                                    if (responseCode == 200) {
-                                        try {
-                                            Log.d("RESULT = ", String.valueOf(response));
-                                            getAllComments(ROW.getAsString("product_id"));
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    } else {
-                                        Toast.makeText(RentItAdDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-
-                                @Override
-                                public void onResponseError() {
-
-                                    SmartUtils.hideProgressDialog();
-                                }
-                            });
+                            sendComment(edtComments.getText().toString());
 
 
-                            SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
                         } else {
                             edtComments.setError("Please enter comments");
                         }
@@ -439,87 +377,87 @@ public class RentItAdDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if (edtReport.getText().toString().length() > 0) {
-                        pDialog = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
-                        pDialog.setTitleText("Posting Your Ad...");
-                        pDialog.setCancelable(true);
-                        pDialog.show();
+                            pDialog = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+                            pDialog.setTitleText("Posting Your Ad...");
+                            pDialog.setCancelable(true);
+                            pDialog.show();
 
-                        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItAdDetailActivity.this);
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Submit Report");
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
-                        final JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put(TASK, "submitReport");
-                            JSONObject taskData = new JSONObject();
+                            HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItAdDetailActivity.this);
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Submit Report");
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+                            final JSONObject jsonObject = new JSONObject();
                             try {
-                                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
-                                        .getString(SP_LOGGED_IN_USER_DATA, ""));
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                String currentDateandTime = sdf.format(new Date());
-                                SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
-                                String currentTime = sdfTime.format(new Date());
+                                jsonObject.put(TASK, "submitReport");
+                                JSONObject taskData = new JSONObject();
+                                try {
+                                    loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                                            .getString(SP_LOGGED_IN_USER_DATA, ""));
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String currentDateandTime = sdf.format(new Date());
+                                    SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
+                                    String currentTime = sdfTime.format(new Date());
 
-                                taskData.put("user_id", loginParams.getString("id"));
-                                taskData.put("product_id", ROW.getAsString("product_id"));
-                                taskData.put("report", edtReport.getText().toString());
-                                taskData.put("time", currentTime);
-                                taskData.put("created_at", currentDateandTime);
-                                taskData.put("updated_at", currentDateandTime);
+                                    taskData.put("user_id", loginParams.getString("id"));
+                                    taskData.put("product_id", ROW.getAsString("product_id"));
+                                    taskData.put("report", edtReport.getText().toString());
+                                    taskData.put("time", currentTime);
+                                    taskData.put("created_at", currentDateandTime);
+                                    taskData.put("updated_at", currentDateandTime);
 
-                            } catch (Throwable e) {
+                                } catch (Throwable e) {
+                                    e.printStackTrace();
+                                }
+                                jsonObject.put(TASKDATA, taskData);
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            jsonObject.put(TASKDATA, taskData);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
-                        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+                            requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
-                            @Override
-                            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
-                                pDialog.dismiss();
-                                dialogPlusReport.dismiss();
-                                if (responseCode == 200) {
-                                    try {
-                                        Log.d("RESULT = ", String.valueOf(response));
-                                        pDialogVisit = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                                        pDialogVisit.setTitleText("KUDOS");
-                                        pDialogVisit.setContentText("Ad Reported Successfully!");
+                                @Override
+                                public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                                    pDialog.dismiss();
+                                    dialogPlusReport.dismiss();
+                                    if (responseCode == 200) {
+                                        try {
+                                            Log.d("RESULT = ", String.valueOf(response));
+                                            pDialogVisit = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                            pDialogVisit.setTitleText("KUDOS");
+                                            pDialogVisit.setContentText("Ad Reported Successfully!");
 
-                                        pDialogVisit.setConfirmText("Done");
+                                            pDialogVisit.setConfirmText("Done");
 
-                                        pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                sweetAlertDialog.dismiss();
+                                            pDialogVisit.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    sweetAlertDialog.dismiss();
 
-                                            }
-                                        });
-                                        pDialogVisit.setCancelable(true);
-                                        pDialogVisit.show();
+                                                }
+                                            });
+                                            pDialogVisit.setCancelable(true);
+                                            pDialogVisit.show();
 
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        Toast.makeText(RentItAdDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    Toast.makeText(RentItAdDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+
                                 }
 
-                            }
+                                @Override
+                                public void onResponseError() {
 
-                            @Override
-                            public void onResponseError() {
-
-                                SmartUtils.hideProgressDialog();
-                            }
-                        });
+                                    SmartUtils.hideProgressDialog();
+                                }
+                            });
 
 
-                        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+                            SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
                         } else {
                             edtReport.setError("Please fill report");
                         }
@@ -530,11 +468,132 @@ public class RentItAdDetailActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
 
     }
+
+    private void sendCommentToSeller(String userComment, JSONObject guestData, JSONObject sellerData) {
+
+        String msgBody = null;
+        try {
+            msgBody = guestData.getString("name") + " comments on your Product - " + ROW.getAsString("title") + "\n\n\n" +
+                    " Comment : " + userComment + "\n\n\n" + " Go to App or Website to reply back.";
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BackgroundMail.newBuilder(RentItAdDetailActivity.this)
+                    .withUsername("rentitcontact@gmail.com")
+                    .withPassword("rentanything")
+//                    .withMailto("sksunny93@gmail.com")
+                    .withMailto(sellerData.getString("user_email"))
+                    .withSubject("Someone commented on your product")
+                    .withBody(msgBody)
+                    .withProcessVisibility(true)
+                    .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                        @Override
+                        public void onSuccess() {
+                            //do some magic
+
+                        }
+                    })
+                    .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                        @Override
+                        public void onFail() {
+
+                            //do some magic
+                            //Toast.makeText(CheckoutActivity.this, "Not Sent.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .send();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void sendComment(final String edtComment) {
+        pDialog = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#009688"));
+        pDialog.setTitleText("Adding Comments...");
+        pDialog.setCancelable(true);
+        pDialog.show();
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT, RentItAdDetailActivity.this);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, "Fetch Comments");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        final JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(TASK, "submitComment");
+            JSONObject taskData = new JSONObject();
+            try {
+                loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                        .getString(SP_LOGGED_IN_USER_DATA, ""));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateandTime = sdf.format(new Date());
+                SimpleDateFormat sdfTime = new SimpleDateFormat("yyyy-dd-MMM HH:mm:ss");
+                String currentTime = sdfTime.format(new Date());
+                taskData.put("product_id", ROW.getAsString("product_id"));
+                taskData.put("user_id", loginParams.getString("id"));
+                taskData.put("comment", edtComment);
+                taskData.put("user_name", loginParams.getString("name"));
+                taskData.put("time", currentTime);
+                taskData.put("created_at", currentDateandTime);
+                taskData.put("updated_at", currentDateandTime);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            jsonObject.put(TASKDATA, taskData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, jsonObject);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, boolean isValidResponse, int responseCode) {
+                pDialog.dismiss();
+                if (responseCode == 200) {
+                    try {
+                        edtComments.setText("");
+                        Log.d("RESULT = ", String.valueOf(response));
+                        getAllComments(ROW.getAsString("product_id"));
+                        loginParams = new JSONObject(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences()
+                                .getString(SP_LOGGED_IN_USER_DATA, ""));
+                        userData = new JSONObject(ROW.getAsString("userData"));
+
+                        if (loginParams.getString("id").equals(userData.getString("user_id"))) {
+                            //No Email will be sent
+                        } else {
+                            sendCommentToSeller(edtComment, loginParams, userData);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(RentItAdDetailActivity.this, "SOME OTHER ERROR", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onResponseError() {
+
+                SmartUtils.hideProgressDialog();
+            }
+        });
+
+
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueueMultipart(requestParams, null, "", false);
+    }
+
 
     public void getAllComments(String PROD_ID) {
         pDialog = new SweetAlertDialog(RentItAdDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);

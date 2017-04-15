@@ -84,8 +84,9 @@ public class MainActivity extends AppCompatActivity
             R.drawable.sports,
             R.drawable.services,
             R.drawable.estate,
-            R.drawable.pets};
-    String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Jobs", "Furniture", "Books", "Fashion", "Sports", "Services", "Real Estate", "Pets"};
+            R.drawable.icn_decor};
+    String[] NAMESOFCATS = {"Mobile", "Electronics", "Cars", "Bikes", "Jobs", "Furniture",
+            "Books", "Fashion", "Sports", "Services", "Real Estate", "Decoration"};
     int i = 0;
     int pos = 0;
     KudosTextView txtUsername, txtEmail;

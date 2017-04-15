@@ -80,7 +80,7 @@ public class AllAdsActivity extends AppCompatActivity implements OnMenuItemClick
     private SweetAlertDialog pDialogVisit;
     private SweetAlertDialog pDialog;
     private FragmentManager fragmentManager;
-    private ArrayList<ContentValues> cvSubCatData;
+    private ArrayList<ContentValues> cvSubCatData = new ArrayList<>();
     private ArrayList<String> subCityData;
     private String CITYNAME;
     private LinearLayoutManager linearLayoutManager;
